@@ -1,0 +1,30 @@
+{
+  "name": "@unreal/react-hooks",
+  "version": "0.0.1",
+  "description": "this is react hooks utils",
+  "type": "module",
+  "main": "lib/react-hooks.umd.js",
+  "module": "lib/react-hooks.es.js",
+  "types": "lib/types/index.d.ts",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json && vite build ",
+    "watch": "tsc --project tsconfig.build.json && vite build -w"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.12",
+    "vite-plugin-dts": "^3.7.2"
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.3"
+  }
+}

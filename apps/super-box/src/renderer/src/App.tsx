@@ -1,7 +1,17 @@
 import Versions from './components/Versions'
 import electronLogo from './assets/electron.svg'
+import {useTest} from "@unreal/react-hooks";
+
+
+
+
 
 function App(): JSX.Element {
+  useTest({
+    str: 'test11',
+    name: 'test22',
+    age:12
+  })
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
 
   return (
