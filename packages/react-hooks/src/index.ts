@@ -1,4 +1,4 @@
-export function add(a:number,b:number){
-    return a+b
-}
-export {default as useTest} from './useTest'
+export {useTheme} from "@/useTheme";
+export {useSize} from "@/useSize";
+export {useBoolean} from "@/useBoolean";
+export * from "@/utils";
