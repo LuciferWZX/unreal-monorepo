@@ -1,4 +1,4 @@
-import { Alert, App, Button, GetProp, Result, Space, Table, Upload, UploadProps } from 'antd'
+import { Alert, App, Button, GetProp, Radio, Result, Space, Table, Upload, UploadProps } from 'antd'
 import { Box } from '../../styles'
 import styles from './index.module.less'
 import { useCallback, useMemo, useRef } from 'react'
@@ -14,8 +14,8 @@ type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
 const ExcelTablePage = () => {
   const { message } = App.useApp()
   const containerRef = useRef<HTMLDivElement>(null)
-  const [excelData, TEXT_TEMPLATE, fieldMap] = useExcelStore(
-    useShallow((state) => [state.data, state.TEXT_TEMPLATE, state.fieldMap])
+  const [excelData, TEXT_TEMPLATE, fieldMap, phoneColumn] = useExcelStore(
+    useShallow((state) => [state.data, state.TEXT_TEMPLATE, state.fieldMap, state.phoneColumn])
   )
   const size = useSize(containerRef)
   const [open, { setTrue, setFalse }] = useBoolean(false)
@@ -23,13 +23,24 @@ const ExcelTablePage = () => {
    * excel真实数据
    */
   const dataSource = useMemo(() => {
+    const tempMap = {}
     return excelData.map((obj, idx) => {
       const renamedObj = {
         key: idx
       }
       Object.keys(obj).forEach((key, index) => {
-        renamedObj[`H${index + 1}`] = obj[key]
+        if (idx === 0) {
+          renamedObj[`H${index + 1}`] = obj[key]
+          tempMap[`H${index + 1}`] = key
+        } else {
+          Object.keys(tempMap).forEach((mapKey) => {
+            if (tempMap[mapKey] === key) {
+              renamedObj[mapKey] = obj[key]
+            }
+          })
+        }
       })
+
       return renamedObj
     })
   }, [excelData])
@@ -42,7 +53,7 @@ const ExcelTablePage = () => {
       return keys
         .map((key, index) => {
           return {
-            title: key,
+            title: <Radio value={`H${index + 1}`}>{key}</Radio>,
             dataIndex: `H${index + 1}`,
             key: `H${index + 1}`,
             width: 180,
@@ -72,7 +83,7 @@ const ExcelTablePage = () => {
           fixed: 'right',
           width: 120,
           render: (_, record) => {
-            return <SendButton />
+            return <SendButton record={record} />
           }
         } as any)
     }
@@ -119,7 +130,7 @@ const ExcelTablePage = () => {
               data = data.concat(item)
             }
           }
-          useExcelStore.setState({ data, fieldMap: {} })
+          useExcelStore.setState({ data })
         }
       } catch (err) {
         console.error('[err:]', err)
@@ -165,22 +176,30 @@ const ExcelTablePage = () => {
       </div>
       <div ref={containerRef} className={styles.excelTable}>
         {dataSource.length > 0 ? (
-          <Table
-            rowKey={'key'}
-            scroll={
-              size && {
-                x: size.width * 0.8,
-                y: size.height - 100
-              }
-            }
-            pagination={{
-              defaultPageSize: 50
+          <Radio.Group
+            value={phoneColumn}
+            onChange={(e) => {
+              useExcelStore.setState({ phoneColumn: e.target.value })
             }}
-            bordered={true}
-            size={'small'}
-            dataSource={dataSource}
-            columns={columns}
-          />
+            style={{ width: '100%', height: '100%' }}
+          >
+            <Table
+              rowKey={'key'}
+              scroll={
+                size && {
+                  x: size.width * 0.8,
+                  y: size.height - 100
+                }
+              }
+              pagination={{
+                defaultPageSize: 50
+              }}
+              bordered={true}
+              size={'small'}
+              dataSource={dataSource}
+              columns={columns}
+            />
+          </Radio.Group>
         ) : (
           <Box
             $isFull={true}

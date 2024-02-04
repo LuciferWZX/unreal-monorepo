@@ -55,7 +55,6 @@ const FieldMapModal: FC<IProps> = (props) => {
   }, [curFieldMap, excelData])
 
   const onFinish = (values: Record<string, string>) => {
-    console.log('onFinish', values)
     let hasUndefinedValue = false
     Object.keys(values).forEach((key) => {
       if (values[key] === undefined) {
@@ -74,6 +73,7 @@ const FieldMapModal: FC<IProps> = (props) => {
       })
       return
     }
+    useExcelStore.setState({ fieldMap: values })
     close?.()
   }
   const handleOk = () => {

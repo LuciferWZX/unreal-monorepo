@@ -15,6 +15,16 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
-    plugins: [react()]
+    plugins: [react()],
+    server: {
+      proxy: {
+        '/sms': {
+          // target: 'https://api.juhedx.com/sms',
+          target: 'http://39.107.242.113:7862/sms',
+          changeOrigin: true
+          // rewrite: (path) => path.replace(/^\/api/, ''),
+        }
+      }
+    }
   }
 })

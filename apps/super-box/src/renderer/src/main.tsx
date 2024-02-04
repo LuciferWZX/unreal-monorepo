@@ -1,6 +1,6 @@
 import './global.less'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, Navigate, RouteObject, RouterProvider } from 'react-router-dom'
+import { createHashRouter, Navigate, RouteObject, RouterProvider } from 'react-router-dom'
 import Layouts from '@renderer/layouts'
 import BaseLayout from '@renderer/layouts/base'
 import ExcelTablePage from '@renderer/pages/excelTablePage'
@@ -43,5 +43,5 @@ const initialRouter = (): RouteObject[] => {
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <RouterProvider router={createBrowserRouter(initialRouter())} />
+  <RouterProvider router={createHashRouter(initialRouter())} />
 )

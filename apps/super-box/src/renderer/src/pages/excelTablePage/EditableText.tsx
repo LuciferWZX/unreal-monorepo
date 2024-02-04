@@ -10,7 +10,7 @@ const EditableText: FC<IProps> = (props) => {
   const { text, onChange } = props
   const inputRef = useRef<InputRef>(null)
   const [isEdit, { setFalse, setTrue }] = useBoolean(false)
-  const [value, setValue] = useState<string>(text.toString())
+  const [value, setValue] = useState<string>(text?.toString())
   if (isEdit) {
     return (
       <Input
@@ -36,7 +36,7 @@ const EditableText: FC<IProps> = (props) => {
       style={{ minHeight: 20 }}
       onDoubleClick={() => {
         setTrue()
-        setValue(text.toString())
+        setValue(text?.toString())
         setTimeout(() => {
           inputRef.current!.focus({
             cursor: 'end'
