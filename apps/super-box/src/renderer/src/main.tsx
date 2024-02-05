@@ -6,6 +6,7 @@ import BaseLayout from '@renderer/layouts/base'
 import ExcelTablePage from '@renderer/pages/excelTablePage'
 import AuthLayout from '@renderer/layouts/auth'
 import LoginPage from '@renderer/pages/authPage/loginPage'
+import TextTemplatePage from './pages/textTemplatePage'
 const initialRouter = (): RouteObject[] => {
   return [
     {
@@ -16,10 +17,14 @@ const initialRouter = (): RouteObject[] => {
           path: '',
           element: <BaseLayout />,
           children: [
-            { path: '', element: <Navigate to="/excelTablePage" replace /> },
+            { path: '', element: <Navigate to="/excel_table" replace /> },
             {
-              path: '/excelTablePage',
+              path: '/excel_table',
               element: <ExcelTablePage />
+            },
+            {
+              path: '/text_template',
+              element: <TextTemplatePage />
             }
           ]
         },

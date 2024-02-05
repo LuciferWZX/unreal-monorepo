@@ -24,7 +24,7 @@ const FieldMapModal: FC<IProps> = (props) => {
   }, [open])
   const fieldKeys = useMemo(() => {
     const keys: string[] = []
-    Utils.formatText(TEXT_TEMPLATE, 'xx', (idx) => {
+    Utils.formatText(TEXT_TEMPLATE, '[@]', (idx) => {
       keys.push(`#${idx}`)
       return `#${idx}`
     })
@@ -43,7 +43,7 @@ const FieldMapModal: FC<IProps> = (props) => {
   }, [excelData])
 
   const textTemplate = useMemo(() => {
-    const html = Utils.formatText(TEXT_TEMPLATE, 'xx', (idx, value) => {
+    const html = Utils.formatText(TEXT_TEMPLATE, '[@]', (idx, value) => {
       if (curFieldMap[`#${idx}`]) {
         const headerKey = curFieldMap[`#${idx}`]
         const targetLabel = headers.find((item) => item.value === headerKey)?.label
@@ -100,13 +100,13 @@ const FieldMapModal: FC<IProps> = (props) => {
       afterClose={afterClose}
     >
       <Alert
-        style={{ marginBottom: 10 }}
+        style={{ marginBottom: 10, userSelect: 'text' }}
         message="短信模板"
         description={textTemplate}
         type="info"
         showIcon
       />
-      <Form {...layout} form={form} onFinish={onFinish}>
+      <Form style={{ userSelect: 'text' }} {...layout} form={form} onFinish={onFinish}>
         {fieldKeys.map((fieldKey) => {
           return (
             <Form.Item label={fieldKey} name={fieldKey} key={fieldKey}>

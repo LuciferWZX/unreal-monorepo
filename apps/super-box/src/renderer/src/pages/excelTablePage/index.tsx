@@ -1,7 +1,21 @@
-import { Alert, App, Button, GetProp, Radio, Result, Space, Table, Upload, UploadProps } from 'antd'
+import {
+  Alert,
+  App,
+  Button,
+  GetProp,
+  Radio,
+  Result,
+  Select,
+  Skeleton,
+  Space,
+  Table,
+  Tooltip,
+  Upload,
+  UploadProps
+} from 'antd'
 import { Box } from '../../styles'
 import styles from './index.module.less'
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Utils } from '../../utils'
 import * as XLSX from 'xlsx'
 import useExcelStore from '../../store/useExcelStore'
@@ -10,15 +24,28 @@ import { useBoolean, useSize } from '@unreal/react-hooks'
 import FieldMapModal from './FieldMapModal'
 import EditableText from './EditableText'
 import SendButton from './SendButton'
+import BunchSendModal from './BunchSendModal'
+import { Info } from 'lucide-react'
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
 const ExcelTablePage = () => {
   const { message } = App.useApp()
   const containerRef = useRef<HTMLDivElement>(null)
-  const [excelData, TEXT_TEMPLATE, fieldMap, phoneColumn] = useExcelStore(
-    useShallow((state) => [state.data, state.TEXT_TEMPLATE, state.fieldMap, state.phoneColumn])
-  )
+  const [excelData, TEXT_TEMPLATE, fieldMap, phoneColumn, textTemplates, curTemplateId] =
+    useExcelStore(
+      useShallow((state) => [
+        state.data,
+        state.TEXT_TEMPLATE,
+        state.fieldMap,
+        state.phoneColumn,
+        state.textTemplates,
+        state.curTemplateId
+      ])
+    )
+
   const size = useSize(containerRef)
   const [open, { setTrue, setFalse }] = useBoolean(false)
+  const [bunchOpen, { setTrue: setBunchTrue, setFalse: setBunchFalse }] = useBoolean(false)
+  useEffect(() => {}, [])
   /**
    * excel真实数据
    */
@@ -81,9 +108,27 @@ const ExcelTablePage = () => {
           dataIndex: 'action',
           key: 'action',
           fixed: 'right',
-          width: 120,
+          width: 150,
           render: (_, record) => {
-            return <SendButton record={record} />
+            const tempMap = {}
+            Object.keys(fieldMap).forEach((key) => {
+              tempMap[key] = record[fieldMap[key]]
+            })
+            const text = Utils.formatText(TEXT_TEMPLATE, '[@]', (idx, value) => {
+              if (tempMap[`#${idx}`]) {
+                const val = tempMap[`#${idx}`]
+                return `${val}${value}`
+              }
+              return `0${value}`
+            })
+            return (
+              <Space align={'center'}>
+                <Tooltip title={text}>
+                  <Info size={16} />
+                </Tooltip>
+                <SendButton record={record} />
+              </Space>
+            )
           }
         } as any)
     }
@@ -104,7 +149,7 @@ const ExcelTablePage = () => {
    * 短信模板
    */
   const textTemplate = useMemo(() => {
-    const html = Utils.formatText(TEXT_TEMPLATE, 'xx', (idx, value) => {
+    const html = Utils.formatText(TEXT_TEMPLATE, '[@]', (idx, value) => {
       if (fieldMap[`#${idx}`]) {
         const headerKey = fieldMap[`#${idx}`]
         const targetLabel = headers2.find((item) => item.value === headerKey)?.label
@@ -113,7 +158,7 @@ const ExcelTablePage = () => {
       return `<span class="${styles.templateTag}">#${idx}</span>${value}`
     })
     return <div dangerouslySetInnerHTML={{ __html: html }} />
-  }, [fieldMap])
+  }, [fieldMap, TEXT_TEMPLATE])
   const handleExcel = async (file: FileType) => {
     const reader = new FileReader()
     reader.onload = (e) => {
@@ -152,12 +197,33 @@ const ExcelTablePage = () => {
 
     return false
   }, [])
+  const validateDataSource = useMemo(
+    () =>
+      phoneColumn
+        ? dataSource.filter((item: Record<string, any>) => {
+            return item[phoneColumn]
+          })
+        : [],
+    [dataSource, phoneColumn]
+  )
   return (
     <Box className={styles.excelTableBox} $flex={true} $isFull={true} $flexDirection={'column'}>
       <div className={styles.actionHeader}>
         <Alert
-          style={{ marginBottom: 10 }}
-          message="短信模板"
+          style={{ marginBottom: 10, userSelect: 'text' }}
+          message={
+            <Space>
+              短信模板
+              <Select
+                style={{ minWidth: 200 }}
+                popupMatchSelectWidth={true}
+                value={curTemplateId}
+                onChange={(value) => useExcelStore.setState({ curTemplateId: value })}
+                placeholder={'请选择模板'}
+                options={textTemplates.map((item) => ({ label: item.label, value: item.id }))}
+              />
+            </Space>
+          }
           description={textTemplate}
           type="info"
           showIcon
@@ -171,7 +237,22 @@ const ExcelTablePage = () => {
           >
             <Button>导入Excel</Button>
           </Upload>
-          {excelData.length > 0 && <Button onClick={() => setTrue()}>字段配置</Button>}
+          {excelData.length > 0 && (
+            <>
+              <Button onClick={() => setTrue()}>字段配置</Button>
+              <Button
+                onClick={async () => {
+                  if (!phoneColumn) {
+                    message.error({ content: '请先选择手机号字段', key: 'phone' })
+                    return
+                  }
+                  setBunchTrue()
+                }}
+              >
+                一键发送
+              </Button>
+            </>
+          )}
         </Space>
       </div>
       <div ref={containerRef} className={styles.excelTable}>
@@ -181,24 +262,28 @@ const ExcelTablePage = () => {
             onChange={(e) => {
               useExcelStore.setState({ phoneColumn: e.target.value })
             }}
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', height: '100%', userSelect: 'text' }}
           >
-            <Table
-              rowKey={'key'}
-              scroll={
-                size && {
-                  x: size.width * 0.8,
-                  y: size.height - 100
+            {size ? (
+              <Table
+                rowKey={'key'}
+                scroll={
+                  size && {
+                    x: size.width * 0.8,
+                    y: size.height - 100
+                  }
                 }
-              }
-              pagination={{
-                defaultPageSize: 50
-              }}
-              bordered={true}
-              size={'small'}
-              dataSource={dataSource}
-              columns={columns}
-            />
+                pagination={{
+                  defaultPageSize: 50
+                }}
+                bordered={true}
+                size={'small'}
+                dataSource={dataSource}
+                columns={columns}
+              />
+            ) : (
+              <Skeleton active={true} />
+            )}
           </Radio.Group>
         ) : (
           <Box
@@ -206,11 +291,12 @@ const ExcelTablePage = () => {
             $flex={true}
             style={{ alignItems: 'center', justifyContent: 'center' }}
           >
-            <Result title="请先上传Excel" />
+            <Result title="请先导入Excel" />
           </Box>
         )}
       </div>
       <FieldMapModal open={open} close={setFalse} />
+      <BunchSendModal dataSource={validateDataSource} open={bunchOpen} close={setBunchFalse} />
     </Box>
   )
 }

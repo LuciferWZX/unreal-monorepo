@@ -13,20 +13,26 @@ const SendButton: FC<IProps> = (props) => {
   const { record } = props
   const [loading, { set }] = useBoolean(false)
   const { message } = App.useApp()
-  const [fieldMap, TEXT_TEMPLATE, phoneColumn, excelData] = useExcelStore(
-    useShallow((state) => [state.fieldMap, state.TEXT_TEMPLATE, state.phoneColumn, state.data])
+  const [fieldMap, TEXT_TEMPLATE, phoneColumn, excelData, successIds] = useExcelStore(
+    useShallow((state) => [
+      state.fieldMap,
+      state.TEXT_TEMPLATE,
+      state.phoneColumn,
+      state.data,
+      state.successIds
+    ])
   )
   const text = useMemo(() => {
     const tempMap = {}
     Object.keys(fieldMap).forEach((key) => {
       tempMap[key] = record[fieldMap[key]]
     })
-    return Utils.formatText(TEXT_TEMPLATE, 'xx', (idx, value) => {
+    return Utils.formatText(TEXT_TEMPLATE, '[@]', (idx, value) => {
       if (tempMap[`#${idx}`]) {
         const val = tempMap[`#${idx}`]
         return `${val}${value}`
       }
-      return `#${idx}${value}`
+      return `0${value}`
     })
   }, [fieldMap, TEXT_TEMPLATE, excelData])
   const sendMsg = async () => {
@@ -45,7 +51,7 @@ const SendButton: FC<IProps> = (props) => {
     console.log('phone:', phone)
     console.log('text:', text)
 
-    const res = await sendMessage({ mobile: phone, content: '【康桥】:' + text })
+    const res = await sendMessage({ mobile: phone, content: text })
     set(false)
     if (res && res.status !== '0') {
       let errorText = ''
@@ -60,12 +66,20 @@ const SendButton: FC<IProps> = (props) => {
     } else {
       if (res && res.status === '0') {
         message.success({ content: '发送成功', key: 'phone' })
+        useExcelStore.setState({
+          successIds: [...successIds, record.key]
+        })
       }
     }
   }
   return (
-    <Button loading={loading} onClick={sendMsg} size={'small'} type={'link'}>
-      发送
+    <Button
+      loading={loading}
+      onClick={sendMsg}
+      size={'small'}
+      type={successIds.includes(record.key) ? 'text' : 'link'}
+    >
+      {successIds.includes(record.key) ? '已发送(重新发送)' : '发送'}
     </Button>
   )
 }

@@ -7,11 +7,13 @@
 }
 html[class='dark'] {
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: auto;
+    height: auto;
+
   }
   ::-webkit-scrollbar-track {
     background-color: #333;
+    border-radius: 8px;
   }
   ::-webkit-scrollbar-thumb {
     background-color: #888;
@@ -25,6 +27,10 @@ html[class='dark'] {
   /* 若要在 Firefox 中自定义滚动条样式，需要使用 JavaScript 或插件 */
   scrollbar-color: #888 #333;
   scrollbar-width: thin;
+  ::-webkit-scrollbar-corner {
+    background-color: #333;
+    /*border: 1px solid #ccc;*/
+  }
 }
 html[class='light'] {
   ::-webkit-scrollbar {
@@ -46,6 +52,7 @@ html[class='light'] {
   /* 若要在 Firefox 中自定义滚动条样式，需要使用 JavaScript 或插件 */
   scrollbar-color: #888 #333;
   scrollbar-width: thin;
+
 }
 *,
 *::before,

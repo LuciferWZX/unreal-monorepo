@@ -1,6 +1,7 @@
 import { Layout, Menu, theme } from 'antd'
 import { FC, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { Blocks, FileSpreadsheet } from 'lucide-react'
 
 const Sider: FC = () => {
   const location = useLocation()
@@ -25,10 +26,19 @@ const Sider: FC = () => {
         selectedKeys={[location.pathname]}
         items={[
           {
-            key: '/excelTablePage',
+            key: '/excel_table',
             label: '数据表格',
+            icon: <FileSpreadsheet size={16} className={'anticon'} />,
             onClick: () => {
-              navigator('/excelTablePage')
+              navigator('/excel_table')
+            }
+          },
+          {
+            key: '/text_template',
+            label: '短信模板',
+            icon: <Blocks size={16} className={'anticon'} />,
+            onClick: () => {
+              navigator('/text_template')
             }
           }
         ]}
