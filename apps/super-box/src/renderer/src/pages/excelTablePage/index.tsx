@@ -3,6 +3,7 @@ import {
   App,
   Button,
   GetProp,
+  Input,
   Radio,
   Result,
   Select,
@@ -15,12 +16,12 @@ import {
 } from 'antd'
 import { Box } from '../../styles'
 import styles from './index.module.less'
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { Utils } from '../../utils'
 import * as XLSX from 'xlsx'
 import useExcelStore from '../../store/useExcelStore'
 import { useShallow } from 'zustand/react/shallow'
-import { useBoolean, useSize } from '@unreal/react-hooks'
+import { useBoolean, useDebounceFn, useSize } from '@unreal/react-hooks'
 import FieldMapModal from './FieldMapModal'
 import EditableText from './EditableText'
 import SendButton from './SendButton'
@@ -44,8 +45,14 @@ const ExcelTablePage = () => {
 
   const size = useSize(containerRef)
   const [open, { setTrue, setFalse }] = useBoolean(false)
+  const [keyword, setKeyword] = useState<string>('')
   const [bunchOpen, { setTrue: setBunchTrue, setFalse: setBunchFalse }] = useBoolean(false)
-  useEffect(() => {}, [])
+  const { run } = useDebounceFn(
+    (val: string) => {
+      setKeyword(val)
+    },
+    { wait: 400 }
+  )
   /**
    * excel真实数据
    */
@@ -71,6 +78,20 @@ const ExcelTablePage = () => {
       return renamedObj
     })
   }, [excelData])
+  const tableData = useMemo(() => {
+    return keyword === ''
+      ? dataSource
+      : dataSource.filter((item) => {
+          let flag = false
+          Object.keys(item).forEach((key) => {
+            const val = item[key].toString().toLowerCase()
+            if (val.includes(keyword.toLowerCase())) {
+              flag = true
+            }
+          })
+          return flag
+        })
+  }, [keyword, dataSource])
   /**
    * excel表头
    */
@@ -229,6 +250,11 @@ const ExcelTablePage = () => {
           showIcon
         />
         <Space>
+          <Input
+            onChange={useCallback((e) => run(e.target.value), [])}
+            placeholder={'请输入需要查询的字符串'}
+            allowClear={true}
+          />
           <Upload
             accept={'.xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
             beforeUpload={beforeUpload}
@@ -274,11 +300,12 @@ const ExcelTablePage = () => {
                   }
                 }
                 pagination={{
-                  defaultPageSize: 50
+                  defaultPageSize: 50,
+                  showTotal: (total) => `共${total}条`
                 }}
                 bordered={true}
                 size={'small'}
-                dataSource={dataSource}
+                dataSource={tableData}
                 columns={columns}
               />
             ) : (

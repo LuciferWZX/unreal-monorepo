@@ -1,4 +1,6 @@
 import request from '../request'
+import useAppStore from '../../store/useAppStore'
+import { isDev } from '@unreal/react-hooks'
 
 export interface SmsResponse {
   balance: number
@@ -10,9 +12,10 @@ export const sendMessage = async (params: {
   content: string
 }): Promise<SmsResponse | undefined> => {
   const { mobile, content } = params
-  const account = '109993'
-  const password = 'zdC4P4'
-  const extno = '10690565913'
-  const url = `/sms?action=send&account=${account}&password=${password}&mobile=${mobile}&content=${content}&extno=${extno}&rt=json`
+  const { account, password, extNo, smsUrl } = useAppStore.getState()
+  let url = `/sms?action=send&account=${account}&password=${password}&mobile=${mobile}&content=${content}&extno=${extNo}&rt=json`
+  if (!isDev) {
+    url = `${smsUrl}${url}`
+  }
   return request(url, { method: 'POST' })
 }

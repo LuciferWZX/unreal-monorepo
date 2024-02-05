@@ -1,4 +1,7 @@
 {
   "files": [],
+  "compilerOptions": {
+    "types": ["electron-vite/node"]
+  },
   "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.web.json" }]
 }

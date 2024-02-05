@@ -29,7 +29,7 @@ const FieldMapModal: FC<IProps> = (props) => {
       return `#${idx}`
     })
     return keys
-  }, [excelData])
+  }, [excelData, TEXT_TEMPLATE])
   const headers = useMemo(() => {
     if (excelData.length > 0) {
       const obj = excelData[0]

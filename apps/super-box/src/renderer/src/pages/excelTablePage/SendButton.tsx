@@ -48,9 +48,6 @@ const SendButton: FC<IProps> = (props) => {
       set(false)
       return
     }
-    console.log('phone:', phone)
-    console.log('text:', text)
-
     const res = await sendMessage({ mobile: phone, content: text })
     set(false)
     if (res && res.status !== '0') {
@@ -79,7 +76,7 @@ const SendButton: FC<IProps> = (props) => {
       size={'small'}
       type={successIds.includes(record.key) ? 'text' : 'link'}
     >
-      {successIds.includes(record.key) ? '已发送(重新发送)' : '发送'}
+      {successIds.includes(record.key) ? '重新发送' : '发送'}
     </Button>
   )
 }

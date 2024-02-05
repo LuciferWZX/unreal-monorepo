@@ -4,6 +4,7 @@ import { Layout } from 'antd'
 import Sider from './Sider'
 import styles from './index.module.less'
 import Header from './Header'
+import AuthModal from './AuthModal'
 const BaseLayout: FC = () => {
   return (
     <Layout className={styles.baseLayout}>
@@ -14,6 +15,7 @@ const BaseLayout: FC = () => {
           <Outlet />
         </Layout.Content>
       </Layout>
+      <AuthModal />
     </Layout>
   )
 }
