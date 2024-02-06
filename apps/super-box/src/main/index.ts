@@ -12,6 +12,7 @@ function createWindow(): void {
     minWidth: 800,
     minHeight: 500,
     show: false,
+    title: '超级工具箱',
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon: icon2 } : {}),
     webPreferences: {
@@ -32,6 +33,7 @@ function createWindow(): void {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    // mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))

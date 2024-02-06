@@ -7,6 +7,7 @@ import ExcelTablePage from '@renderer/pages/excelTablePage'
 import AuthLayout from '@renderer/layouts/auth'
 import LoginPage from '@renderer/pages/authPage/loginPage'
 import TextTemplatePage from './pages/textTemplatePage'
+import ChatPage from './pages/chatPage'
 const initialRouter = (): RouteObject[] => {
   return [
     {
@@ -17,14 +18,18 @@ const initialRouter = (): RouteObject[] => {
           path: '',
           element: <BaseLayout />,
           children: [
-            { path: '', element: <Navigate to="/excel_table" replace /> },
+            { path: '', element: <Navigate to="/chat" replace /> },
             {
-              path: '/excel_table',
-              element: <ExcelTablePage />
+              path: '/chat',
+              element: <ChatPage />
             },
             {
               path: '/text_template',
               element: <TextTemplatePage />
+            },
+            {
+              path: '/excel_table',
+              element: <ExcelTablePage />
             }
           ]
         },

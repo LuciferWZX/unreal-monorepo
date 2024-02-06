@@ -1,7 +1,7 @@
 import { Layout, Menu, theme } from 'antd'
 import { FC, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Blocks, FileSpreadsheet } from 'lucide-react'
+import { Blocks, Bot, FileSpreadsheet } from 'lucide-react'
 
 const Sider: FC = () => {
   const location = useLocation()
@@ -25,6 +25,14 @@ const Sider: FC = () => {
         mode="inline"
         selectedKeys={[location.pathname]}
         items={[
+          {
+            key: '/chat',
+            label: '问问',
+            icon: <Bot size={16} className={'anticon'} />,
+            onClick: () => {
+              navigator('/chat')
+            }
+          },
           {
             key: '/excel_table',
             label: '数据表格',
