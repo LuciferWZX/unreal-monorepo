@@ -1,7 +1,8 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+// import icon from '../../resources/icon.png?asset'
+import icon2 from '../../resources/icon2.png?asset'
 
 function createWindow(): void {
   // Create the browser window.
@@ -12,7 +13,7 @@ function createWindow(): void {
     minHeight: 500,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    ...(process.platform === 'linux' ? { icon: icon2 } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
