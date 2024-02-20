@@ -7,7 +7,7 @@ import { ClassNames } from '@unreal/react-hooks'
 import { MsgStatus } from '../../../../store/useChatStore'
 import dayjs from 'dayjs'
 import MarkdownRender from './MarkdownRender'
-
+import './github-markdown-dark.css'
 interface ChatItemProps {
   msgId: string
   role: ChatRole
@@ -78,9 +78,8 @@ const ChatItem: FC<ChatItemProps> = (props) => {
     return (
       <StyledChatBubbleContainer $flexReverse={flexReverse}>
         {inputtingElement}
-        <StyledChatBubble style={{ backgroundColor: bubbleBgColor }}>
+        <StyledChatBubble className={'markdown-body'} style={{ backgroundColor: bubbleBgColor }}>
           <MarkdownRender content={content} />
-
           {replyingCursorElement}
         </StyledChatBubble>
       </StyledChatBubbleContainer>

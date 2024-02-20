@@ -54,7 +54,7 @@ const useInputMessage = (): [string, Actions] => {
         const inputting = oldChatList.find((chat) => chat.status === MsgStatus.Inputting)
         if (inputting) {
           inputting.status = MsgStatus.Succeed
-          inputting.createTime = dayjs().unix().valueOf()
+          inputting.createTime = dayjs().unix()
           oldChatList = oldChatList.map((chat) => {
             if (inputting.id === chat.id) {
               return inputting

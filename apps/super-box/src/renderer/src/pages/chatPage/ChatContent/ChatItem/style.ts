@@ -15,7 +15,8 @@ export const StyledChatBubble = styled.div`
   display: inline-block;
   word-break: break-word;
   text-align: left;
-  white-space: pre-line;
+  //white-space: pre-line;
+  user-select: text;
 `
 export const StyledCursor = styled.span`
   display: inline-block;
