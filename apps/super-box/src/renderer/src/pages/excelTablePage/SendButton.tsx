@@ -29,7 +29,8 @@ const SendButton: FC<IProps> = (props) => {
     })
     return Utils.formatText(TEXT_TEMPLATE, '[@]', (idx, value) => {
       if (tempMap[`#${idx}`]) {
-        const val = tempMap[`#${idx}`]
+        let val = tempMap[`#${idx}`]
+        val = typeof val === 'number' ? val.toFixed(2) : val
         return `${val}${value}`
       }
       return `0${value}`

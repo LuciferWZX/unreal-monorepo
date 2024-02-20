@@ -7,8 +7,8 @@
 }
 html[class='dark'] {
   ::-webkit-scrollbar {
-    width: auto;
-    height: auto;
+    width: 8px;
+    height: 8px;
 
   }
   ::-webkit-scrollbar-track {
@@ -35,8 +35,8 @@ html[class='dark'] {
 }
 html[class='light'] {
   ::-webkit-scrollbar {
-    /*width: 8px;*/
-    /*height: 8px;*/
+    width: 8px;
+    height: 8px;
   }
   ::-webkit-scrollbar-track {
     background-color:transparent;
@@ -65,6 +65,8 @@ html[class='light'] {
 
 ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 body {

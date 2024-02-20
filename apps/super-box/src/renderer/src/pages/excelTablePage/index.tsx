@@ -137,7 +137,8 @@ const ExcelTablePage = () => {
             })
             const text = Utils.formatText(TEXT_TEMPLATE, '[@]', (idx, value) => {
               if (tempMap[`#${idx}`]) {
-                const val = tempMap[`#${idx}`]
+                let val = tempMap[`#${idx}`]
+                val = typeof val === 'number' ? val.toFixed(2) : val
                 return `${val}${value}`
               }
               return `0${value}`
@@ -154,7 +155,7 @@ const ExcelTablePage = () => {
         } as any)
     }
     return []
-  }, [excelData])
+  }, [excelData, TEXT_TEMPLATE, fieldMap])
   const headers2 = useMemo(() => {
     if (excelData.length > 0) {
       const obj = excelData[0]
@@ -179,7 +180,7 @@ const ExcelTablePage = () => {
       return `<span class="${styles.templateTag}">#${idx}</span>${value}`
     })
     return <div dangerouslySetInnerHTML={{ __html: html }} />
-  }, [fieldMap, TEXT_TEMPLATE])
+  }, [fieldMap, TEXT_TEMPLATE, headers2])
   const handleExcel = async (file: FileType) => {
     const reader = new FileReader()
     reader.onload = (e) => {

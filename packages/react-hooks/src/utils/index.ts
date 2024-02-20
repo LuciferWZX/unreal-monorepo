@@ -1,5 +1,7 @@
 export * from './is';
-export * as ClassNames from './classNames';
+export {
+default as ClassNames
+} from './classNames';
 export * from './type';
 export * as fillNBSP from './fillNBSP';
 export * from './include';
