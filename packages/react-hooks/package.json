@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.2.1",
+    "ahooks": "^3.7.10",
     "dayjs": "^1.11.10",
     "lodash": "^4.17.21",
     "resize-observer-polyfill": "^1.5.1",

@@ -3,10 +3,12 @@ import { ChatRole } from '../../../types/ChatBaseType'
 import useChatStore, { Chat, MsgStatus } from '../../../store/useChatStore'
 import { nanoid } from 'nanoid'
 import dayjs from 'dayjs'
+import { scrollIntoView } from '@unreal/react-hooks'
 
 interface Actions {
   onChange: (newText: string) => void
   localSend: () => void
+  scrollToBottom: () => void
 }
 const useInputMessage = (): [string, Actions] => {
   const [text, setText] = useState('')
@@ -43,6 +45,7 @@ const useInputMessage = (): [string, Actions] => {
         }
       })
     }
+    actions.scrollToBottom()
   }, [text])
   const actions: Actions = {
     onChange: (newText: string) => {
@@ -54,7 +57,7 @@ const useInputMessage = (): [string, Actions] => {
         const inputting = oldChatList.find((chat) => chat.status === MsgStatus.Inputting)
         if (inputting) {
           inputting.status = MsgStatus.Succeed
-          inputting.createTime = dayjs().unix()
+          inputting.createTime = dayjs().unix().valueOf()
           oldChatList = oldChatList.map((chat) => {
             if (inputting.id === chat.id) {
               return inputting
@@ -77,6 +80,21 @@ const useInputMessage = (): [string, Actions] => {
         }
       })
       setText('')
+    },
+    scrollToBottom: () => {
+      const { chatList } = useChatStore.getState()
+      const lastMsg = chatList[chatList.length - 1]
+      if (lastMsg) {
+        const msgElement = document.getElementById(`chat-${lastMsg.id}`)
+        if (msgElement) {
+          scrollIntoView(msgElement, {
+            behavior: 'instant',
+            block: 'start',
+            scrollMode: 'if-needed',
+            boundary: document.getElementById('chat-content')
+          })
+        }
+      }
     }
   }
   return [text, actions]

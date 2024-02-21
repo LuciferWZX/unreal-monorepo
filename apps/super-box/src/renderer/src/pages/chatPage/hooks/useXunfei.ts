@@ -87,8 +87,9 @@ const useXunfei = (): [Socket, Actions] => {
     if (msgElement) {
       scrollIntoView(msgElement, {
         behavior: 'smooth',
-        block: 'end',
-        scrollMode: 'if-needed'
+        block: 'start',
+        scrollMode: 'if-needed',
+        boundary: document.getElementById('chat-content')
       })
     }
   }

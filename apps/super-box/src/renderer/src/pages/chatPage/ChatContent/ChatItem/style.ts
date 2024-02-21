@@ -13,10 +13,11 @@ export const StyledChatBubble = styled.div`
   border-radius: 8px;
   padding: 10px;
   display: inline-block;
-  word-break: break-word;
+  word-break: break-all;
   text-align: left;
   //white-space: pre-line;
   user-select: text;
+  font-size: 14px;
 `
 export const StyledCursor = styled.span`
   display: inline-block;

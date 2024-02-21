@@ -146,7 +146,8 @@
 .markdown-body [type=reset],
 .markdown-body [type=submit] {
   -webkit-appearance: button;
-  appearance: button;
+  /*appearance: button;*/
+  appearance: menulist-button;
 }
 
 .markdown-body [type=checkbox],
@@ -173,7 +174,8 @@
 
 .markdown-body ::-webkit-file-upload-button {
   -webkit-appearance: button;
-  appearance: button;
+  /*appearance: button;*/
+  appearance: menulist-button;
   font: inherit;
 }
 
@@ -742,19 +744,19 @@
 
 .markdown-body .highlight pre,
 .markdown-body pre {
-  padding: 16px;
+  /*padding: 16px;*/
   overflow: auto;
   font-size: 85%;
   line-height: 1.45;
   color: #e6edf3;
-  background-color: #161b22;
+  /*background-color: #161b22;*/
   border-radius: 6px;
 }
 
 .markdown-body pre code,
 .markdown-body pre tt {
   display: inline;
-  max-width: auto;
+  /*max-width: auto;*/
   padding: 0;
   margin: 0;
   overflow: visible;

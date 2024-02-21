@@ -9,7 +9,7 @@ import { useShallow } from 'zustand/react/shallow'
 const ChatContent: FC = () => {
   const [chatList] = useChatStore(useShallow((state) => [state.chatList]))
   return (
-    <div className={styles.chatContentBox}>
+    <div className={styles.chatContentBox} id={'chat-content'}>
       {chatList.map((message) => {
         const avatar =
           message.role === ChatRole.AI ? (

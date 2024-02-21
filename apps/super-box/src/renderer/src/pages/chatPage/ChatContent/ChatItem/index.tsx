@@ -62,7 +62,7 @@ const ChatItem: FC<ChatItemProps> = (props) => {
     if (msgStatus === MsgStatus.Succeed) {
       return (
         <div className={styles.succeed} style={{ color: colorTextSecondary }}>
-          {dayjs(createTime).format('YYYY-MM-DD HH:mm:ss')}
+          {dayjs(createTime * 1000).format('YYYY-MM-DD HH:mm:ss')}
         </div>
       )
     }
