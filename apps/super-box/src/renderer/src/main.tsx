@@ -8,6 +8,7 @@ import AuthLayout from '@renderer/layouts/auth'
 import LoginPage from '@renderer/pages/authPage/loginPage'
 import TextTemplatePage from './pages/textTemplatePage'
 import ChatPage from './pages/chatPage'
+import CodePage from './pages/codePage'
 const initialRouter = (): RouteObject[] => {
   return [
     {
@@ -18,10 +19,14 @@ const initialRouter = (): RouteObject[] => {
           path: '',
           element: <BaseLayout />,
           children: [
-            { path: '', element: <Navigate to="/chat" replace /> },
+            { path: '', element: <Navigate to="/code" replace /> },
             {
               path: '/chat',
               element: <ChatPage />
+            },
+            {
+              path: '/code',
+              element: <CodePage />
             },
             {
               path: '/text_template',

@@ -1,7 +1,7 @@
 import { Layout, Menu, theme } from 'antd'
 import { FC, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Blocks, Bot, FileSpreadsheet } from 'lucide-react'
+import { Blocks, Bot, Code2, FileSpreadsheet } from 'lucide-react'
 
 const Sider: FC = () => {
   const location = useLocation()
@@ -31,6 +31,14 @@ const Sider: FC = () => {
             icon: <Bot size={16} className={'anticon'} />,
             onClick: () => {
               navigator('/chat')
+            }
+          },
+          {
+            key: '/code',
+            label: '编辑器',
+            icon: <Code2 size={16} className={'anticon'} />,
+            onClick: () => {
+              navigator('/code')
             }
           },
           {

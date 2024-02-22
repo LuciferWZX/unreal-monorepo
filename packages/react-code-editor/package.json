@@ -1,0 +1,38 @@
+{
+  "name": "@unreal/react-code-editor",
+  "version": "0.0.1",
+  "description": "this is react code editor",
+  "type": "module",
+  "main": "lib/react-code-editor.umd.js",
+  "module": "lib/react-code-editor.es.js",
+  "types": "lib/types/index.d.ts",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json && vite build ",
+    "watch": "tsc --project tsconfig.build.json && vite build -w"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.2",
+    "@uiw/codemirror-extensions-langs": "^4.21.23",
+    "@uiw/codemirror-themes-all": "^4.21.23",
+    "@uiw/react-codemirror": "^4.21.23",
+    "@vitejs/plugin-react": "^4.2.1",
+    "ahooks": "^3.7.10",
+    "dayjs": "^1.11.10",
+    "lodash": "^4.17.21",
+    "vite": "^5.0.12",
+    "vite-plugin-dts": "^3.7.2"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.202",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.3"
+  }
+}

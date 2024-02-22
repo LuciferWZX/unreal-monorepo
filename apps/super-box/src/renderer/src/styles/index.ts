@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 export const Box = styled.div<{
   $flex?: boolean
   $isFull?: boolean
+  $position?: 'absolute' | 'relative'
   $flexDirection?: 'column' | 'row'
 }>`
   box-sizing: border-box;
@@ -20,6 +21,14 @@ export const Box = styled.div<{
     if (props.$flexDirection) {
       return css`
         flex-direction: ${props.$flexDirection};
+      `
+    }
+    return
+  }}
+  ${(props) => {
+    if (props.$position) {
+      return css`
+        position: ${props.$position};
       `
     }
     return

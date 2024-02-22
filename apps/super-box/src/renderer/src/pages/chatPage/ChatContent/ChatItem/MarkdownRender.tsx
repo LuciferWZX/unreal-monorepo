@@ -11,7 +11,6 @@ interface IProps {
 }
 const MarkdownRender: FC<IProps> = (props) => {
   const { content } = props
-  console.log(111, content)
   return (
     <Markdown
       remarkPlugins={[remarkGfm, remarkMath]}

@@ -24,6 +24,7 @@
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
     "@unreal/react-hooks": "workspace:*",
+    "@unreal/react-code-editor": "workspace:*",
     "antd": "^5.13.3",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
