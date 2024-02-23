@@ -1,14 +1,14 @@
 import { Box } from '@renderer/styles'
-import { ReactCodeEditor } from '@unreal/react-code-editor'
-import { FC } from 'react'
+import { ReactCodeEditor, ReactCodeEditorRef } from '@unreal/react-code-editor'
+import { FC, useRef } from 'react'
 
 const CodePage: FC = () => {
-  // options: [
+  const ref = useRef<ReactCodeEditorRef>(null)
 
-  // ]
   return (
     <Box $isFull={true} $position={'relative'}>
       <ReactCodeEditor
+        ref={ref}
         language={'tsx'}
         completions={[
           { label: 'match', type: 'keyword' },
