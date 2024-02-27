@@ -10,6 +10,7 @@ const CodePage: FC = () => {
       <ReactCodeEditor
         ref={ref}
         language={'tsx'}
+        theme={'dark'}
         completions={[
           { label: 'match', type: 'keyword' },
           { label: 'hello', type: 'variable', info: '(文本)' },

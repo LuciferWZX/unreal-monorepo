@@ -1,1 +1,1 @@
-export { default as ReactCodeEditor,type ReactCodeEditorRef} from './editor'
+export { default as ReactCodeEditor, type ReactCodeEditorRef } from './editor';

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import {isDev, isFunction} from "@/utils";
+import { isDev, isFunction } from '@/utils';
 
 /**
  * 用于初始化执行一次
@@ -13,5 +13,5 @@ export function useCreate(fn: Function) {
   }
   useEffect(() => {
     fn();
-  }, []);
+  }, [fn]);
 }

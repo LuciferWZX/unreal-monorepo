@@ -9,6 +9,7 @@ import LoginPage from '@renderer/pages/authPage/loginPage'
 import TextTemplatePage from './pages/textTemplatePage'
 import ChatPage from './pages/chatPage'
 import CodePage from './pages/codePage'
+import CommentPage from './pages/commentPage'
 const initialRouter = (): RouteObject[] => {
   return [
     {
@@ -19,7 +20,11 @@ const initialRouter = (): RouteObject[] => {
           path: '',
           element: <BaseLayout />,
           children: [
-            { path: '', element: <Navigate to="/code" replace /> },
+            { path: '', element: <Navigate to="/comment" replace /> },
+            {
+              path: '/comment',
+              element: <CommentPage />
+            },
             {
               path: '/chat',
               element: <ChatPage />

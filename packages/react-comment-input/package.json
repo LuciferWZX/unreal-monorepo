@@ -1,10 +1,10 @@
 {
-  "name": "@unreal/react-hooks",
+  "name": "@unreal/react-comment-input",
   "version": "0.0.1",
-  "description": "this is react hooks utils",
+  "description": "this is react comment input",
   "type": "module",
-  "main": "lib/react-hooks.umd.js",
-  "module": "lib/react-hooks.es.js",
+  "main": "lib/react-comment-input.umd.js",
+  "module": "lib/react-comment-input.es.js",
   "types": "lib/types/index.d.ts",
   "keywords": [],
   "author": "",
@@ -18,17 +18,18 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
+    "@unreal/react-hooks": "workspace:*",
     "@vitejs/plugin-react": "^4.2.1",
-    "ahooks": "^3.7.10",
     "dayjs": "^1.11.10",
-    "lodash": "^4.17.21",
-    "resize-observer-polyfill": "^1.5.1",
-    "scroll-into-view-if-needed": "^3.1.0",
+    "slate": "^0.102.0",
+    "slate-history": "^0.100.0",
+    "slate-react": "^0.102.0",
     "vite": "^5.0.12",
     "vite-plugin-dts": "^3.7.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
+    "@types/slate": "^0.47.15",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
     "eslint": "^8.56.0",
