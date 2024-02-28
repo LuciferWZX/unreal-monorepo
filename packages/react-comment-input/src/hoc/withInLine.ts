@@ -3,15 +3,16 @@ import { Editor } from 'slate';
 
 const withInLine = (
   editor: Editor,
-  isInline?: (element: CustomElement) => boolean,
-  isVoid?: (element: CustomElement) => boolean
+  isInlineElementTypes?: string[],
+  isVoidElementTypes?: string[]
 ) => {
-  if (isInline) {
-    editor.isInline = isInline;
-  }
-  if (isVoid) {
-    editor.isVoid = isVoid;
-  }
+  const { isInline } = editor;
+  editor.isInline = (element) => {
+    return isInlineElementTypes?.includes(element.type) ? true : isInline(element);
+  };
+  editor.isVoid = (element) => {
+    return !!isVoidElementTypes?.includes(element.type);
+  };
 
   return editor;
 };

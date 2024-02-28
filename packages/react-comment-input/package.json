@@ -18,6 +18,7 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
+    "@slate-serializers/html": "^2.1.6",
     "@unreal/react-hooks": "workspace:*",
     "@vitejs/plugin-react": "^4.2.1",
     "dayjs": "^1.11.10",

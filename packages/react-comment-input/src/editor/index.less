@@ -1,0 +1,24 @@
+@border-color:#d9d9d9;
+@hover-border-color:#4096ff;
+@active-border-color: #1677ff;
+@focused-border-color: #1677ff;
+.unreal-comment{
+  padding: 4px 11px;
+  border: 1px solid var(--border-color, @border-color);
+  &:hover{
+    //border-color: #4096ff;
+    border-color: var(--hover-border-color,  @hover-border-color);
+  }
+  &:active{
+    border-color: var(--active-border-color,@active-border-color);
+  }
+  .unreal-comment-editable{
+    outline: none;
+  }
+}
+.unreal-comment-focused{
+  border-color: var(--focused-border-color, @focused-border-color);
+  &:hover,&:active{
+    border-color: var(--focused-border-color, @focused-border-color);
+  }
+}

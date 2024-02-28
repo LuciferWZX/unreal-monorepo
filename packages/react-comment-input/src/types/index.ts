@@ -23,4 +23,11 @@ export type CodeElement = {
   type: CustomElementType.CODE;
   children: CustomText[];
 };
-export type CustomElement = ParagraphElement | CodeElement | DefaultElement;
+export type CustomElement =
+  | ParagraphElement
+  | CodeElement
+  | DefaultElement
+  | {
+      type: string;
+      children: CustomText[];
+    };
