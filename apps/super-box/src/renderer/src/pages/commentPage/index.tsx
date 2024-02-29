@@ -1,9 +1,9 @@
 import { Box } from '@renderer/styles'
 import { FC, useRef, useState } from 'react'
 import '@unreal/react-comment-input/lib/style.css'
-import { ReactCommentInput } from '@unreal/react-comment-input'
-import { ReactCommentInputRef } from '@unreal/react-comment-input/src/editor'
+import { ReactCommentInput, ReactCommentInputRef } from '@unreal/react-comment-input'
 import { Button } from 'antd'
+import UserNode from './userNode'
 // `<p><user user-data='xyz' /></br></p>`
 const CommentPage: FC = () => {
   const ref = useRef<ReactCommentInputRef>(null)
@@ -18,39 +18,101 @@ const CommentPage: FC = () => {
         <Button
           onClick={() => {
             if (ref.current) {
-              const { editor, transforms, ReactEditor } = ref.current
+              const { editor, Transforms, ReactEditor } = ref.current
               ReactEditor.focus(editor)
-              transforms.insertFragment(editor, [
-                {
-                  type: 'user',
-                  username: 'xxx',
-                  children: [{ text: 'xxx' }]
-                },
-                {
-                  text: ' '
-                }
-              ])
-              transforms.move(editor, { distance: 1 })
+              const userNode: any = {
+                type: 'user',
+                username: 'wzx',
+                children: [{ text: 'wzx' }]
+              }
+              Transforms.insertFragment(editor, [userNode])
+              Transforms.move(editor, { distance: 1 })
               editor.normalize()
             }
           }}
         >
           xxx
         </Button>
+        <Button
+          onClick={() => {
+            if (ref.current) {
+              const {
+                actions: { clear }
+              } = ref.current
+              clear()
+            }
+          }}
+        >
+          清空
+        </Button>
+        <Button
+          onClick={() => {
+            if (ref.current) {
+              const {
+                actions: { focus }
+              } = ref.current
+              focus('start')
+            }
+          }}
+        >
+          聚焦开始
+        </Button>
+        <Button
+          onClick={() => {
+            if (ref.current) {
+              const {
+                actions: { focus }
+              } = ref.current
+              focus('end')
+            }
+          }}
+        >
+          聚焦结束
+        </Button>
+        <Button
+          onClick={() => {
+            if (ref.current) {
+              const {
+                editor,
+                ReactEditor,
+                actions: { selectedAll }
+              } = ref.current
+              ReactEditor.focus(editor)
+              selectedAll()
+            }
+          }}
+        >
+          全选
+        </Button>
         <ReactCommentInput
           ref={ref}
+          mentions={[
+            {
+              trigger: '@',
+              filterKeys: ['label', 'value'],
+              options: [
+                { label: 'wzx', value: 'wzx' },
+                { label: 'wzx2', value: '1wzx2' },
+                { label: 'wzx3', value: '2wzx3' },
+                { label: 'wzx4', value: '3wzx4' }
+              ]
+            },
+            {
+              trigger: '#',
+              options: [
+                { label: 'wxm', value: 'wxm' },
+                { label: 'wxm1', value: 'wxm1' },
+                { label: 'wxm2', value: 'wxm2' },
+                { label: 'wxm3', value: 'wxm3' }
+              ]
+            }
+          ]}
           renderElementConfig={{
             extendRenderElement: [
               {
                 type: 'user',
-                renderElement: ({ children, element, attributes }) => {
-                  const el: { username: string } = element as any
-                  return (
-                    <span {...attributes} contentEditable={false} style={{ background: 'orange' }}>
-                      {el.username}
-                      {children}
-                    </span>
-                  )
+                renderElement: ({ children, ...rest }) => {
+                  return <UserNode {...rest}>{children}</UserNode>
                 }
               }
             ]
@@ -68,14 +130,20 @@ const CommentPage: FC = () => {
                   }
                 }
                 return {
-                  type: 'p'
+                  type: 'span'
                 }
               }
             }
           }}
           slateToDomConfigOptions={{
             elementAttributeTransform: ({ node, attrs }) => {
+              if (node.type === 'user') {
+                attrs['user-data'] = node.username
+              }
               return attrs
+            },
+            elementMap: {
+              user: 'user'
             }
           }}
           isInlineElementTypes={['user']}

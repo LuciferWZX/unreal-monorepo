@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
-import { RenderElementProps } from 'slate-react';
+import { RenderElementProps, RenderLeafProps } from 'slate-react';
 import { CustomElementType } from '@/types';
 import DefaultElement from '@/prefabNodes/default';
 import ParagraphElement from '@/prefabNodes/paragraph';
 import Element = JSX.Element;
+import MentionNode from '@/prefabNodes/mention';
 
 export interface RenderElementConfig {
   extendRenderElement?: Array<{
@@ -12,6 +13,7 @@ export interface RenderElementConfig {
   }>;
 }
 const useRenderElement = (config?: RenderElementConfig) => {
+  //渲染自定义元素
   const renderElement = useCallback(
     (props: RenderElementProps) => {
       const { children, ...restProps } = props;
@@ -26,6 +28,9 @@ const useRenderElement = (config?: RenderElementConfig) => {
         case CustomElementType.DEFAULT: {
           return <DefaultElement {...restProps}>{children}</DefaultElement>;
         }
+        case CustomElementType.MENTION: {
+          return <MentionNode {...restProps}>{children}</MentionNode>;
+        }
         case CustomElementType.PARAGRAPH: {
           return <ParagraphElement {...restProps}>{children}</ParagraphElement>;
         }
@@ -36,8 +41,23 @@ const useRenderElement = (config?: RenderElementConfig) => {
     },
     [config?.extendRenderElement]
   );
+  //渲染叶子节点
+  const renderLeaf = useCallback(({ attributes, children, leaf }: RenderLeafProps) => {
+    return (
+      <span
+        {...attributes}
+        style={{
+          fontWeight: leaf.bold ? 'bold' : 'normal',
+          // fontStyle: leaf?.italic ? 'italic' : 'normal',
+        }}
+      >
+        {children}
+      </span>
+    );
+  }, []);
   return {
     renderElement,
+    renderLeaf,
   };
 };
 export default useRenderElement;

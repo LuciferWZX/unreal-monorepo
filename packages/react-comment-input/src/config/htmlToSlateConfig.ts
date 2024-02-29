@@ -2,6 +2,7 @@ import { getAttributeValue } from 'domutils';
 import { extractCssFromStyle } from '@slate-serializers/dom';
 import { Config } from '@slate-serializers/html/src/lib/serializers/htmlToSlate/config/types';
 import { Element } from 'domhandler';
+import { CustomElementType, MentionElement } from '@/types';
 
 interface ItagMap {
   [key: string]: (a?: Element) => object;
@@ -35,6 +36,25 @@ const htmlToSlateConfig = (config?: HtmlToSlateConfigOptions): Config => {
         newTab: el && getAttributeValue(el, 'target') === '_blank',
         url: el && getAttributeValue(el, 'href'),
       }),
+      mention: (_el) => {
+        if (_el) {
+          const { attribs } = _el;
+          try {
+            if (attribs['mention-data']) {
+              return {
+                type: CustomElementType.MENTION,
+                trigger: attribs['mention-trigger'],
+                data: JSON.parse(attribs['mention-data']),
+              } as MentionElement;
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+        return {
+          type: 'span',
+        };
+      },
       blockquote: () => ({ type: 'blockquote' }),
       div: () => ({ type: 'default' }),
       span: (_element) => {

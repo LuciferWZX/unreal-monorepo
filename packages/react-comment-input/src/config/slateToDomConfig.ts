@@ -3,12 +3,14 @@ import { Element } from 'domhandler';
 import { styleToString } from '@slate-serializers/utilities';
 import { AttributeTransform } from '@slate-serializers/html/src/lib/serializers/htmlToSlate/config/types';
 import { ElementTransform } from '@slate-serializers/dom/src/lib/config/types';
+import { CustomElementType, MentionElement } from '@/types';
 interface ElementTransforms {
   [key: string]: ElementTransform;
 }
 const ELEMENT_NAME_TAG_MAP: Record<string, string> = {
   default: 'div',
   paragraph: 'p',
+  mention: 'mention',
   indicator: 'span',
   h1: 'h1',
   h2: 'h2',
@@ -46,6 +48,11 @@ const slateToDomConfig = (config?: SlateToDomConfigOptions): SlateToDomConfig =>
         attrs.style = styleToString({
           ['text-align']: node.align,
         });
+      }
+      if (node?.type === CustomElementType.MENTION) {
+        const { trigger, data } = node as MentionElement;
+        attrs['mention-trigger'] = trigger ?? '';
+        attrs['mention-data'] = JSON.stringify(data);
       }
       if (config?.elementAttributeTransform) {
         return config.elementAttributeTransform({ node, attrs });

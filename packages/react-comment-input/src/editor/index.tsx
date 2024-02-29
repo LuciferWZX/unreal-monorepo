@@ -1,7 +1,7 @@
-import { FC, forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
-import { Descendant, createEditor, Editor, Transforms, BaseEditor } from 'slate';
+import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
+import { Descendant, createEditor, Transforms, BaseEditor, Editor, Selection, Range } from 'slate';
 import { HistoryEditor, withHistory } from 'slate-history';
-import { Editable, ReactEditor, RenderLeafProps, Slate, withReact } from 'slate-react';
+import { Editable, ReactEditor, Slate, withReact } from 'slate-react';
 import withInLine from '@/hoc/withInLine';
 import { EditableProps } from 'slate-react/dist/components/editable';
 import useRenderElement, { RenderElementConfig } from '@/hooks/useRenderElement';
@@ -11,7 +11,8 @@ import { ClassNames, isUndefined, useControllableValue, useFocusWithin } from '@
 import htmlToSlateConfig, { HtmlToSlateConfigOptions } from '@/config/htmlToSlateConfig';
 import slateToDomConfig, { SlateToDomConfigOptions } from '@/config/slateToDomConfig';
 import './index.less';
-const defaultInitialValue: CustomElement[] = [
+import useMention from '@/hooks/useMention';
+const emptyValue: CustomElement[] = [
   {
     type: CustomElementType.PARAGRAPH,
     children: [{ text: '' }],
@@ -26,7 +27,25 @@ export interface ColorSchema {
 export interface ReactCommentInputRef {
   editor: BaseEditor & ReactEditor & HistoryEditor;
   ReactEditor: typeof ReactEditor;
-  transforms: typeof Transforms;
+  Transforms: typeof Transforms;
+
+  actions: {
+    clear: () => void;
+    selectedAll: () => void;
+    deselect: () => void;
+    focus: (position?: 'start' | 'end') => void;
+    blur: () => void;
+  };
+}
+export interface MentionOption {
+  label: string;
+  value: any;
+  [key: string]: any;
+}
+export interface MentionConfig<T = MentionOption> {
+  trigger: string;
+  filterKeys?: Array<'label' | 'value' | string>;
+  options: Array<T>;
 }
 export interface ReactCommentInputProps
   extends Omit<EditableProps, 'value' | 'onChange' | 'defaultValue'> {
@@ -38,6 +57,9 @@ export interface ReactCommentInputProps
   colorSchema?: ColorSchema;
   isInlineElementTypes?: string[];
   isVoidElementTypes?: string[];
+  isMarkableVoidElementTypes?: string[];
+  onSelectionChange?: (selection: Selection) => void;
+  mentions?: MentionConfig[];
 }
 const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProps>((props, ref) => {
   const {
@@ -50,6 +72,10 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
     colorSchema,
     isInlineElementTypes,
     isVoidElementTypes,
+    isMarkableVoidElementTypes,
+    onSelectionChange,
+    mentions,
+    onKeyDown,
     ...editableProps
   } = props;
   const boxRef = useRef<HTMLDivElement>(null);
@@ -57,22 +83,69 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
   const controllableProps = { value: _value, onChange: _onChange };
   const editor = useMemo(
     () =>
-      withReact(withHistory(withInLine(createEditor(), isInlineElementTypes, isVoidElementTypes))),
+      withReact(
+        withHistory(
+          withInLine(
+            createEditor(),
+            isInlineElementTypes,
+            isVoidElementTypes,
+            isMarkableVoidElementTypes
+          )
+        )
+      ),
     []
   );
   const [value, onChange] = useControllableValue<string>(controllableProps);
-  const { renderElement } = useRenderElement(renderElementConfig);
+  //提及部分的数据
+  const [{ popMenu }, { onMentionKeyDown, setTarget, setIndex, setSearch, setMention }] =
+    useMention(editor);
+  //渲染自定义元素
+  const { renderElement, renderLeaf } = useRenderElement(renderElementConfig);
+  //暴露的Ref
   useImperativeHandle(ref, () => {
     return {
       editor: editor,
-      transforms: Transforms,
+      Transforms: Transforms,
       ReactEditor: ReactEditor,
+      actions: {
+        clear: () => {
+          Transforms.select(editor, []);
+          Transforms.delete(editor);
+        },
+        focus: (position?: 'start' | 'end') => {
+          if (position === 'start') {
+            Transforms.select(editor, {
+              anchor: Editor.start(editor, []),
+              focus: Editor.start(editor, []),
+            });
+          }
+          if (position === 'end') {
+            Transforms.select(editor, {
+              anchor: Editor.end(editor, []),
+              focus: Editor.end(editor, []),
+            });
+          }
+          ReactEditor.focus(editor);
+        },
+        selectedAll: () => {
+          Transforms.select(editor, {
+            anchor: Editor.start(editor, []),
+            focus: Editor.end(editor, []),
+          });
+        },
+        deselect: () => {
+          Transforms.deselect(editor);
+        },
+        blur: () => {
+          ReactEditor.blur(editor);
+        },
+      },
     };
   });
   //默认值
   const _initialValue = useMemo(() => {
     if (isUndefined(value)) {
-      return defaultInitialValue;
+      return emptyValue;
     }
     return htmlToSlate(value, htmlToSlateConfig(htmlToSlateConfigOptions)) as CustomElement[];
   }, [value, htmlToSlateConfigOptions]);
@@ -83,21 +156,50 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
       const _html = slateToHtml(_value, slateToDomConfig(slateToDomConfigOptions));
       onChange(_html);
     },
-    [slateToDomConfigOptions]
+    [onChange, slateToDomConfigOptions]
   );
-  const renderLeaf = useCallback(({ attributes, children, leaf }: RenderLeafProps) => {
-    return (
-      <span
-        {...attributes}
-        style={{
-          fontWeight: leaf.bold ? 'bold' : 'normal',
-          // fontStyle: leaf?.italic ? 'italic' : 'normal',
-        }}
-      >
-        {children}
-      </span>
-    );
-  }, []);
+  //触发到提及
+  const handleTrigger = useCallback(() => {
+    if (!mentions) {
+      return;
+    }
+    const { selection } = editor;
+    if (selection && Range.isCollapsed(selection)) {
+      const [start] = Range.edges(selection);
+      const wordBefore = Editor.before(editor, start, { unit: 'word' });
+      const before = wordBefore && Editor.before(editor, wordBefore);
+      const beforeRange = before && Editor.range(editor, before, start);
+      const beforeText = beforeRange && Editor.string(editor, beforeRange);
+      // const beforeMatch = beforeText && beforeText.match(/^@(\w+)$/);
+      let beforeMatch: RegExpMatchArray | '' | undefined | null = undefined;
+      for (let i = 0; i < mentions.length; i++) {
+        const { trigger } = mentions[i];
+        const regex = new RegExp(`^${trigger}(\\w+)$`);
+        beforeMatch = beforeText && beforeText.match(regex);
+        if (beforeMatch) {
+          setMention(mentions[i]);
+          break;
+        }
+      }
+      if (!beforeMatch) {
+        setMention(undefined);
+      }
+      const after = Editor.after(editor, start);
+      const afterRange = Editor.range(editor, start, after);
+      const afterText = Editor.string(editor, afterRange);
+      const afterMatch = afterText.match(/^(\s|$)/);
+
+      if (beforeMatch && afterMatch) {
+        setTarget(beforeRange);
+        setSearch(beforeMatch[1]);
+        setIndex(0);
+        return;
+      }
+    }
+
+    setTarget(undefined);
+  }, [editor, mentions, setIndex, setMention, setSearch, setTarget]);
+
   //类名
   const classNames = ClassNames(
     'unreal-comment',
@@ -105,13 +207,35 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
     className
   );
   return (
-    <Slate editor={editor} initialValue={_initialValue} onChange={slateOnChange}>
-      <div style={{ ...(colorSchema as Record<string, any>) }} ref={boxRef} className={classNames}>
+    <Slate
+      editor={editor}
+      initialValue={_initialValue}
+      onValueChange={slateOnChange}
+      onChange={() => {
+        handleTrigger();
+      }}
+      onSelectionChange={onSelectionChange}
+    >
+      {popMenu}
+      <div
+        style={{ ...(colorSchema as Record<string, any>) }}
+        ref={boxRef}
+        className={classNames}
+        onClick={() => {
+          ReactEditor.focus(editor);
+        }}
+      >
         <Editable
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
           className={'unreal-comment-editable'}
-          {...editableProps}
           renderElement={editableProps?.renderElement || renderElement}
           renderLeaf={renderLeaf}
+          onKeyDown={(e) => {
+            onMentionKeyDown(e);
+          }}
+          {...editableProps}
         />
       </div>
     </Slate>
