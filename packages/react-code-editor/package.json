@@ -18,7 +18,9 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
+    "@codemirror/autocomplete": "^6.12.0",
     "@codemirror/lang-javascript": "^6.2.2",
+    "@codemirror/view": "^6.24.1",
     "@uiw/codemirror-extensions-langs": "^4.21.23",
     "@uiw/codemirror-themes-all": "^4.21.23",
     "@uiw/react-codemirror": "^4.21.23",

@@ -18,10 +18,14 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
+    "@slate-serializers/dom": "^2.1.6",
     "@slate-serializers/html": "^2.1.6",
+    "@slate-serializers/utilities": "^2.1.6",
     "@unreal/react-hooks": "workspace:*",
     "@vitejs/plugin-react": "^4.2.1",
     "dayjs": "^1.11.10",
+    "domhandler": "^5.0.3",
+    "domutils": "^3.1.0",
     "slate": "^0.102.0",
     "slate-history": "^0.100.0",
     "slate-react": "^0.102.0",
