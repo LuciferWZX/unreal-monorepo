@@ -1,2 +1,46 @@
+@container-bg-color: #ffffff;
+@item-bg-hover-color: rgba(0, 0, 0, 0.04);
+@item-text-color: rgba(0, 0, 0, 0.88);
+@item-text-selected-color: #1677ff;
+@item-selected-bg-color: #e6f4ff;
+@item-text-disabled-color:rgba(0, 0, 0, 0.25);
 .unreal-comment-pop-menu {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  padding: 3px;
+  background-color: var(--container-bg-color, @container-bg-color);
+  border-radius: 4px;
+  box-shadow: 0 1px 5px rgba(0,0,0,.2);
+  max-height: 200px;
+  max-width: 200px;
+  overflow-y: auto;
+  .unreal-comment-pop-menu-item{
+    &:not(:last-child){
+      margin-bottom: 4px;
+    }
+    font-size: 14px;
+    color: var(--item-text-color, @item-text-color);
+    &:hover{
+      background-color: var(--item-bg-hover-color, @item-bg-hover-color);
+    }
+  }
+  .unreal-comment-pop-menu-item-selected{
+    color: var(--item-text-selected-color, @item-text-selected-color);
+    background-color: var(--item-selected-bg-color, @item-selected-bg-color);
+  }
+  .unreal-comment-pop-menu-item-disabled{
+    color: var(--item-text-disabled-color, @item-text-disabled-color);
+      background-color: unset;
+    &:hover{
+      background-color: unset;
+    }
+  }
+}
+.unreal-comment-pop-menu-eclipse{
+  .unreal-comment-pop-menu-item{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }

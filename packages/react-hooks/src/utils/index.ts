@@ -1,7 +1,5 @@
 export * from './is';
-export {
-default as ClassNames
-} from './classNames';
+export { default as ClassNames } from './classNames';
 export * from './type';
 export * as fillNBSP from './fillNBSP';
 export * from './include';
@@ -17,4 +15,5 @@ export { isDev, NOOP, isBrowser } from './constant';
 export { default as depsAreSame } from './depsAreSame';
 export * from './domTarget';
 export { depsEqual } from './depsEqual';
+export { default as delay } from './delay';
 export { debounce } from './lodash-polyfill';

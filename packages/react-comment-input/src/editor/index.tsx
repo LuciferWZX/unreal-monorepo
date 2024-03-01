@@ -1,4 +1,13 @@
-import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
+import {
+  CSSProperties,
+  forwardRef,
+  MouseEventHandler,
+  ReactNode,
+  useCallback,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+} from 'react';
 import { Descendant, createEditor, Transforms, BaseEditor, Editor, Selection, Range } from 'slate';
 import { HistoryEditor, withHistory } from 'slate-history';
 import { Editable, ReactEditor, Slate, withReact } from 'slate-react';
@@ -7,7 +16,13 @@ import { EditableProps } from 'slate-react/dist/components/editable';
 import useRenderElement, { RenderElementConfig } from '@/hooks/useRenderElement';
 import { CustomElement, CustomElementType } from '@/types';
 import { htmlToSlate, slateToHtml } from '@slate-serializers/html';
-import { ClassNames, isUndefined, useControllableValue, useFocusWithin } from '@unreal/react-hooks';
+import {
+  ClassNames,
+  isArray,
+  isUndefined,
+  useControllableValue,
+  useFocusWithin,
+} from '@unreal/react-hooks';
 import htmlToSlateConfig, { HtmlToSlateConfigOptions } from '@/config/htmlToSlateConfig';
 import slateToDomConfig, { SlateToDomConfigOptions } from '@/config/slateToDomConfig';
 import './index.less';
@@ -31,6 +46,8 @@ export interface ReactCommentInputRef {
 
   actions: {
     clear: () => void;
+    insertNode: (node: CustomElement | CustomElement[]) => void;
+    clearHistory: (mode?: 'undos' | 'redos') => void;
     selectedAll: () => void;
     deselect: () => void;
     focus: (position?: 'start' | 'end') => void;
@@ -40,12 +57,26 @@ export interface ReactCommentInputRef {
 export interface MentionOption {
   label: string;
   value: any;
+  disabled?: boolean;
   [key: string]: any;
 }
 export interface MentionConfig<T = MentionOption> {
   trigger: string;
   filterKeys?: Array<'label' | 'value' | string>;
-  options: Array<T>;
+  options: Array<T> | ((words: string) => Promise<Array<T>>);
+  eclipse?: boolean;
+  customElement?: (option: T) => CustomElement | undefined;
+  customMentionItem?: (
+    option: T,
+    attributes: { 'data-mention-index': string; className: string },
+    data: { isSelected: boolean; disabled: boolean },
+    actions: { onClick?: MouseEventHandler<HTMLElement> }
+  ) => ReactNode;
+}
+export interface MentionContainerProps {
+  className?: string;
+  style?: CSSProperties;
+  customLoading?: ReactNode;
 }
 export interface ReactCommentInputProps
   extends Omit<EditableProps, 'value' | 'onChange' | 'defaultValue'> {
@@ -60,6 +91,8 @@ export interface ReactCommentInputProps
   isMarkableVoidElementTypes?: string[];
   onSelectionChange?: (selection: Selection) => void;
   mentions?: MentionConfig[];
+  mentionContainer?: MentionContainerProps;
+  theme?: 'dark' | 'light';
 }
 const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProps>((props, ref) => {
   const {
@@ -76,6 +109,8 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
     onSelectionChange,
     mentions,
     onKeyDown,
+    theme,
+    mentionContainer,
     ...editableProps
   } = props;
   const boxRef = useRef<HTMLDivElement>(null);
@@ -98,7 +133,7 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
   const [value, onChange] = useControllableValue<string>(controllableProps);
   //提及部分的数据
   const [{ popMenu }, { onMentionKeyDown, setTarget, setIndex, setSearch, setMention }] =
-    useMention(editor);
+    useMention(editor, theme, mentionContainer);
   //渲染自定义元素
   const { renderElement, renderLeaf } = useRenderElement(renderElementConfig);
   //暴露的Ref
@@ -111,6 +146,18 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
         clear: () => {
           Transforms.select(editor, []);
           Transforms.delete(editor);
+          editor.history.redos = [];
+          editor.history.undos = [];
+          editor.onChange();
+          editor.normalize();
+        },
+        clearHistory: (mode?: 'undos' | 'redos') => {
+          if (mode) {
+            editor.history[mode] = [];
+            return;
+          }
+          editor.history.redos = [];
+          editor.history.undos = [];
         },
         focus: (position?: 'start' | 'end') => {
           if (position === 'start') {
@@ -138,6 +185,12 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
         },
         blur: () => {
           ReactEditor.blur(editor);
+        },
+        insertNode: (node) => {
+          ReactEditor.focus(editor);
+          Transforms.insertFragment(editor, isArray(node) ? node : [node]);
+          Transforms.move(editor, { distance: 1 });
+          editor.normalize();
         },
       },
     };
@@ -188,11 +241,9 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
       const afterRange = Editor.range(editor, start, after);
       const afterText = Editor.string(editor, afterRange);
       const afterMatch = afterText.match(/^(\s|$)/);
-
       if (beforeMatch && afterMatch) {
         setTarget(beforeRange);
         setSearch(beforeMatch[1]);
-        setIndex(0);
         return;
       }
     }

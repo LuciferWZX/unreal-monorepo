@@ -38,4 +38,5 @@ export type CustomElement =
   | {
       type: string;
       children: CustomText[];
+      [key: string]: any;
     };
