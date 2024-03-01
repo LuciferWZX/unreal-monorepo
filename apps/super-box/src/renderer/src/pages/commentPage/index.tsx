@@ -1,7 +1,12 @@
 import { Box } from '@renderer/styles'
 import { FC, useRef, useState } from 'react'
 import '@unreal/react-comment-input/lib/style.css'
-import { ReactCommentInput, ReactCommentInputRef, CustomElement } from '@unreal/react-comment-input'
+import {
+  ReactCommentInput,
+  ReactCommentInputRef,
+  CustomElement,
+  PreviewEditor
+} from '@unreal/react-comment-input'
 import { Button } from 'antd'
 import UserNode from './userNode'
 import { delay, useBoolean } from '@unreal/react-hooks'
@@ -20,6 +25,49 @@ const CommentPage: FC = () => {
       { label: 'wzx3', value: '2wzx3' }
     ].filter((item) => item.label.toLowerCase().startsWith(words.toLowerCase()))
   }
+  const commonConfig = {
+    renderElementConfig: {
+      extendRenderElement: [
+        {
+          type: 'user',
+          renderElement: ({ children, ...rest }) => {
+            return <UserNode {...rest}>{children}</UserNode>
+          }
+        }
+      ]
+    },
+    htmlToSlateConfigOptions: {
+      elementTags: {
+        user: (_el) => {
+          if (_el) {
+            const { attribs } = _el
+            if (attribs['user-data']) {
+              return {
+                type: 'user',
+                username: attribs['user-data']
+              }
+            }
+          }
+          return {
+            type: 'span'
+          }
+        }
+      }
+    },
+    slateToDomConfigOptions: {
+      elementAttributeTransform: ({ node, attrs }) => {
+        if (node.type === 'user') {
+          attrs['user-data'] = node.username
+        }
+        return attrs
+      },
+      elementMap: {
+        user: 'user'
+      }
+    },
+    isInlineElementTypes: ['user'],
+    isVoidElementTypes: ['user']
+  }
   return (
     <Box
       $isFull={true}
@@ -30,7 +78,9 @@ const CommentPage: FC = () => {
     >
       <div style={{ flexGrow: 1, overflow: 'auto' }}>
         xxx
-        <div style={{ height: 2000 }}>aaa</div>
+        <div>
+          <PreviewEditor {...commonConfig} style={{ width: '100%' }} value={value} />
+        </div>
       </div>
       <div style={{ padding: 10 }}>
         <Button
@@ -209,47 +259,7 @@ const CommentPage: FC = () => {
             style: { maxWidth: 300 },
             customLoading: <div>加载中...</div>
           }}
-          renderElementConfig={{
-            extendRenderElement: [
-              {
-                type: 'user',
-                renderElement: ({ children, ...rest }) => {
-                  return <UserNode {...rest}>{children}</UserNode>
-                }
-              }
-            ]
-          }}
-          htmlToSlateConfigOptions={{
-            elementTags: {
-              user: (_el) => {
-                if (_el) {
-                  const { attribs } = _el
-                  if (attribs['user-data']) {
-                    return {
-                      type: 'user',
-                      username: attribs['user-data']
-                    }
-                  }
-                }
-                return {
-                  type: 'span'
-                }
-              }
-            }
-          }}
-          slateToDomConfigOptions={{
-            elementAttributeTransform: ({ node, attrs }) => {
-              if (node.type === 'user') {
-                attrs['user-data'] = node.username
-              }
-              return attrs
-            },
-            elementMap: {
-              user: 'user'
-            }
-          }}
-          isInlineElementTypes={['user']}
-          isVoidElementTypes={['user']}
+          {...commonConfig}
           value={value}
           onChange={(v) => {
             console.log(v)

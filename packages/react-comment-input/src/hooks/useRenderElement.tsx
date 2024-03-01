@@ -12,11 +12,12 @@ export interface RenderElementConfig {
     renderElement: (props: RenderElementProps) => Element;
   }>;
 }
-const useRenderElement = (config?: RenderElementConfig) => {
+const useRenderElement = (config?: RenderElementConfig, mode?: 'preview') => {
   //渲染自定义元素
   const renderElement = useCallback(
     (props: RenderElementProps) => {
       const { children, ...restProps } = props;
+      restProps.mode = mode;
       if (config?.extendRenderElement) {
         for (const { type, renderElement } of config.extendRenderElement) {
           if (restProps.element.type === type) {
