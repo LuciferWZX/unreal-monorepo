@@ -1,6 +1,6 @@
 {
   "name": "@wzx-unreal/react-comment-input",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "This is a react component that can @select the input box to remind someone. You can customize any node and easily display any effect on the input box.",
   "type": "module",
   "main": "lib/react-comment-input.umd.js",
@@ -9,6 +9,7 @@
   "keywords": ["slate", "comment", "input", "react","components"],
   "author": "",
   "license": "ISC",
+  "files": ["lib"],
   "private": false,
   "scripts": {
     "build": "tsc --project tsconfig.build.json && vite build ",
