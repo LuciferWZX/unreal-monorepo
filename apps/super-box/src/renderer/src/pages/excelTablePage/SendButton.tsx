@@ -4,7 +4,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { FC, useMemo } from 'react'
 import { Utils } from '../../utils'
 import { sendMessage } from '../../services/api/message'
-import { useBoolean } from '@unreal/react-hooks'
+import { useBoolean } from '@wzx-unreal/react-hooks'
 
 interface IProps {
   record: Record<string, string>

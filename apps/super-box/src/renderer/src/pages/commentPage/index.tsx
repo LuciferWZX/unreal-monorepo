@@ -1,6 +1,6 @@
 import { Box } from '@renderer/styles'
 import { FC, useEffect, useRef, useState } from 'react'
-import '@unreal/react-comment-input/lib/style.css'
+import '@wzx-unreal/react-comment-input/lib/style.css'
 import {
   ReactCommentInput,
   ReactCommentInputRef,
@@ -8,10 +8,10 @@ import {
   PreviewEditor,
   ReactCommentInputProps,
   useReactCommentInputStore
-} from '@unreal/react-comment-input'
+} from '@wzx-unreal/react-comment-input'
 import { Button } from 'antd'
 import UserNode from './userNode'
-import { delay, useBoolean } from '@unreal/react-hooks'
+import { delay, useBoolean } from '@wzx-unreal/react-hooks'
 // `<p><user user-data='xyz' /></br></p>`
 const CommentPage: FC = () => {
   const ref = useRef<ReactCommentInputRef>(null)

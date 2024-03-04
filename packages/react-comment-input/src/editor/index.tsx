@@ -22,7 +22,7 @@ import {
   isUndefined,
   useControllableValue,
   useFocusWithin,
-} from '@unreal/react-hooks';
+} from '@wzx-unreal/react-hooks';
 import htmlToSlateConfig, { HtmlToSlateConfigOptions } from '@/config/htmlToSlateConfig';
 import slateToDomConfig, { SlateToDomConfigOptions } from '@/config/slateToDomConfig';
 import './index.less';

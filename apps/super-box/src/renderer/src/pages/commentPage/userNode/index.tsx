@@ -1,4 +1,4 @@
-import { RenderCustomElementProps } from '@unreal/react-comment-input'
+import { RenderCustomElementProps } from '@wzx-unreal/react-comment-input'
 import { FC } from 'react'
 const UserNode: FC<RenderCustomElementProps> = (props) => {
   const { attributes, element, children, mode } = props

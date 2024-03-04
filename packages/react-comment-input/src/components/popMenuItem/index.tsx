@@ -1,6 +1,6 @@
 import { FC, MouseEventHandler, ReactNode } from 'react';
 import './index.less';
-import { ClassNames } from '@unreal/react-hooks';
+import { ClassNames } from '@wzx-unreal/react-hooks';
 interface PopMenuItemProps {
   children?: ReactNode;
   onClick?: MouseEventHandler<HTMLDivElement>;

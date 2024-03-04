@@ -1,5 +1,5 @@
 import { Box } from '@renderer/styles'
-import { ReactCodeEditor, ReactCodeEditorRef } from '@unreal/react-code-editor'
+import { ReactCodeEditor, ReactCodeEditorRef } from '@wzx-unreal/react-code-editor'
 import { FC, useRef } from 'react'
 
 const CodePage: FC = () => {

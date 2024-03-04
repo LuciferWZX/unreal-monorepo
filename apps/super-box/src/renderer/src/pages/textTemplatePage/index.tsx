@@ -6,7 +6,7 @@ import useExcelStore from '../../store/useExcelStore'
 import { useShallow } from 'zustand/react/shallow'
 import { Pencil, Trash2 } from 'lucide-react'
 import AddTemplateModal from './AddTemplateModal'
-import { useBoolean } from '@unreal/react-hooks'
+import { useBoolean } from '@wzx-unreal/react-hooks'
 const { Paragraph } = Typography
 const TextTemplatePage: FC = () => {
   const { modal, message } = App.useApp()

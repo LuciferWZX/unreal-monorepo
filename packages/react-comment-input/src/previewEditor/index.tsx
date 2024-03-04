@@ -3,7 +3,7 @@ import { CustomElement, CustomElementType } from '@/types';
 import { Editable, Slate, withReact } from 'slate-react';
 import withInLine from '@/hoc/withInLine';
 import { createEditor, Editor, Transforms } from 'slate';
-import { isUndefined } from '@unreal/react-hooks';
+import { isUndefined } from '@wzx-unreal/react-hooks';
 import { htmlToSlate } from '@slate-serializers/html';
 import htmlToSlateConfig from '@/config/htmlToSlateConfig';
 import useRenderElement from '@/hooks/useRenderElement';

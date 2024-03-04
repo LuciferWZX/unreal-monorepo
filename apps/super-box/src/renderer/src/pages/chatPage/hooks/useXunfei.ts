@@ -5,7 +5,7 @@ import { ChatRole } from '../../../types/ChatBaseType'
 import useChatStore, { MsgStatus } from '../../../store/useChatStore'
 import { useShallow } from 'zustand/react/shallow'
 import dayjs from 'dayjs'
-import { scrollIntoView } from '@unreal/react-hooks'
+import { scrollIntoView } from '@wzx-unreal/react-hooks'
 
 // import { useShallow } from 'zustand/react/shallow'
 

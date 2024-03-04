@@ -1,4 +1,4 @@
-import { isFunction } from '@unreal/react-hooks'
+import { isFunction } from '@wzx-unreal/react-hooks'
 
 export const Utils = {
   formatText: (

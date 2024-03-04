@@ -3,7 +3,7 @@ import { ChatRole } from '../../../types/ChatBaseType'
 import useChatStore, { Chat, MsgStatus } from '../../../store/useChatStore'
 import { nanoid } from 'nanoid'
 import dayjs from 'dayjs'
-import { scrollIntoView } from '@unreal/react-hooks'
+import { scrollIntoView } from '@wzx-unreal/react-hooks'
 
 interface Actions {
   onChange: (newText: string) => void

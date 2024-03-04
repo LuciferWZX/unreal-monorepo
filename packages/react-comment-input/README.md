@@ -24,7 +24,7 @@ const userNode: UserElement = {
 再定一个UserNode的自定义组件用于在输入框中显示
 ```tsx
 import { FC } from 'react'
-import { RenderElementProps } from '@unreal/react-comment-input/lib/types/types'
+import { RenderElementProps } from '@wzx-unreal/react-comment-input/lib/types/types'
 const UserNode: FC<RenderElementProps> = (props) => {
   /**
    * 这里的children就是UserElement的children
@@ -340,7 +340,7 @@ const CommentPage: FC = () => {
 ## store 本组件提供配置存储 `useReactCommentInputStore`
 使用方法
 ```tsx
-import { useReactCommentInputStore } from '@unreal/react-comment-input'
+import { useReactCommentInputStore } from '@wzx-unreal/react-comment-input'
 ```
 在预览组件`<PreviewEditor/>`和编辑组件`<ReactCommentInput />` 里面有一些通用的配置
 ```tsx

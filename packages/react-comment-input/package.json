@@ -1,5 +1,5 @@
 {
-  "name": "@unreal/react-comment-input",
+  "name": "@wzx-unreal/react-comment-input",
   "version": "0.0.1",
   "description": "This is a react component that can @select the input box to remind someone. You can customize any node and easily display any effect on the input box.",
   "type": "module",
@@ -9,9 +9,14 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "private": false,
   "scripts": {
     "build": "tsc --project tsconfig.build.json && vite build ",
     "watch": "tsc --project tsconfig.build.json && vite build -w"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "peerDependencies": {
     "react": "^18.2.0",
@@ -21,7 +26,7 @@
     "@slate-serializers/dom": "^2.1.6",
     "@slate-serializers/html": "^2.1.6",
     "@slate-serializers/utilities": "^2.1.6",
-    "@unreal/react-hooks": "workspace:*",
+    "@wzx-unreal/react-hooks": "workspace:*",
     "@vitejs/plugin-react": "^4.2.1",
     "dayjs": "^1.11.10",
     "domhandler": "^5.0.3",

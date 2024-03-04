@@ -36,13 +36,13 @@ importers:
       '@electron-toolkit/utils':
         specifier: ^3.0.0
         version: 3.0.0(electron@27.3.3)
-      '@unreal/react-code-editor':
+      '@wzx-unreal/react-code-editor':
         specifier: workspace:*
         version: link:../../packages/react-code-editor
-      '@unreal/react-comment-input':
+      '@wzx-unreal/react-comment-input':
         specifier: workspace:*
         version: link:../../packages/react-comment-input
-      '@unreal/react-hooks':
+      '@wzx-unreal/react-hooks':
         specifier: workspace:*
         version: link:../../packages/react-hooks
       antd:
@@ -239,12 +239,12 @@ importers:
       '@slate-serializers/utilities':
         specifier: ^2.1.6
         version: 2.1.6
-      '@unreal/react-hooks':
-        specifier: workspace:*
-        version: link:../react-hooks
       '@vitejs/plugin-react':
         specifier: ^4.2.1
         version: 4.2.1(vite@5.0.12)
+      '@wzx-unreal/react-hooks':
+        specifier: workspace:*
+        version: link:../react-hooks
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
