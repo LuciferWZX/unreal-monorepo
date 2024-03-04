@@ -1,14 +1,14 @@
 import { defineConfig } from 'vite';
 import { join, resolve } from 'path';
 import react from '@vitejs/plugin-react';
-import dts from 'vite-plugin-dts';
+// import dts from 'vite-plugin-dts';
 export default defineConfig({
   plugins: [
     react(),
-    dts({
-      insertTypesEntry: true,
-      outDir: 'lib/types',
-    }),
+    // dts({
+    //   insertTypesEntry: true,
+    //   outDir: 'lib/types',
+    // }),
   ],
   resolve: {
     alias: {
