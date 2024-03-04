@@ -1,6 +1,6 @@
 # react-comment-input 使用指南
 
-`react-comment-input` 是一个类似飞书输入框的 React的输入组件，用于显示欢迎消息。
+`react-comment-input` 是一个类似飞书输入框的 React的输入组件。
 
 ## 自定义组件
 先定义一个自定义组件的数据格式
