@@ -2,6 +2,13 @@
 @hover-border-color:#4096ff;
 @active-border-color: #1677ff;
 @focused-border-color: #1677ff;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
 .unreal-comment{
   padding: 4px 11px;
   border: 1px solid var(--border-color, @border-color);
