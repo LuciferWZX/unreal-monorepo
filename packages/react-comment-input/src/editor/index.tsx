@@ -31,7 +31,7 @@ import { useReactCommentInputStore } from '@/store/useReactCommentInputStore';
 import { useShallow } from 'zustand/react/shallow';
 const emptyValue: CustomElement[] = [
   {
-    type: CustomElementType.PARAGRAPH,
+    type: CustomElementType.DEFAULT,
     children: [{ text: '' }],
   },
 ];
