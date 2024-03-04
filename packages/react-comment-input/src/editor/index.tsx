@@ -54,6 +54,7 @@ export interface ReactCommentInputRef {
     deselect: () => void;
     focus: (position?: 'start' | 'end') => void;
     blur: () => void;
+    updateValue: (html: string) => void;
   };
 }
 export interface MentionOption {
@@ -139,6 +140,29 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
     useMention(editor, theme, mentionContainer);
   //渲染自定义元素
   const { renderElement, renderLeaf } = useRenderElement(renderElementConfig);
+  //清空
+  const clear = () => {
+    Transforms.select(editor, []);
+    Transforms.delete(editor);
+    editor.history.redos = [];
+    editor.history.undos = [];
+    editor.onChange();
+    editor.normalize();
+  };
+  //全选
+  const selectedAll = () => {
+    Transforms.select(editor, {
+      anchor: Editor.start(editor, []),
+      focus: Editor.end(editor, []),
+    });
+  };
+  const insertNode = (node: CustomElement | CustomElement[]) => {
+    ReactEditor.focus(editor);
+    Transforms.insertFragment(editor, isArray(node) ? node : [node]);
+    Transforms.move(editor, { distance: 1 });
+    editor.normalize();
+    editor.onChange();
+  };
   //暴露的Ref
   useImperativeHandle(ref, () => {
     return {
@@ -146,13 +170,18 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
       Transforms: Transforms,
       ReactEditor: ReactEditor,
       actions: {
-        clear: () => {
-          Transforms.select(editor, []);
-          Transforms.delete(editor);
-          editor.history.redos = [];
-          editor.history.undos = [];
-          editor.onChange();
-          editor.normalize();
+        clear: clear,
+        updateValue: (_html) => {
+          selectedAll();
+          let slateValue = emptyValue;
+          if (isUndefined(_html)) {
+            return slateValue;
+          }
+          slateValue = htmlToSlate(
+            _html,
+            htmlToSlateConfig(htmlToSlateConfigOptions)
+          ) as CustomElement[];
+          insertNode(slateValue);
         },
         clearHistory: (mode?: 'undos' | 'redos') => {
           if (mode) {
@@ -177,25 +206,14 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
           }
           ReactEditor.focus(editor);
         },
-        selectedAll: () => {
-          Transforms.select(editor, {
-            anchor: Editor.start(editor, []),
-            focus: Editor.end(editor, []),
-          });
-        },
+        selectedAll: selectedAll,
         deselect: () => {
           Transforms.deselect(editor);
         },
         blur: () => {
           ReactEditor.blur(editor);
         },
-        insertNode: (node) => {
-          ReactEditor.focus(editor);
-          Transforms.insertFragment(editor, isArray(node) ? node : [node]);
-          Transforms.move(editor, { distance: 1 });
-          editor.normalize();
-          editor.onChange();
-        },
+        insertNode: insertNode,
       },
     };
   });

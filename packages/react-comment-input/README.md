@@ -376,3 +376,6 @@ import { useReactCommentInputStore } from '@unreal/react-comment-input'
       )
     }
 ```
+
+## tips
+### 当前的 `<ReactCommentInput />`  是非受控模式，如果要更新里面的值请使用 `ref?.actions.updateValye(html)` 这个方法

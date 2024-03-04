@@ -185,6 +185,21 @@ const CommentPage: FC = () => {
           全选
         </Button>
         <Button onClick={toggle}>切换</Button>
+        <Button
+          onClick={() => {
+            if (ref.current) {
+              const {
+                editor,
+                ReactEditor,
+                actions: { updateValue }
+              } = ref.current
+              ReactEditor.focus(editor)
+              updateValue(`<div>this is good question</div>`)
+            }
+          }}
+        >
+          updateValue
+        </Button>
         <ReactCommentInput
           ref={ref}
           readOnly={readOnly}
@@ -271,7 +286,7 @@ const CommentPage: FC = () => {
           {...commonConfig}
           value={value}
           onChange={(v) => {
-            console.log(v)
+            console.log('change:', v)
             setValue(v)
           }}
           placeholder={'说点什么'}

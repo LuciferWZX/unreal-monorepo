@@ -68,7 +68,7 @@ const PreviewEditor: FC<PreviewEditorProps> = (props) => {
       ),
     []
   );
-  const actions = {
+  const actions: { clear: () => void } = {
     clear: () => {
       Transforms.select(editor, []);
       Transforms.delete(editor);
@@ -89,7 +89,6 @@ const PreviewEditor: FC<PreviewEditorProps> = (props) => {
     [actions, editor, htmlToSlateConfigOptions]
   );
   useEffect(() => {
-    console.log('只改变了', value);
     resetValue(value);
   }, [editor, resetValue, value]);
 
