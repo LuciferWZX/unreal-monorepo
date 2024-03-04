@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { RenderElementProps, RenderLeafProps } from 'slate-react';
-import { CustomElementType } from '@/types';
+import { CustomElementType, RenderCustomElementProps } from '@/types';
 import DefaultElement from '@/prefabNodes/default';
 import ParagraphElement from '@/prefabNodes/paragraph';
 import Element = JSX.Element;
@@ -9,19 +9,20 @@ import MentionNode from '@/prefabNodes/mention';
 export interface RenderElementConfig {
   extendRenderElement?: Array<{
     type: string;
-    renderElement: (props: RenderElementProps) => Element;
+    renderElement: (props: RenderCustomElementProps) => Element;
   }>;
 }
 const useRenderElement = (config?: RenderElementConfig, mode?: 'preview') => {
   //渲染自定义元素
   const renderElement = useCallback(
-    (props: RenderElementProps) => {
+    (props: RenderCustomElementProps) => {
       const { children, ...restProps } = props;
-      restProps.mode = mode;
+      props.mode = mode;
+      // restProps.mode = mode;
       if (config?.extendRenderElement) {
-        for (const { type, renderElement } of config.extendRenderElement) {
+        for (const { type, renderElement: renderCustomElement } of config.extendRenderElement) {
           if (restProps.element.type === type) {
-            return renderElement(props);
+            return renderCustomElement(props);
           }
         }
       }

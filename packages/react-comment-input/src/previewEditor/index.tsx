@@ -5,37 +5,56 @@ import withInLine from '@/hoc/withInLine';
 import { createEditor, Editor, Transforms } from 'slate';
 import { isUndefined } from '@unreal/react-hooks';
 import { htmlToSlate } from '@slate-serializers/html';
-import htmlToSlateConfig, { HtmlToSlateConfigOptions } from '@/config/htmlToSlateConfig';
-import { SlateToDomConfigOptions } from '@/config/slateToDomConfig';
-import useRenderElement, { RenderElementConfig } from '@/hooks/useRenderElement';
+import htmlToSlateConfig from '@/config/htmlToSlateConfig';
+import useRenderElement from '@/hooks/useRenderElement';
+import { ReactCommentInputProps } from '@/editor';
+import { useReactCommentInputStore } from '@/store/useReactCommentInputStore';
+import { useShallow } from 'zustand/react/shallow';
 const emptyValue: CustomElement[] = [
   {
     type: CustomElementType.PARAGRAPH,
     children: [{ text: '' }],
   },
 ];
-export interface PreviewEditorProps {
-  value?: string;
-  htmlToSlateConfigOptions?: HtmlToSlateConfigOptions;
-  slateToDomConfigOptions?: SlateToDomConfigOptions;
-  renderElementConfig?: RenderElementConfig;
-  isInlineElementTypes?: string[];
-  isVoidElementTypes?: string[];
-  isMarkableVoidElementTypes?: string[];
-  className?: string;
-  style?: CSSProperties;
+// export interface PreviewEditorProps {
+//   value?: string;
+//   htmlToSlateConfigOptions?: HtmlToSlateConfigOptions;
+//   slateToDomConfigOptions?: SlateToDomConfigOptions;
+//   renderElementConfig?: RenderElementConfig;
+//   isInlineElementTypes?: string[];
+//   isVoidElementTypes?: string[];
+//   isMarkableVoidElementTypes?: string[];
+//   className?: string;
+//   style?: CSSProperties;
+// }
+export interface PreviewEditorProps
+  extends Pick<
+    ReactCommentInputProps,
+    | 'value'
+    | 'htmlToSlateConfigOptions'
+    | 'slateToDomConfigOptions'
+    | 'renderElementConfig'
+    | 'isInlineElementTypes'
+    | 'isVoidElementTypes'
+    | 'isMarkableVoidElementTypes'
+    | 'className'
+    | 'style'
+  > {
+  mode?: 'preview';
 }
+
 const PreviewEditor: FC<PreviewEditorProps> = (props) => {
+  const basicProps = useReactCommentInputStore(useShallow((state) => state.basicProps));
   const {
-    isInlineElementTypes,
-    isVoidElementTypes,
-    isMarkableVoidElementTypes,
-    value,
-    className,
-    style,
-    htmlToSlateConfigOptions,
-    slateToDomConfigOptions,
-    renderElementConfig,
+    isInlineElementTypes = basicProps?.isInlineElementTypes,
+    isVoidElementTypes = basicProps?.isVoidElementTypes,
+    isMarkableVoidElementTypes = basicProps?.isMarkableVoidElementTypes,
+    value = basicProps?.value,
+    className = basicProps?.className,
+    style = basicProps?.style,
+    htmlToSlateConfigOptions = basicProps?.htmlToSlateConfigOptions,
+    slateToDomConfigOptions = basicProps?.slateToDomConfigOptions,
+    renderElementConfig = basicProps?.renderElementConfig,
   } = props;
   const editor = useMemo(
     () =>

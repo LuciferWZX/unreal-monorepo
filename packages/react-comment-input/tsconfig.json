@@ -15,7 +15,7 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src","custom-slate.d.ts","declare.d.ts"],
+  "include": ["src","custom-slate.d.ts","custom-react-slate.d.ts"],
   "exclude": ["node_modules","lib"],
 
   "references": [{

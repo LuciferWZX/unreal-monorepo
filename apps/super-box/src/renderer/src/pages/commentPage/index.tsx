@@ -1,11 +1,13 @@
 import { Box } from '@renderer/styles'
-import { FC, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import '@unreal/react-comment-input/lib/style.css'
 import {
   ReactCommentInput,
   ReactCommentInputRef,
   CustomElement,
-  PreviewEditor
+  PreviewEditor,
+  ReactCommentInputProps,
+  useReactCommentInputStore
 } from '@unreal/react-comment-input'
 import { Button } from 'antd'
 import UserNode from './userNode'
@@ -25,7 +27,7 @@ const CommentPage: FC = () => {
       { label: 'wzx3', value: '2wzx3' }
     ].filter((item) => item.label.toLowerCase().startsWith(words.toLowerCase()))
   }
-  const commonConfig = {
+  const commonConfig: ReactCommentInputProps = {
     renderElementConfig: {
       extendRenderElement: [
         {
@@ -68,6 +70,11 @@ const CommentPage: FC = () => {
     isInlineElementTypes: ['user'],
     isVoidElementTypes: ['user']
   }
+  useEffect(() => {
+    useReactCommentInputStore.setState({
+      basicProps: commonConfig
+    })
+  }, [commonConfig])
   return (
     <Box
       $isFull={true}
@@ -79,7 +86,9 @@ const CommentPage: FC = () => {
       <div style={{ flexGrow: 1, overflow: 'auto' }}>
         xxx
         <div>
-          <PreviewEditor {...commonConfig} style={{ width: '100%' }} value={value} />
+          {useReactCommentInputStore.getState().basicProps && (
+            <PreviewEditor style={{ width: '100%' }} value={value} />
+          )}
         </div>
       </div>
       <div style={{ padding: 10 }}>
@@ -94,8 +103,8 @@ const CommentPage: FC = () => {
               } = ref.current
               const userNode: CustomElement = {
                 type: 'user',
-                username: 'wzx',
-                children: [{ text: 'wzx' }]
+                username: '孙悟空',
+                children: [{ text: '孙悟空' }]
               }
               insertNode(userNode)
               // ReactEditor.focus(editor)
@@ -110,7 +119,7 @@ const CommentPage: FC = () => {
             }
           }}
         >
-          xxx
+          插入user节点
         </Button>
         <Button
           onClick={() => {

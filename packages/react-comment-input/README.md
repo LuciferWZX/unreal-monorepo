@@ -335,3 +335,44 @@ const CommentPage: FC = () => {
   )
 }
 ```
+![img.png](img.png)
+
+## store 本组件提供配置存储 `useReactCommentInputStore`
+使用方法
+```tsx
+import { useReactCommentInputStore } from '@unreal/react-comment-input'
+```
+在预览组件`<PreviewEditor/>`和编辑组件`<ReactCommentInput />` 里面有一些通用的配置
+```tsx
+    const commonConfig:PreviewEditorProps = {
+      isInlineElementTypes,
+      isVoidElementTypes,
+      isMarkableVoidElementTypes,
+      value,
+      className,
+      style,
+      htmlToSlateConfigOptions,
+      slateToDomConfigOptions,
+      renderElementConfig,
+    }
+    //你可以
+  <PreviewEditor {...commonConfig} {..._others} />
+  <ReactCommentInput {...commonConfig} {...others} />
+  //也可以
+    useEffect(() => {
+      useReactCommentInputStore.setState({
+        basicProps: commonConfig
+      })
+    }, [commonConfig])
+   const basicProps=useReactCommentInputStore(state=>state.basicProps)
+    if (basicProps){
+      //这边需要设置完再加载，因为editor初始化的时候需要把一些参数一起配置了这样才能保证自定义组件正确
+      //的渲染出来
+      return (
+        <>
+          <PreviewEditor  {..._others} />
+          <ReactCommentInput {...others} />
+        </>
+      )
+    }
+```

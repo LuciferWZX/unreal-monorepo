@@ -27,6 +27,8 @@ import htmlToSlateConfig, { HtmlToSlateConfigOptions } from '@/config/htmlToSlat
 import slateToDomConfig, { SlateToDomConfigOptions } from '@/config/slateToDomConfig';
 import './index.less';
 import useMention from '@/hooks/useMention';
+import { useReactCommentInputStore } from '@/store/useReactCommentInputStore';
+import { useShallow } from 'zustand/react/shallow';
 const emptyValue: CustomElement[] = [
   {
     type: CustomElementType.PARAGRAPH,
@@ -95,17 +97,18 @@ export interface ReactCommentInputProps
   theme?: 'dark' | 'light';
 }
 const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProps>((props, ref) => {
+  const basicProps = useReactCommentInputStore(useShallow((state) => state.basicProps));
   const {
-    value: _value,
+    value: _value = basicProps?.value,
     onChange: _onChange,
-    renderElementConfig,
-    htmlToSlateConfigOptions,
-    slateToDomConfigOptions,
-    className,
+    renderElementConfig = basicProps?.renderElementConfig,
+    htmlToSlateConfigOptions = basicProps?.htmlToSlateConfigOptions,
+    slateToDomConfigOptions = basicProps?.slateToDomConfigOptions,
+    className = basicProps?.className,
     colorSchema,
-    isInlineElementTypes,
-    isVoidElementTypes,
-    isMarkableVoidElementTypes,
+    isInlineElementTypes = basicProps?.isInlineElementTypes,
+    isVoidElementTypes = basicProps?.isVoidElementTypes,
+    isMarkableVoidElementTypes = basicProps?.isMarkableVoidElementTypes,
     onSelectionChange,
     mentions,
     onKeyDown,
@@ -191,6 +194,7 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
           Transforms.insertFragment(editor, isArray(node) ? node : [node]);
           Transforms.move(editor, { distance: 1 });
           editor.normalize();
+          editor.onChange();
         },
       },
     };
