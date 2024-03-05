@@ -3,7 +3,10 @@ export {
   type ReactCommentInputRef,
   type ReactCommentInputProps,
 } from './editor';
-export { default as PreviewEditor, type PreviewEditorProps } from './previewEditor';
+export {
+  default as PreviewCommentInput,
+  type PreviewCommentInputProps,
+} from './previewCommentInput';
 export { type CustomElement, type RenderCustomElementProps } from './types';
 export { useReactCommentInputStore } from './store/useReactCommentInputStore';
 export * from 'slate';

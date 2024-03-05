@@ -123,3 +123,25 @@ const config = {
   {...config}
 />
 ```
+
+### ref属性 `ReactCommentInputRef`
+
+| 属性            | 类型                                       | 默认值 | 描述             |
+|---------------|------------------------------------------|-----|----------------|
+| `editor`      | BaseEditor & ReactEditor & HistoryEditor | `-` | slate的editor实例 |
+| `ReactEditor` | typeof ReactEditor                       | `-` | ReactEditor    |
+| `Transforms`  | RenderElementConfig                      | `-` | Transforms     |
+| `actions`     | InputActions                             | `-` | 输入框的一系列操作      |
+
+### actions属性 `InputActions`
+
+| 属性             | 类型                                                  | 默认值              | 描述    |
+|----------------|-----------------------------------------------------|------------------|-------|
+| `clear`        | (editor: Editor, config?: ClearConfigProps) => void | `-`              | 清除输入框 |
+| `insertNodes`  | (editor: Editor, nodes: CustomElement[]) => void    | `-`              | 插入节点  |
+| `clearHistory` | (editor: Editor, mode?: 'undos'                     | 'redos') => void | `-`   | 删除历史记录，阻止撤销和重做 |
+| `selectAll`    | (editor: Editor) => void                            | `-`              | 全选    |
+| `deselect`     | (editor: Editor) => void                            | `-`              | 取消选中  |
+| `focus`        | (editor: Editor, position?: 'start'                 | 'end') => void   | `-`   | 聚焦  |
+| `blur`         | (editor: Editor) => void                            | `-`              | 失焦    |
+| `updateValue`  | (editor: Editor, newHtml: string) => void           | `-`              | 更新视图  |

@@ -1,8 +1,8 @@
-import { CSSProperties, FC, useCallback, useEffect, useMemo } from 'react';
-import { CustomElement, CustomElementType } from '@/types';
+import { FC, useEffect, useMemo } from 'react';
+import { CustomElement } from '@/types';
 import { Editable, Slate, withReact } from 'slate-react';
 import withInLine from '@/hoc/withInLine';
-import { createEditor, Editor, Transforms } from 'slate';
+import { createEditor } from 'slate';
 import { isUndefined } from '@wzx-unreal/react-hooks';
 import { htmlToSlate } from '@slate-serializers/html';
 import htmlToSlateConfig from '@/config/htmlToSlateConfig';
@@ -10,24 +10,10 @@ import useRenderElement from '@/hooks/useRenderElement';
 import { ReactCommentInputProps } from '@/editor';
 import { useReactCommentInputStore } from '@/store/useReactCommentInputStore';
 import { useShallow } from 'zustand/react/shallow';
-const emptyValue: CustomElement[] = [
-  {
-    type: CustomElementType.PARAGRAPH,
-    children: [{ text: '' }],
-  },
-];
-// export interface PreviewEditorProps {
-//   value?: string;
-//   htmlToSlateConfigOptions?: HtmlToSlateConfigOptions;
-//   slateToDomConfigOptions?: SlateToDomConfigOptions;
-//   renderElementConfig?: RenderElementConfig;
-//   isInlineElementTypes?: string[];
-//   isVoidElementTypes?: string[];
-//   isMarkableVoidElementTypes?: string[];
-//   className?: string;
-//   style?: CSSProperties;
-// }
-export interface PreviewEditorProps
+import Utils from '@/utils/utils';
+import { emptySlateValue } from '@/utils/constants';
+
+export interface PreviewCommentInputProps
   extends Pick<
     ReactCommentInputProps,
     | 'value'
@@ -43,7 +29,7 @@ export interface PreviewEditorProps
   mode?: 'preview';
 }
 
-const PreviewEditor: FC<PreviewEditorProps> = (props) => {
+const PreviewCommentInput: FC<PreviewCommentInputProps> = (props) => {
   const basicProps = useReactCommentInputStore(useShallow((state) => state.basicProps));
   const {
     isInlineElementTypes = basicProps?.isInlineElementTypes,
@@ -68,34 +54,19 @@ const PreviewEditor: FC<PreviewEditorProps> = (props) => {
       ),
     []
   );
-  const actions: { clear: () => void } = {
-    clear: () => {
-      Transforms.select(editor, []);
-      Transforms.delete(editor);
-    },
-  };
   const { renderElement, renderLeaf } = useRenderElement(renderElementConfig, 'preview');
-  const resetValue = useCallback(
-    (val?: string) => {
-      actions.clear();
-      let slateValue = emptyValue;
-      if (isUndefined(val)) {
-        return slateValue;
-      }
-      slateValue = htmlToSlate(val, htmlToSlateConfig(htmlToSlateConfigOptions)) as CustomElement[];
-      Transforms.insertFragment(editor, slateValue);
-      Editor.normalize(editor);
-    },
-    [actions, editor, htmlToSlateConfigOptions]
-  );
+
+  /**
+   * 当值发生变化的时候,更新视图
+   */
   useEffect(() => {
-    resetValue(value);
-  }, [editor, resetValue, value]);
+    Utils.updateValue(editor, value, htmlToSlateConfigOptions);
+  }, [editor, htmlToSlateConfigOptions, value]);
 
   //默认值
   const _initialValue = useMemo(() => {
-    if (isUndefined(value)) {
-      return emptyValue;
+    if (isUndefined(value) || value === '') {
+      return emptySlateValue;
     }
     return htmlToSlate(value, htmlToSlateConfig(htmlToSlateConfigOptions)) as CustomElement[];
   }, [value, htmlToSlateConfigOptions]);
@@ -111,4 +82,4 @@ const PreviewEditor: FC<PreviewEditorProps> = (props) => {
     </Slate>
   );
 };
-export default PreviewEditor;
+export default PreviewCommentInput;

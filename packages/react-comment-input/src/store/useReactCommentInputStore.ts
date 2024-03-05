@@ -1,9 +1,9 @@
-import { PreviewEditorProps } from '@/previewEditor';
+import { PreviewCommentInputProps } from '@/previewCommentInput';
 import { create } from 'zustand';
 
 interface ReactCommentInputStoreState {
   //编辑和预览通用的属性设置
-  basicProps?: PreviewEditorProps;
+  basicProps?: PreviewCommentInputProps;
 }
 const initialState: ReactCommentInputStoreState = {
   basicProps: undefined,

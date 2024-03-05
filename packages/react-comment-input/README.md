@@ -143,9 +143,10 @@ const CommentPage: FC = () => {
           onClick={() => {
             if (ref.current) {
               const {
+                editor,
                 actions: { clear }
               } = ref.current
-              clear()
+              clear(editor)
             }
           }}
         >
@@ -380,4 +381,4 @@ import { useReactCommentInputStore } from '@wzx-unreal/react-comment-input'
 ```
 
 ## tips
-### 当前的 `<ReactCommentInput />`  是非受控模式，如果要更新里面的值请使用 `ref?.actions.updateValye(html)` 这个方法
+### 当前的 `<ReactCommentInput />`  是非受控模式，如果要更新里面的值请使用 `ref?.actions.updateValue` 这个方法

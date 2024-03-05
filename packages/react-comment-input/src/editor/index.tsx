@@ -18,7 +18,6 @@ import { CustomElement, CustomElementType } from '@/types';
 import { htmlToSlate, slateToHtml } from '@slate-serializers/html';
 import {
   ClassNames,
-  isArray,
   isUndefined,
   useControllableValue,
   useFocusWithin,
@@ -29,33 +28,30 @@ import './index.less';
 import useMention from '@/hooks/useMention';
 import { useReactCommentInputStore } from '@/store/useReactCommentInputStore';
 import { useShallow } from 'zustand/react/shallow';
-const emptyValue: CustomElement[] = [
-  {
-    type: CustomElementType.DEFAULT,
-    children: [{ text: '' }],
-  },
-];
+import Utils, { ClearConfigProps } from '@/utils/utils';
+import { emptySlateValue } from '@/utils/constants';
+
 export interface ColorSchema {
   '--border-color'?: string;
   '--hover-border-color'?: string;
   '--active-border-color'?: string;
   '--focused-border-color'?: string;
 }
+export interface InputActions {
+  clear: (editor: Editor, config?: ClearConfigProps) => void;
+  insertNodes: (editor: Editor, nodes: CustomElement[]) => void;
+  clearHistory: (editor: Editor, mode?: 'undos' | 'redos') => void;
+  selectAll: (editor: Editor) => void;
+  deselect: (editor: Editor) => void;
+  focus: (editor: Editor, position?: 'start' | 'end') => void;
+  blur: (editor: Editor) => void;
+  updateValue: (editor: Editor, newHtml: string) => void;
+}
 export interface ReactCommentInputRef {
   editor: BaseEditor & ReactEditor & HistoryEditor;
   ReactEditor: typeof ReactEditor;
   Transforms: typeof Transforms;
-
-  actions: {
-    clear: () => void;
-    insertNode: (node: CustomElement | CustomElement[]) => void;
-    clearHistory: (mode?: 'undos' | 'redos') => void;
-    selectedAll: () => void;
-    deselect: () => void;
-    focus: (position?: 'start' | 'end') => void;
-    blur: () => void;
-    updateValue: (html: string) => void;
-  };
+  actions: InputActions;
 }
 export interface MentionOption {
   label: string;
@@ -140,29 +136,6 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
     useMention(editor, theme, mentionContainer);
   //渲染自定义元素
   const { renderElement, renderLeaf } = useRenderElement(renderElementConfig);
-  //清空
-  const clear = () => {
-    Transforms.select(editor, []);
-    Transforms.delete(editor);
-    editor.history.redos = [];
-    editor.history.undos = [];
-    editor.onChange();
-    editor.normalize();
-  };
-  //全选
-  const selectedAll = () => {
-    Transforms.select(editor, {
-      anchor: Editor.start(editor, []),
-      focus: Editor.end(editor, []),
-    });
-  };
-  const insertNode = (node: CustomElement | CustomElement[]) => {
-    ReactEditor.focus(editor);
-    Transforms.insertFragment(editor, isArray(node) ? node : [node]);
-    Transforms.move(editor, { distance: 1 });
-    editor.normalize();
-    editor.onChange();
-  };
   //暴露的Ref
   useImperativeHandle(ref, () => {
     return {
@@ -170,64 +143,27 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
       Transforms: Transforms,
       ReactEditor: ReactEditor,
       actions: {
-        clear: clear,
-        updateValue: (_html) => {
-          selectedAll();
-          let slateValue = emptyValue;
-          if (isUndefined(_html)) {
-            return slateValue;
-          }
-          slateValue = htmlToSlate(
-            _html,
-            htmlToSlateConfig(htmlToSlateConfigOptions)
-          ) as CustomElement[];
-          insertNode(slateValue);
-        },
-        clearHistory: (mode?: 'undos' | 'redos') => {
-          if (mode) {
-            editor.history[mode] = [];
-            return;
-          }
-          editor.history.redos = [];
-          editor.history.undos = [];
-        },
-        focus: (position?: 'start' | 'end') => {
-          if (position === 'start') {
-            Transforms.select(editor, {
-              anchor: Editor.start(editor, []),
-              focus: Editor.start(editor, []),
-            });
-          }
-          if (position === 'end') {
-            Transforms.select(editor, {
-              anchor: Editor.end(editor, []),
-              focus: Editor.end(editor, []),
-            });
-          }
-          ReactEditor.focus(editor);
-        },
-        selectedAll: selectedAll,
-        deselect: () => {
-          Transforms.deselect(editor);
-        },
-        blur: () => {
-          ReactEditor.blur(editor);
-        },
-        insertNode: insertNode,
+        clear: Utils.clear,
+        updateValue: (editor, _html) => Utils.updateValue(editor, _html, htmlToSlateConfigOptions),
+        clearHistory: Utils.clearHistory,
+        focus: Utils.focus,
+        selectAll: Utils.selectAll,
+        deselect: Utils.deselect,
+        blur: Utils.blur,
+        insertNodes: Utils.insertNodes,
       },
     };
   });
   //默认值
   const _initialValue = useMemo(() => {
-    if (isUndefined(value)) {
-      return emptyValue;
+    if (isUndefined(value) || value === '') {
+      return emptySlateValue;
     }
     return htmlToSlate(value, htmlToSlateConfig(htmlToSlateConfigOptions)) as CustomElement[];
   }, [value, htmlToSlateConfigOptions]);
   //值更新
   const slateOnChange = useCallback(
     (_value: Descendant[]) => {
-      console.log('raw:', _value);
       const _html = slateToHtml(_value, slateToDomConfig(slateToDomConfigOptions));
       onChange(_html);
     },
