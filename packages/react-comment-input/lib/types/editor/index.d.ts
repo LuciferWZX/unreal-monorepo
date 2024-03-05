@@ -1,5 +1,5 @@
 import { CSSProperties, MouseEventHandler, ReactNode } from 'react';
-import { Transforms, BaseEditor, Selection } from 'slate';
+import { Transforms, BaseEditor, Editor, Selection } from 'slate';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor } from 'slate-react';
 import { EditableProps } from 'slate-react/dist/components/editable';
@@ -7,26 +7,28 @@ import { RenderElementConfig } from '../hooks/useRenderElement';
 import { CustomElement } from '../types';
 import { HtmlToSlateConfigOptions } from '../config/htmlToSlateConfig';
 import { SlateToDomConfigOptions } from '../config/slateToDomConfig';
+import { ClearConfigProps } from '../utils/utils';
 export interface ColorSchema {
     '--border-color'?: string;
     '--hover-border-color'?: string;
     '--active-border-color'?: string;
     '--focused-border-color'?: string;
 }
+export interface InputActions {
+    clear: (editor: Editor, config?: ClearConfigProps) => void;
+    insertNodes: (editor: Editor, nodes: CustomElement[]) => void;
+    clearHistory: (editor: Editor, mode?: 'undos' | 'redos') => void;
+    selectAll: (editor: Editor) => void;
+    deselect: (editor: Editor) => void;
+    focus: (editor: Editor, position?: 'start' | 'end') => void;
+    blur: (editor: Editor) => void;
+    updateValue: (editor: Editor, newHtml: string) => void;
+}
 export interface ReactCommentInputRef {
     editor: BaseEditor & ReactEditor & HistoryEditor;
     ReactEditor: typeof ReactEditor;
     Transforms: typeof Transforms;
-    actions: {
-        clear: () => void;
-        insertNode: (node: CustomElement | CustomElement[]) => void;
-        clearHistory: (mode?: 'undos' | 'redos') => void;
-        selectedAll: () => void;
-        deselect: () => void;
-        focus: (position?: 'start' | 'end') => void;
-        blur: () => void;
-        updateValue: (html: string) => void;
-    };
+    actions: InputActions;
 }
 export interface MentionOption {
     label: string;

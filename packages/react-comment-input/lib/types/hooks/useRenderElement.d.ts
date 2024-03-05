@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { RenderLeafProps } from 'slate-react';
 import { RenderCustomElementProps } from '../types';
 import Element = JSX.Element;

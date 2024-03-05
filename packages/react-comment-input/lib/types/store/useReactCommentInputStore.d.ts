@@ -1,6 +1,6 @@
-import { PreviewEditorProps } from '../previewEditor';
+import { PreviewCommentInputProps } from '../previewCommentInput';
 interface ReactCommentInputStoreState {
-    basicProps?: PreviewEditorProps;
+    basicProps?: PreviewCommentInputProps;
 }
 export declare const useReactCommentInputStore: import("zustand").UseBoundStore<import("zustand").StoreApi<ReactCommentInputStoreState>>;
 export {};
