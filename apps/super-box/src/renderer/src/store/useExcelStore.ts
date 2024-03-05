@@ -16,29 +16,7 @@ const initialState: ExcelStoreState = {
   phoneColumn: undefined,
   fieldMap: {},
   reflectMap: {},
-  textTemplates: [
-    {
-      id: '1',
-      label: '默认模板',
-      sign: '【康桥】',
-      content:
-        '[@]你好，1-12月：安徽[@]个，已付[@]元，含近几天打卡[@]元；湖北[@]个，已付[@]元，含近几天打卡[@]元；山西[@]个，已付[@]元；河南[@]个，已付[@]元。合计[@]个，合计预付[@]元。如有不对，可联系对应工地的会计。提前祝您春节快乐，阖家兴福，如意安康！'
-    },
-    {
-      id: '2',
-      label: '已结清',
-      sign: '【康桥】',
-      content:
-        '[@]你好，1-12月总工[@]个，总额[@]元，总付[@]元，已结清。新年到，龙年到，祝您和家人万事如意，幸福美满，龙年吉祥！'
-    },
-    {
-      id: '3',
-      label: '未结清',
-      sign: '【康桥】',
-      content:
-        '[@]你好，1-12月总工[@]个，总额[@]元，总付[@]元，余额[@]元，将于近日汇达你的中国农业银行账户，汇款有先后。新年到，龙年到，祝您和家人万事如意，兴福美满，龙年吉祥！'
-    }
-  ],
+  textTemplates: [],
   curTemplateId: undefined,
   TEXT_TEMPLATE: '',
   successIds: []
