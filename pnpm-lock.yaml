@@ -36,6 +36,9 @@ importers:
       '@wzx-unreal/react-comment-input':
         specifier: workspace:^
         version: link:../../packages/react-comment-input
+      '@wzx-unreal/react-hooks':
+        specifier: workspace:^
+        version: link:../../packages/react-hooks
       react:
         specifier: ^18.2.0
         version: 18.2.0

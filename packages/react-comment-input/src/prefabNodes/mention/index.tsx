@@ -1,4 +1,4 @@
-import { CSSProperties, FC, useMemo } from 'react';
+import { CSSProperties, FC } from 'react';
 import { RenderElementProps } from 'slate-react';
 import { MentionElement } from '@/types';
 

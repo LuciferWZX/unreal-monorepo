@@ -4,6 +4,7 @@
 [git仓库](https://github.com/LuciferWZX/unreal-monorepo/tree/master/packages/react-comment-input)
 
 [查看详情](https://github.com/LuciferWZX/unreal-monorepo/blob/master/packages/react-comment-input/USAGE.md)
+[组件demo](https://github.com/LuciferWZX/unreal-monorepo/tree/master/apps/packages-box)
 ## 自定义组件
 先定义一个自定义组件的数据格式
 ```ts
@@ -101,9 +102,71 @@ export default UserNode
 ```
 懒得写了，反正目前只有我在开发哈哈
 ```tsx
-const CommentPage: FC = () => {
+import { FC, useRef, useState } from 'react';
+import {
+  PreviewCommentInput,
+  PreviewCommentInputProps,
+  ReactCommentInput,
+  ReactCommentInputRef,
+} from '@wzx-unreal/react-comment-input';
+import '@wzx-unreal/react-comment-input/lib/style.css';
+import styles from './index.module.less';
+import { Button, Space } from '@arco-design/web-react';
+import BookNode, { BookElement } from '@/pages/react-comment-input-page/Nodes/book';
+import NumberUtils from '@/utils/number.ts';
+import { delay } from '@wzx-unreal/react-hooks';
+
+const ReactCommentInputPage:FC = () => {
+  const [html,setHtml]=useState<string|undefined>("")
   const ref = useRef<ReactCommentInputRef>(null)
-  const [value, setValue] = useState<string>()
+  const commonConfig:PreviewCommentInputProps = {
+    renderElementConfig:{
+      extendRenderElement:[
+        {
+          type:'book',
+          renderElement:({children,...rest})=>{
+            return <BookNode {...rest}>{children}</BookNode>
+          }
+        }
+      ]
+    },
+    htmlToSlateConfigOptions:{
+      elementTags:{
+        book:(_el)=>{
+          if (_el){
+            const {attribs}=_el
+            if(attribs['data-book']){
+              try {
+                return {
+                  type:'book',
+                  data:JSON.parse(attribs['data-book'])
+                }
+              }catch (e) {
+                console.error(e)
+              }
+            }
+          }
+          return {
+            type:'default'
+          }
+        }
+      }
+    },
+    slateToDomConfigOptions:{
+      elementAttributeTransform:({node,attrs})=>{
+        if(node.type==='book'){
+          const {data}=node as BookElement
+          attrs['data-book']=JSON.stringify(data)
+        }
+        return attrs
+      },
+      elementMap:{
+        book:'book'
+      }
+    },
+    isInlineElementTypes:['book'],
+    isVoidElementTypes:['book'],
+  }
   const getOptions = async (words: string) => {
     await delay(2000)
     return [
@@ -114,99 +177,78 @@ const CommentPage: FC = () => {
       { label: 'wzx3', value: '2wzx3' }
     ].filter((item) => item.label.toLowerCase().startsWith(words.toLowerCase()))
   }
-  return (
-    <Box $isFull={true} $position={'relative'} $flex={true} $flexDirection={'column'}>
-      <div style={{ flexGrow: 1, overflow: 'auto' }}>
-        xxx
-        <div style={{ height: 2000 }}>aaa</div>
+  return(
+    <div className={styles.box}>
+      <div className={styles.previewBox}>
+        预览组件:
+        <PreviewCommentInput className={styles.pop} style={{display:'inline-block'}} {...commonConfig} value={html}/>
       </div>
-      <div style={{ padding: 10 }}>
-        <Button
-          onClick={() => {
-            if (ref.current) {
-              const { editor, Transforms, ReactEditor } = ref.current
-              ReactEditor.focus(editor)
-              const userNode: any = {
-                type: 'user',
-                username: 'wzx',
-                children: [{ text: 'wzx' }]
+      <div className={styles.innerBox}>
+        <Space direction='vertical' style={{width:'100%'}} >
+          <Button.Group>
+            <Button onClick={()=>{
+              if (!ref.current) {
+                return
               }
-              Transforms.insertFragment(editor, [userNode])
-              Transforms.move(editor, { distance: 1 })
-              editor.normalize()
-            }
-          }}
-        >
-          插入自定义节点
-        </Button>
-        <Button
-          onClick={() => {
-            if (ref.current) {
-              const {
-                editor,
-                actions: { clear }
-              } = ref.current
+              const {editor,actions:{clear}}=ref.current
               clear(editor)
-            }
-          }}
-        >
-          清空
-        </Button>
-        <Button
-          onClick={() => {
-            if (ref.current) {
-              const {
-                actions: { clearHistory }
-              } = ref.current
-              clearHistory()
-            }
-          }}
-        >
-          清空历史
-        </Button>
-        <Button
-          onClick={() => {
-            if (ref.current) {
-              const {
-                actions: { focus }
-              } = ref.current
-              focus('start')
-            }
-          }}
-        >
-          聚焦开始
-        </Button>
-        <Button
-          onClick={() => {
-            if (ref.current) {
-              const {
-                actions: { focus }
-              } = ref.current
-              focus('end')
-            }
-          }}
-        >
-          聚焦结束
-        </Button>
-        <Button
-          onClick={() => {
-            if (ref.current) {
-              const {
-                editor,
-                ReactEditor,
-                actions: { selectedAll }
-              } = ref.current
-              ReactEditor.focus(editor)
-              selectedAll()
-            }
-          }}
-        >
-          全选
-        </Button>
-        <ReactCommentInput
-          ref={ref}
-          theme="dark"
-          mentions={[
+            }} type='primary' >
+              清空
+            </Button>
+            <Button type='primary' onClick={()=>{
+              if (!ref.current) {
+                return
+              }
+              const {editor,actions:{insertNodes}}=ref.current
+              const number=NumberUtils.getRandomNumber(1000,9999)
+              const name = `超人前传：${NumberUtils.getRandomNumber(1000,9999)}`
+              const randomBook:BookElement={
+                type:'book',
+                data:{
+                  number:number,
+                  name:name,
+                },
+                children:[{
+                  text:`${name}`
+                }]
+              }
+              insertNodes(editor,[randomBook])
+            }}>
+              插入节点
+            </Button>
+            <Button onClick={()=>{
+              if (!ref.current) {
+                return
+              }
+              const {editor,actions:{focus,selectAll}}=ref.current
+              focus(editor)
+              selectAll(editor)
+            }} type='primary' >
+              全选
+            </Button>
+            <Button onClick={()=>{
+              if (!ref.current) {
+                return
+              }
+              const {editor,actions:{focus,deselect}}=ref.current
+              focus(editor)
+              deselect(editor)
+            }} type='primary' >
+              取消全选
+            </Button>
+            <Button onClick={()=>{
+              if (!ref.current) {
+                return
+              }
+              const {editor,actions:{updateValue}}=ref.current
+              updateValue(editor,`<book data-book="{&quot;number&quot;:1024,&quot;name&quot;:&quot;超人前传：1021&quot;}">超人前传：1024</book>`)
+              // 如果要设置字符串的话要用html标签包裹
+              // updateValue(editor,`<div>我是最新设置的值</div>`)
+            }} type='primary' >
+              设置值
+            </Button>
+          </Button.Group>
+          <ReactCommentInput theme={'dark'} mentions={[
             {
               trigger: '@',
               filterKeys: ['label', 'value'],
@@ -216,15 +258,17 @@ const CommentPage: FC = () => {
                 { label: 'wzx2', value: '1wzx2', disabled: true },
                 { label: 'wzx112', value: '1wzx122', disabled: true },
                 { label: 'wzx3', value: '2wzx3' }
-                // { label: 'wzx4', value: '3wzx4', disabled: true }
               ],
               customElement: (option) => {
                 if (option.value === 'wzx') {
                   return {
-                    type: 'user',
-                    username: option.value,
+                    type: 'book',
+                    data:{
+                      number:10,
+                      name:option.label
+                    },
                     children: [{ text: option.label }]
-                  }
+                  } as BookElement
                 }
                 return
               }
@@ -232,21 +276,12 @@ const CommentPage: FC = () => {
             {
               trigger: '!',
               filterKeys: ['label', 'value'],
+              //异步获取选项
               options: async (words) => {
-                const data = await getOptions(words)
-                return data
+                return await getOptions(words)
               },
-              customElement: (option) => {
-                if (option.value === 'wzx') {
-                  return {
-                    type: 'user',
-                    username: option.value,
-                    children: [{ text: option.label }]
-                  }
-                }
-                return
-              }
             },
+            //太长内容显示...
             {
               trigger: '#',
               eclipse: true,
@@ -280,65 +315,15 @@ const CommentPage: FC = () => {
                 )
               }
             }
-          ]}
-          mentionContainer={{
-            style: { maxWidth: 300 },
-            customLoading: <div>加载中...</div>
-          }}
-          renderElementConfig={{
-            extendRenderElement: [
-              {
-                type: 'user',
-                renderElement: ({ children, ...rest }) => {
-                  return <UserNode {...rest}>{children}</UserNode>
-                }
-              }
-            ]
-          }}
-          htmlToSlateConfigOptions={{
-            elementTags: {
-              user: (_el) => {
-                if (_el) {
-                  const { attribs } = _el
-                  if (attribs['user-data']) {
-                    return {
-                      type: 'user',
-                      username: attribs['user-data']
-                    }
-                  }
-                }
-                return {
-                  type: 'span'
-                }
-              }
-            }
-          }}
-          slateToDomConfigOptions={{
-            elementAttributeTransform: ({ node, attrs }) => {
-              if (node.type === 'user') {
-                attrs['user-data'] = node.username
-              }
-              return attrs
-            },
-            elementMap: {
-              user: 'user'
-            }
-          }}
-          isInlineElementTypes={['user']}
-          isVoidElementTypes={['user']}
-          value={value}
-          onChange={(v) => {
-            console.log(v)
-            setValue(v)
-          }}
-          placeholder={'说点什么'}
-        />
+          ]} {...commonConfig} style={{width:'100%'}} ref={ref} value={html} onChange={setHtml} placeholder={'说点什么'}/>
+        </Space>
       </div>
-    </Box>
+    </div>
   )
 }
+export default ReactCommentInputPage
 ```
-![img.png](img.png)
+![img_1.png](img_1.png)
 
 ## store 本组件提供配置存储 `useReactCommentInputStore`
 使用方法

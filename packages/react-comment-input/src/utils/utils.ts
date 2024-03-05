@@ -88,7 +88,6 @@ const Utils = {
    * @param nodes
    */
   insertNodes: (editor: Editor, nodes: CustomElement[]) => {
-    ReactEditor.focus(editor);
     Transforms.insertFragment(editor, nodes);
     Transforms.move(editor, { distance: 1 });
     editor.normalize();

@@ -7,7 +7,7 @@ export {
   default as PreviewCommentInput,
   type PreviewCommentInputProps,
 } from './previewCommentInput';
-export { type CustomElement, type RenderCustomElementProps } from './types';
+export { type CustomElement, type RenderCustomElementProps, type CustomElementType } from './types';
 export { useReactCommentInputStore } from './store/useReactCommentInputStore';
 export * from 'slate';
 export * from 'slate-react';
