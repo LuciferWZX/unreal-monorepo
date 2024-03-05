@@ -1,7 +1,8 @@
 # react-comment-input 使用指南 
 
 `react-comment-input` 是一个类似飞书输入框的 React的输入组件。
-[git仓库]([查看详情](https://github.com/LuciferWZX/unreal-monorepo/tree/master/packages/react-comment-input))
+[git仓库](https://github.com/LuciferWZX/unreal-monorepo/tree/master/packages/react-comment-input)
+
 [查看详情](./USAGE.md)
 ## 自定义组件
 先定义一个自定义组件的数据格式
