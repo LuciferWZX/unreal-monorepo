@@ -1,6 +1,6 @@
 {
   "name": "@wzx-unreal/react-comment-input",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "This is a react component that can @select the input box to remind someone. You can customize any node and easily display any effect on the input box.",
   "type": "module",
   "main": "lib/react-comment-input.umd.js",
@@ -18,6 +18,10 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LuciferWZX/unreal-monorepo/tree/master/packages/react-comment-input"
   },
   "peerDependencies": {
     "react": "^18.2.0",
