@@ -26,14 +26,6 @@ const Sider: FC = () => {
         selectedKeys={[location.pathname]}
         items={[
           {
-            key: '/chat',
-            label: '问问',
-            icon: <Bot size={16} className={'anticon'} />,
-            onClick: () => {
-              navigator('/chat')
-            }
-          },
-          {
             key: '/code',
             label: '编辑器',
             icon: <Code2 size={16} className={'anticon'} />,
@@ -42,19 +34,11 @@ const Sider: FC = () => {
             }
           },
           {
-            key: '/excel_table',
-            label: '数据表格',
-            icon: <FileSpreadsheet size={16} className={'anticon'} />,
+            key: '/comment',
+            label: '输入',
+            icon: <Code2 size={16} className={'anticon'} />,
             onClick: () => {
-              navigator('/excel_table')
-            }
-          },
-          {
-            key: '/text_template',
-            label: '短信模板',
-            icon: <Blocks size={16} className={'anticon'} />,
-            onClick: () => {
-              navigator('/text_template')
+              navigator('/comment')
             }
           }
         ]}

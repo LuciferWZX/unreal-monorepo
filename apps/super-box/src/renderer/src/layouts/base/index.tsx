@@ -15,7 +15,6 @@ const BaseLayout: FC = () => {
           <Outlet />
         </Layout.Content>
       </Layout>
-      <AuthModal />
     </Layout>
   )
 }
