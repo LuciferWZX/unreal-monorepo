@@ -1,6 +1,6 @@
 {
   "name": "@wzx-unreal/react-hooks",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "this is react hooks utils",
   "type": "module",
   "main": "lib/react-hooks.umd.js",

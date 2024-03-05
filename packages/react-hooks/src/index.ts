@@ -4,6 +4,6 @@ export { useBoolean } from '@/useBoolean';
 export { useDebounceFn } from '@/useDebounceFn';
 export { useDebounce } from '@/useDebounce';
 export { useDebounceEffect } from '@/useDebounceEffect';
-export { useRequest, useControllableValue, useFocusWithin } from 'ahooks';
+export { useRequest, useControllableValue, useFocusWithin, useGetState } from 'ahooks';
 export * from '@/useUpdateEffect';
 export * from '@/utils';
