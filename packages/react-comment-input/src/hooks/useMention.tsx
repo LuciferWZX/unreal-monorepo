@@ -355,8 +355,6 @@ const useMention = (
 
           if (mentionContainer.position === 'bottom') {
             const elUsedHeight = rect.top + rect.height + elHeight;
-            console.log('parentRect:', parentRect);
-            console.log('elUsedHeight', elUsedHeight);
             if (elUsedHeight <= parentRect.height) {
               //说明下方放的下
               el.style.top = `${rect.top + rect.height}px`;
