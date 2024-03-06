@@ -73,6 +73,7 @@ const ReactCommentInputPage:FC = () => {
       { label: 'wzx3', value: '2wzx3' }
     ].filter((item) => item.label.toLowerCase().startsWith(words.toLowerCase()))
   }
+  console.log("html:",html);
   return(
     <div className={styles.box}>
       <div className={styles.previewBox}>
@@ -144,7 +145,15 @@ const ReactCommentInputPage:FC = () => {
             设置值
           </Button>
         </Button.Group>
-        <ReactCommentInput theme={'dark'} mentions={[
+        <ReactCommentInput id={'comment-input'} onSelectionChange={()=>{
+          if (ref.current) {
+            const {editor,actions:{getTextToNode}}=ref.current
+            const text = getTextToNode(editor)
+            const backText = getTextToNode(editor,'back')
+            console.log('forward:',text);
+            console.log('back',backText);
+          }
+        }} theme={'dark'} mentions={[
           {
             trigger: '@',
             filterKeys: ['label', 'value'],
@@ -211,7 +220,10 @@ const ReactCommentInputPage:FC = () => {
               )
             }
           }
-        ]} {...commonConfig} style={{width:'100%'}} ref={ref} value={html} onChange={setHtml} placeholder={'说点什么'}/>
+        ]} mentionContainer={{
+          container:document.getElementById('comment-input')!,
+          position:"bottom"
+        }} {...commonConfig} style={{width:'100%'}} ref={ref} value={html} onChange={setHtml} placeholder={'说点什么'}/>
         </Space>
       </div>
     </div>

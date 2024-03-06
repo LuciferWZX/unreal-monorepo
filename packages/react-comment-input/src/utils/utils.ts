@@ -1,6 +1,6 @@
 import { Editor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { CustomElement } from '@/types';
+import { CustomElement, CustomText } from '@/types';
 import { emptySlateValue } from '@/utils/constants';
 import { isUndefined } from '@wzx-unreal/react-hooks';
 import htmlToSlateConfig, { HtmlToSlateConfigOptions } from '@/config/htmlToSlateConfig';
@@ -22,7 +22,7 @@ const Utils = {
       editor.history.redos = [];
       editor.history.undos = [];
     }
-    editor.onChange();
+    // editor.onChange();
     editor.normalize();
   },
   /**
@@ -91,7 +91,7 @@ const Utils = {
     Transforms.insertFragment(editor, nodes);
     Transforms.move(editor, { distance: 1 });
     editor.normalize();
-    editor.onChange();
+    // editor.onChange();
   },
   /**
    * 更新输入框视图的数据
@@ -114,6 +114,47 @@ const Utils = {
       htmlToSlateConfig(htmlToSlateConfigOptions)
     ) as CustomElement[];
     Utils.insertNodes(editor, slateValue);
+  },
+  /**
+   * 获取文本
+   * @param editor
+   * @param mode
+   * @tips 要注意void元素他选中的文字无论如何都是空的，void元素不显示children，不设置void的话children正常显示
+   */
+  getText: (editor: Editor, mode?: 'selection' | 'all'): string => {
+    if (mode === 'selection') {
+      const { selection } = editor;
+      if (!selection) {
+        return '';
+      }
+      return editor.string(selection);
+    }
+    return editor.string({
+      anchor: editor.start([]),
+      focus: editor.end([]),
+    });
+  },
+  /**
+   * 获取到上一个节点的文本或者下一个节点的文本
+   * @param editor
+   * @param direction
+   */
+  getTextToNode: (editor: Editor, direction?: 'forward' | 'back') => {
+    const { selection } = editor;
+    if (!selection) {
+      return '';
+    }
+    //当前节点的offset值
+    const offsetIndex = editor.end(selection).offset;
+    const [currentNode] = editor.node(selection);
+    const text = (currentNode as CustomText).text;
+    if (direction === 'back') {
+      return text.substring(offsetIndex);
+    }
+    if (offsetIndex === text.length) {
+      return '';
+    }
+    return text.substring(0, offsetIndex);
   },
 };
 export default Utils;

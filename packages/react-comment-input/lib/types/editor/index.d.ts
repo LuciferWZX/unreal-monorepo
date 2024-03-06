@@ -1,5 +1,5 @@
 import { CSSProperties, MouseEventHandler, ReactNode } from 'react';
-import { Transforms, BaseEditor, Editor, Selection } from 'slate';
+import { BaseEditor, Editor, Selection } from 'slate';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor } from 'slate-react';
 import { EditableProps } from 'slate-react/dist/components/editable';
@@ -16,6 +16,8 @@ export interface ColorSchema {
 }
 export interface InputActions {
     clear: (editor: Editor, config?: ClearConfigProps) => void;
+    getText: (editor: Editor, mode?: 'selection' | 'all') => string;
+    getTextToNode: (editor: Editor, direction?: 'forward' | 'back') => string;
     insertNodes: (editor: Editor, nodes: CustomElement[]) => void;
     clearHistory: (editor: Editor, mode?: 'undos' | 'redos') => void;
     selectAll: (editor: Editor) => void;
@@ -26,8 +28,6 @@ export interface InputActions {
 }
 export interface ReactCommentInputRef {
     editor: BaseEditor & ReactEditor & HistoryEditor;
-    ReactEditor: typeof ReactEditor;
-    Transforms: typeof Transforms;
     actions: InputActions;
 }
 export interface MentionOption {
@@ -56,6 +56,9 @@ export interface MentionContainerProps {
     className?: string;
     style?: CSSProperties;
     customLoading?: ReactNode;
+    container?: HTMLElement;
+    fullWidth?: boolean;
+    position?: 'top' | 'bottom';
 }
 export interface ReactCommentInputProps extends Omit<EditableProps, 'value' | 'onChange' | 'defaultValue'> {
     value?: string;
@@ -71,6 +74,7 @@ export interface ReactCommentInputProps extends Omit<EditableProps, 'value' | 'o
     mentions?: MentionConfig[];
     mentionContainer?: MentionContainerProps;
     theme?: 'dark' | 'light';
+    id?: string;
 }
 declare const ReactCommentInput: import("react").ForwardRefExoticComponent<ReactCommentInputProps & import("react").RefAttributes<ReactCommentInputRef>>;
 export default ReactCommentInput;

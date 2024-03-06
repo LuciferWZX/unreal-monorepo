@@ -343,8 +343,29 @@ const useMention = (
         const parentNode = el.parentNode as HTMLElement;
         const parentRect = parentNode.getBoundingClientRect();
 
-        const rect = domRange.getBoundingClientRect();
+        let rect = domRange.getBoundingClientRect();
         const elHeight = el.offsetHeight;
+        if (mentionContainer?.container) {
+          rect = mentionContainer.container.getBoundingClientRect();
+          el.style.left = `${rect.left}px`;
+          if (mentionContainer.fullWidth !== false) {
+            el.style.maxWidth = 'unset';
+            el.style.width = `${rect.width}px`;
+          }
+
+          if (mentionContainer.position === 'bottom') {
+            const elUsedHeight = rect.top + rect.height + elHeight;
+            console.log('parentRect:', parentRect);
+            console.log('elUsedHeight', elUsedHeight);
+            if (elUsedHeight <= parentRect.height) {
+              //说明下方放的下
+              el.style.top = `${rect.top + rect.height}px`;
+              return;
+            }
+          }
+          el.style.top = `${rect.top - elHeight}px`;
+          return;
+        }
         const rectBottom = rect.bottom;
         const parentBottom = parentRect.bottom;
         //只处理底部的情况
@@ -364,7 +385,6 @@ const useMention = (
       }
     }
   }, [open]);
-
   return [values, actions];
 };
 export default useMention;

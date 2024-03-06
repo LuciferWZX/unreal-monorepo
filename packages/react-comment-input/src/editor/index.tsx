@@ -8,13 +8,13 @@ import {
   useMemo,
   useRef,
 } from 'react';
-import { Descendant, createEditor, Transforms, BaseEditor, Editor, Selection, Range } from 'slate';
+import { Descendant, createEditor, BaseEditor, Editor, Selection, Range } from 'slate';
 import { HistoryEditor, withHistory } from 'slate-history';
 import { Editable, ReactEditor, Slate, withReact } from 'slate-react';
 import withInLine from '@/hoc/withInLine';
 import { EditableProps } from 'slate-react/dist/components/editable';
 import useRenderElement, { RenderElementConfig } from '@/hooks/useRenderElement';
-import { CustomElement, CustomElementType } from '@/types';
+import { CustomElement } from '@/types';
 import { htmlToSlate, slateToHtml } from '@slate-serializers/html';
 import {
   ClassNames,
@@ -39,6 +39,8 @@ export interface ColorSchema {
 }
 export interface InputActions {
   clear: (editor: Editor, config?: ClearConfigProps) => void;
+  getText: (editor: Editor, mode?: 'selection' | 'all') => string;
+  getTextToNode: (editor: Editor, direction?: 'forward' | 'back') => string;
   insertNodes: (editor: Editor, nodes: CustomElement[]) => void;
   clearHistory: (editor: Editor, mode?: 'undos' | 'redos') => void;
   selectAll: (editor: Editor) => void;
@@ -49,8 +51,6 @@ export interface InputActions {
 }
 export interface ReactCommentInputRef {
   editor: BaseEditor & ReactEditor & HistoryEditor;
-  ReactEditor: typeof ReactEditor;
-  Transforms: typeof Transforms;
   actions: InputActions;
 }
 export interface MentionOption {
@@ -76,6 +76,9 @@ export interface MentionContainerProps {
   className?: string;
   style?: CSSProperties;
   customLoading?: ReactNode;
+  container?: HTMLElement;
+  fullWidth?: boolean;
+  position?: 'top' | 'bottom';
 }
 export interface ReactCommentInputProps
   extends Omit<EditableProps, 'value' | 'onChange' | 'defaultValue'> {
@@ -92,6 +95,7 @@ export interface ReactCommentInputProps
   mentions?: MentionConfig[];
   mentionContainer?: MentionContainerProps;
   theme?: 'dark' | 'light';
+  id?: string;
 }
 const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProps>((props, ref) => {
   const basicProps = useReactCommentInputStore(useShallow((state) => state.basicProps));
@@ -111,6 +115,7 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
     onKeyDown,
     theme,
     mentionContainer,
+    id,
     ...editableProps
   } = props;
   const boxRef = useRef<HTMLDivElement>(null);
@@ -140,8 +145,6 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
   useImperativeHandle(ref, () => {
     return {
       editor: editor,
-      Transforms: Transforms,
-      ReactEditor: ReactEditor,
       actions: {
         clear: Utils.clear,
         updateValue: (editor, _html) => Utils.updateValue(editor, _html, htmlToSlateConfigOptions),
@@ -151,6 +154,8 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
         deselect: Utils.deselect,
         blur: Utils.blur,
         insertNodes: Utils.insertNodes,
+        getText: Utils.getText,
+        getTextToNode: Utils.getTextToNode,
       },
     };
   });
@@ -207,7 +212,7 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
     }
 
     setTarget(undefined);
-  }, [editor, mentions, setIndex, setMention, setSearch, setTarget]);
+  }, [editor, mentions, setMention, setSearch, setTarget]);
 
   //类名
   const classNames = ClassNames(
@@ -219,9 +224,9 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
     <Slate
       editor={editor}
       initialValue={_initialValue}
-      onValueChange={slateOnChange}
-      onChange={() => {
+      onChange={(slateValue) => {
         handleTrigger();
+        slateOnChange(slateValue);
       }}
       onSelectionChange={onSelectionChange}
     >
@@ -230,6 +235,7 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
         style={{ ...(colorSchema as Record<string, any>) }}
         ref={boxRef}
         className={classNames}
+        id={id}
         onClick={() => {
           ReactEditor.focus(editor);
         }}

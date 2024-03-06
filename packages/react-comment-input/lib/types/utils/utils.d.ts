@@ -51,5 +51,18 @@ declare const Utils: {
      * @param htmlToSlateConfigOptions
      */
     updateValue: (editor: Editor, newHtml?: string, htmlToSlateConfigOptions?: HtmlToSlateConfigOptions) => CustomElement[] | undefined;
+    /**
+     * 获取文本
+     * @param editor
+     * @param mode
+     * @tips 要注意void元素他选中的文字无论如何都是空的，void元素不显示children，不设置void的话children正常显示
+     */
+    getText: (editor: Editor, mode?: 'selection' | 'all') => string;
+    /**
+     * 获取到上一个节点的文本或者下一个节点的文本
+     * @param editor
+     * @param direction
+     */
+    getTextToNode: (editor: Editor, direction?: 'forward' | 'back') => string;
 };
 export default Utils;
