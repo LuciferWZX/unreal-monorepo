@@ -147,7 +147,7 @@ const Utils = {
     //当前节点的offset值
     const offsetIndex = editor.end(selection).offset;
     const [currentNode] = editor.node(selection);
-    const text = (currentNode as CustomText).text;
+    const text = (currentNode as CustomText).text ?? '';
     if (direction === 'back') {
       return text.substring(offsetIndex);
     }
