@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc --project tsconfig.build.json && vite build ",
     "watch": "tsc --project tsconfig.build.json && vite build -w",
-    "publish": "pnpm publish"
+    "publish": "publish"
   },
   "publishConfig": {
     "access": "public",
