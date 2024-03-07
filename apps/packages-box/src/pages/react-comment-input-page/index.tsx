@@ -146,13 +146,7 @@ const ReactCommentInputPage:FC = () => {
           </Button>
         </Button.Group>
         <ReactCommentInput id={'comment-input'} onSelectionChange={()=>{
-          if (ref.current) {
-            const {editor,actions:{getTextToNode}}=ref.current
-            const text = getTextToNode(editor)
-            const backText = getTextToNode(editor,'back')
-            console.log('forward:',text);
-            console.log('back',backText);
-          }
+          console.log("触发了");
         }} theme={'dark'} mentions={[
           {
             trigger: '@',
@@ -223,7 +217,10 @@ const ReactCommentInputPage:FC = () => {
         ]} mentionContainer={{
           container:document.getElementById('comment-input')!,
           position:"bottom"
-        }} {...commonConfig} style={{width:'100%'}} ref={ref} value={html} onChange={setHtml} placeholder={'说点什么'}/>
+        }} {...commonConfig} style={{width:'100%'}} ref={ref} value={html} onChange={(v)=>{
+          console.log("值改变了",v);
+          setHtml(v)
+        }} placeholder={'说点什么'}/>
         </Space>
       </div>
     </div>

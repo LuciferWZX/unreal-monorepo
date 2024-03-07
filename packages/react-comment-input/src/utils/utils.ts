@@ -16,14 +16,18 @@ const Utils = {
    * @param config
    */
   clear: (editor: Editor, config?: ClearConfigProps) => {
-    Transforms.select(editor, []);
-    Transforms.delete(editor);
+    Transforms.delete(editor, {
+      at: {
+        anchor: Editor.start(editor, []),
+        focus: Editor.end(editor, []),
+      },
+    });
     if (config?.withHistory) {
       editor.history.redos = [];
       editor.history.undos = [];
     }
     // editor.onChange();
-    editor.normalize();
+    // editor.normalize();
   },
   /**
    * 清空历史记录
