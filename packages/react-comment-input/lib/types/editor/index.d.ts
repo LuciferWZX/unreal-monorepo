@@ -8,6 +8,7 @@ import { CustomElement } from '../types';
 import { HtmlToSlateConfigOptions } from '../config/htmlToSlateConfig';
 import { SlateToDomConfigOptions } from '../config/slateToDomConfig';
 import { ClearConfigProps } from '../utils/utils';
+import { NodeMatch } from 'slate/dist/interfaces/editor';
 export interface ColorSchema {
     '--border-color'?: string;
     '--hover-border-color'?: string;
@@ -18,6 +19,7 @@ export interface InputActions {
     clear: (editor: Editor, config?: ClearConfigProps) => void;
     getText: (editor: Editor, mode?: 'selection' | 'all') => string;
     getTextToNode: (editor: Editor, direction?: 'forward' | 'back') => string;
+    getNodes: (editor: Editor, match: NodeMatch<CustomElement> | undefined) => any;
     insertNodes: (editor: Editor, nodes: CustomElement[]) => void;
     clearHistory: (editor: Editor, mode?: 'undos' | 'redos') => void;
     selectAll: (editor: Editor) => void;
@@ -25,6 +27,7 @@ export interface InputActions {
     focus: (editor: Editor, position?: 'start' | 'end') => void;
     blur: (editor: Editor) => void;
     updateValue: (editor: Editor, newHtml: string) => void;
+    insertMention: (option: MentionOption, nodes?: CustomElement[]) => void;
 }
 export interface ReactCommentInputRef {
     editor: BaseEditor & ReactEditor & HistoryEditor;
@@ -59,6 +62,8 @@ export interface MentionContainerProps {
     container?: HTMLElement;
     fullWidth?: boolean;
     position?: 'top' | 'bottom';
+    open?: boolean;
+    onFilter?: (options: Array<MentionOption>) => void;
 }
 export interface ReactCommentInputProps extends Omit<EditableProps, 'value' | 'onChange' | 'defaultValue'> {
     value?: string;

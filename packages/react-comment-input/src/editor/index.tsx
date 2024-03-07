@@ -30,6 +30,7 @@ import { useReactCommentInputStore } from '@/store/useReactCommentInputStore';
 import { useShallow } from 'zustand/react/shallow';
 import Utils, { ClearConfigProps } from '@/utils/utils';
 import { emptySlateValue } from '@/utils/constants';
+import { NodeMatch } from 'slate/dist/interfaces/editor';
 
 export interface ColorSchema {
   '--border-color'?: string;
@@ -41,6 +42,7 @@ export interface InputActions {
   clear: (editor: Editor, config?: ClearConfigProps) => void;
   getText: (editor: Editor, mode?: 'selection' | 'all') => string;
   getTextToNode: (editor: Editor, direction?: 'forward' | 'back') => string;
+  getNodes: (editor: Editor, match: NodeMatch<CustomElement> | undefined) => any;
   insertNodes: (editor: Editor, nodes: CustomElement[]) => void;
   clearHistory: (editor: Editor, mode?: 'undos' | 'redos') => void;
   selectAll: (editor: Editor) => void;
@@ -48,6 +50,7 @@ export interface InputActions {
   focus: (editor: Editor, position?: 'start' | 'end') => void;
   blur: (editor: Editor) => void;
   updateValue: (editor: Editor, newHtml: string) => void;
+  insertMention: (option: MentionOption, nodes?: CustomElement[]) => void;
 }
 export interface ReactCommentInputRef {
   editor: BaseEditor & ReactEditor & HistoryEditor;
@@ -79,6 +82,8 @@ export interface MentionContainerProps {
   container?: HTMLElement;
   fullWidth?: boolean;
   position?: 'top' | 'bottom';
+  open?: boolean;
+  onFilter?: (options: Array<MentionOption>) => void;
 }
 export interface ReactCommentInputProps
   extends Omit<EditableProps, 'value' | 'onChange' | 'defaultValue'> {
@@ -112,10 +117,10 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
     isMarkableVoidElementTypes = basicProps?.isMarkableVoidElementTypes,
     onSelectionChange,
     mentions,
-    onKeyDown,
     theme,
     mentionContainer,
     id,
+    onKeyDown,
     ...editableProps
   } = props;
   const boxRef = useRef<HTMLDivElement>(null);
@@ -123,8 +128,8 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
   const controllableProps = { value: _value, onChange: _onChange };
   const editor = useMemo(
     () =>
-      withReact(
-        withHistory(
+      withHistory(
+        withReact(
           withInLine(
             createEditor(),
             isInlineElementTypes,
@@ -137,7 +142,7 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
   );
   const [value, onChange] = useControllableValue<string>(controllableProps);
   //提及部分的数据
-  const [{ popMenu }, { onMentionKeyDown, setTarget, setIndex, setSearch, setMention }] =
+  const [{ popMenu }, { onMentionKeyDown, setTarget, insertMention, setSearch, setMention }] =
     useMention(editor, theme, mentionContainer);
   //渲染自定义元素
   const { renderElement, renderLeaf } = useRenderElement(renderElementConfig);
@@ -156,6 +161,8 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
         insertNodes: Utils.insertNodes,
         getText: Utils.getText,
         getTextToNode: Utils.getTextToNode,
+        getNodes: Utils.getNodes,
+        insertMention: insertMention,
       },
     };
   });
@@ -197,14 +204,17 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
           break;
         }
       }
+      console.log(22222, beforeMatch);
       if (!beforeMatch) {
         setMention(undefined);
+        setSearch('');
       }
-      const after = Editor.after(editor, start);
-      const afterRange = Editor.range(editor, start, after);
-      const afterText = Editor.string(editor, afterRange);
-      const afterMatch = afterText.match(/^(\s|$)/);
-      if (beforeMatch && afterMatch) {
+      // const after = Editor.after(editor, start);
+      // const afterRange = Editor.range(editor, start, after);
+      // const afterText = Editor.string(editor, afterRange);
+      // const afterMatch = afterText.match(/^(\s|$)/);
+      // if (beforeMatch && afterMatch) {
+      if (beforeMatch) {
         setTarget(beforeRange);
         setSearch(beforeMatch[1]);
         return;
@@ -249,8 +259,13 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
           renderLeaf={renderLeaf}
           onKeyDown={(e) => {
             onMentionKeyDown(e);
+            onKeyDown?.(e);
           }}
           {...editableProps}
+          style={{
+            wordBreak: 'break-all',
+            ...editableProps.style,
+          }}
         />
       </div>
     </Slate>

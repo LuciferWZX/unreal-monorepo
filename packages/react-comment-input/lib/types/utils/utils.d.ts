@@ -1,6 +1,7 @@
 import { Editor } from 'slate';
 import { CustomElement } from '../types';
 import { HtmlToSlateConfigOptions } from '../config/htmlToSlateConfig';
+import { NodeMatch } from 'slate/dist/interfaces/editor';
 export interface ClearConfigProps {
     withHistory?: boolean;
 }
@@ -64,5 +65,11 @@ declare const Utils: {
      * @param direction
      */
     getTextToNode: (editor: Editor, direction?: 'forward' | 'back') => string;
+    /**
+     * 获取选中的节点的信息
+     * @param editor
+     * @param match
+     */
+    getNodes: (editor: Editor, match: NodeMatch<CustomElement> | undefined) => import("slate").NodeEntry<CustomElement>[];
 };
 export default Utils;

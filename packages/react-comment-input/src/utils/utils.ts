@@ -5,6 +5,7 @@ import { emptySlateValue } from '@/utils/constants';
 import { isUndefined } from '@wzx-unreal/react-hooks';
 import htmlToSlateConfig, { HtmlToSlateConfigOptions } from '@/config/htmlToSlateConfig';
 import { htmlToSlate } from '@slate-serializers/html';
+import { NodeMatch } from 'slate/dist/interfaces/editor';
 
 export interface ClearConfigProps {
   withHistory?: boolean;
@@ -93,9 +94,9 @@ const Utils = {
    */
   insertNodes: (editor: Editor, nodes: CustomElement[]) => {
     Transforms.insertFragment(editor, nodes);
-    Transforms.move(editor, { distance: 1 });
-    editor.normalize();
-    // editor.onChange();
+    if (ReactEditor.isFocused(editor)) {
+      Transforms.move(editor, { distance: 1 });
+    }
   },
   /**
    * 更新输入框视图的数据
@@ -159,6 +160,15 @@ const Utils = {
       return '';
     }
     return text.substring(0, offsetIndex);
+  },
+  /**
+   * 获取选中的节点的信息
+   * @param editor
+   * @param match
+   */
+  getNodes: (editor: Editor, match: NodeMatch<CustomElement> | undefined) => {
+    const nodes = Array.from(Editor.nodes(editor, { match: match }));
+    return nodes;
   },
 };
 export default Utils;

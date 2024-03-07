@@ -17,6 +17,7 @@ import {
   isFunction,
   isNumber,
   isString,
+  isUndefined,
   scrollIntoView,
   useBoolean,
   useRequest,
@@ -43,6 +44,7 @@ interface MentionActionsType {
   setSearch: Dispatch<SetStateAction<string>>;
   setMention: Dispatch<SetStateAction<MentionConfig | undefined>>;
   setPopOpen: (open: boolean) => void;
+  insertMention: (option: MentionOption, nodes?: CustomElement[]) => void;
   onMentionKeyDown: (e: KeyboardEvent<HTMLDivElement>) => void;
 }
 const useMention = (
@@ -102,6 +104,8 @@ const useMention = (
           })
         );
       }
+    } else {
+      setOptions([]);
     }
   }, [mention, queryOpts, search, set]);
   //过滤出来的选项
@@ -131,6 +135,9 @@ const useMention = (
   // }, [mention, search]);
   //当选中的时候默认有效的第一个
   useEffect(() => {
+    if (mentionContainer?.onFilter) {
+      mentionContainer.onFilter(options);
+    }
     if (open) {
       for (let i = 0; i < options.length; i++) {
         const item = options[i];
@@ -140,11 +147,11 @@ const useMention = (
         }
       }
     }
-  }, [options, open]);
+  }, [options, open, mentionContainer?.onFilter]);
 
   //插入提及
   const insertMention = useCallback(
-    (option: MentionOption) => {
+    (option: MentionOption, nodes?: CustomElement[]) => {
       Transforms.select(editor, target!);
       let mentionItem: CustomElement = {
         type: CustomElementType.MENTION,
@@ -158,7 +165,7 @@ const useMention = (
           mentionItem = customMentionItem;
         }
       }
-      Transforms.insertFragment(editor, [mentionItem]);
+      Transforms.insertFragment(editor, nodes ?? [mentionItem]);
       Transforms.move(editor);
       ReactEditor.focus(editor);
       editor.onChange();
@@ -318,11 +325,16 @@ const useMention = (
     setSearch,
     setMention,
     setPopOpen: set,
+    insertMention,
     onMentionKeyDown,
   };
 
   // 是否打开菜单的逻辑
   useEffect(() => {
+    if (!isUndefined(mentionContainer?.open)) {
+      set(mentionContainer?.open);
+      return;
+    }
     if (optLoading) {
       set(true);
       return;
@@ -332,14 +344,14 @@ const useMention = (
       return;
     }
     set(false);
-  }, [set, target, values.options, optLoading]);
+  }, [set, target, values.options, optLoading, mentionContainer?.open]);
   // 当菜单打开的时候需要将节点定位到正确位置
   useEffect(() => {
     if (open) {
       const el = ref.current;
-      if (el) {
+      if (el && target) {
         el.style.display = 'unset';
-        const domRange = ReactEditor.toDOMRange(editor, target!);
+        const domRange = ReactEditor.toDOMRange(editor, target);
         const parentNode = el.parentNode as HTMLElement;
         const parentRect = parentNode.getBoundingClientRect();
 
@@ -382,7 +394,7 @@ const useMention = (
         el.style.left = `${rect.left + window.scrollX}px`;
       }
     }
-  }, [open]);
+  }, [editor, mentionContainer, open, target]);
   return [values, actions];
 };
 export default useMention;

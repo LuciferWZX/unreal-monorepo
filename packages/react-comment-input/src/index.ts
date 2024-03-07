@@ -2,6 +2,7 @@ export {
   default as ReactCommentInput,
   type ReactCommentInputRef,
   type ReactCommentInputProps,
+  type MentionOption,
 } from './editor';
 export {
   default as PreviewCommentInput,

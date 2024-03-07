@@ -1,19 +1,23 @@
 import { FC, useRef, useState } from 'react';
 import {
+  CustomElement,
   PreviewCommentInput,
   PreviewCommentInputProps,
   ReactCommentInput,
   ReactCommentInputRef,
+  MentionOption
 } from '@wzx-unreal/react-comment-input';
 import '@wzx-unreal/react-comment-input/lib/style.css';
 import styles from './index.module.less';
-import { Button, Space } from '@arco-design/web-react';
+import { Button, Dropdown, Menu, Space } from '@arco-design/web-react';
 import BookNode, { BookElement } from '@/pages/react-comment-input-page/Nodes/book';
 import NumberUtils from '@/utils/number.ts';
 import { delay } from '@wzx-unreal/react-hooks';
 
 const ReactCommentInputPage:FC = () => {
   const [html,setHtml]=useState<string|undefined>("")
+  const [isOpen,setOpen]=useState<boolean|undefined>(undefined)
+  const [options,setOptions]=useState<MentionOption[]>([])
   const ref = useRef<ReactCommentInputRef>(null)
   const commonConfig:PreviewCommentInputProps = {
     renderElementConfig:{
@@ -144,83 +148,141 @@ const ReactCommentInputPage:FC = () => {
           }} type='primary' >
             设置值
           </Button>
-        </Button.Group>
-        <ReactCommentInput id={'comment-input'} onSelectionChange={()=>{
-          console.log("触发了");
-        }} theme={'dark'} mentions={[
-          {
-            trigger: '@',
-            filterKeys: ['label', 'value'],
-            options: [
-              { label: 'wzx', value: 'wzx', extra: 19 },
-              { label: 'wzx6', value: 'wzx6' },
-              { label: 'wzx2', value: '1wzx2', disabled: true },
-              { label: 'wzx112', value: '1wzx122', disabled: true },
-              { label: 'wzx3', value: '2wzx3' }
-            ],
-            customElement: (option) => {
-              if (option.value === 'wzx') {
-                return {
-                  type: 'book',
-                  data:{
-                    number:10,
-                    name:option.label
-                  },
-                  children: [{ text: option.label }]
-                } as BookElement
-              }
+          <Button onClick={()=>{
+            if (!ref.current) {
               return
             }
-          },
-          {
-            trigger: '!',
-            filterKeys: ['label', 'value'],
-            //异步获取选项
-            options: async (words) => {
-              return await getOptions(words)
-            },
-          },
-          //太长内容显示...
-          {
-            trigger: '#',
-            eclipse: true,
-            options: [
-              {
-                label:
-                  'wxm:时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)wxm:时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)wxm:时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)wxm:时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)',
-                value: 'wxm'
-              },
-              { label: 'wxm1时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)', value: 'wxm1' },
-              { label: 'wxm2时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)', value: 'wxm2' },
-              { label: 'wxm3时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)', value: 'wxm3' },
-              { label: 'wxm4时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)', value: 'wxm4' },
-              { label: 'wxm5', value: 'wxm5' },
-              { label: 'wxm6时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)', value: 'wxm6' },
-              { label: 'wxm7', value: 'wxm7' },
-              { label: 'wxm8时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)', value: 'wxm8' },
-              { label: 'wxm9', value: 'wxm9' }
-            ],
-            customMentionItem: (option, attributes, data, actions) => {
-              return (
-                <div
-                  data-mention-index={attributes['data-mention-index']}
-                  key={option.value}
-                  onClick={actions.onClick}
-                  className={attributes.className}
-                  style={{ background: data.isSelected ? 'orange' : '' }}
-                >
-                  ☺{option.label}
-                </div>
-              )
+            const {editor,actions:{getNodes}}=ref.current
+            const nodes = getNodes(editor,node=>(node as CustomElement).type==='book')
+            console.log("nodes:",nodes);
+          }} type='primary' >
+            获取节点
+          </Button>
+          <Button onClick={()=>{
+            if (!ref.current) {
+              return
             }
-          }
-        ]} mentionContainer={{
-          container:document.getElementById('comment-input')!,
-          position:"bottom"
-        }} {...commonConfig} style={{width:'100%'}} ref={ref} value={html} onChange={(v)=>{
-          console.log("值改变了",v);
-          setHtml(v)
-        }} placeholder={'说点什么'}/>
+            const {editor}=ref.current
+            console.log("operations:",editor.operations);
+          }} type='primary' >
+            operations
+          </Button>
+          <Button type='primary' onClick={()=>isOpen===undefined?setOpen(true):isOpen?setOpen(false):setOpen(undefined)}>
+            当前{String(isOpen)}
+          </Button>
+        </Button.Group>
+          <Dropdown
+            popupVisible={options.length>0}
+            droplist={(
+              <Menu theme={'dark'}>
+                {options.map(op=>{
+                  return <Menu.Item onClick={()=>{
+                    if (ref.current){
+                      const {actions:{insertMention}}=ref.current
+                      const number=NumberUtils.getRandomNumber(1000,9999)
+                      const randomBook:BookElement={
+                        type:'book',
+                        data:{
+                          number:number,
+                          name:op.label,
+                        },
+                        children:[{
+                          text:`${op.label}`
+                        }]
+                      }
+                      insertMention(op,[randomBook])
+                    }
+                  }} key={op.value}>{op.label}</Menu.Item>
+                })}
+              </Menu>
+            )}
+          >
+        <ReactCommentInput
+          id={'comment-input'}
+          theme={'dark'}
+          mentions={[
+            {
+              trigger: '@',
+              filterKeys: ['label', 'value'],
+              options: [
+                { label: 'wzx', value: 'wzx55', extra: 19 },
+                { label: 'wzx11112', value: 'wzx11', extra: 19 },
+                { label: 'wzx6', value: 'wzx6' },
+                { label: 'wzx2', value: '1wzx2', disabled: true },
+                { label: 'wzx112', value: '1wzx122', disabled: true },
+                { label: 'wzx3', value: '2wzx3' }
+              ],
+              customElement: (option) => {
+                if (option.value === 'wzx') {
+                  return {
+                    type: 'book',
+                    data:{
+                      number:10,
+                      name:option.label
+                    },
+                    children: [{ text: option.label }]
+                  } as BookElement
+                }
+                return
+              }
+            },
+            {
+              trigger: '!',
+              filterKeys: ['label', 'value'],
+              //异步获取选项
+              options: async (words) => {
+                return await getOptions(words)
+              },
+            },
+            //太长内容显示...
+            {
+              trigger: '#',
+              eclipse: true,
+              options: [
+                {
+                  label:
+                    'wxm:时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)wxm:时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)wxm:时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)wxm:时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)',
+                  value: 'wxm'
+                },
+                { label: 'wxm1时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)', value: 'wxm1' },
+                { label: 'wxm2时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)', value: 'wxm2' },
+                { label: 'wxm3时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)', value: 'wxm3' },
+                { label: 'wxm4时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)', value: 'wxm4' },
+                { label: 'wxm5', value: 'wxm5' },
+                { label: 'wxm6时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)', value: 'wxm6' },
+                { label: 'wxm7', value: 'wxm7' },
+                { label: 'wxm8时间: 2024年2月28日（周三） 11:00 - 12:00 (GMT+8)', value: 'wxm8' },
+                { label: 'wxm9', value: 'wxm9' }
+              ],
+              customMentionItem: (option, attributes, data, actions) => {
+                return (
+                  <div
+                    data-mention-index={attributes['data-mention-index']}
+                    key={option.value}
+                    onClick={actions.onClick}
+                    className={attributes.className}
+                    style={{ background: data.isSelected ? 'orange' : '' }}
+                  >
+                    ☺{option.label}
+                  </div>
+                )
+              }
+            }
+          ]}
+          mentionContainer={{
+            container:document.getElementById('comment-input')!,
+            position:"bottom",
+            open:isOpen,
+            onFilter:(options) => {
+              setOptions(options)
+            }
+          }}
+          {...commonConfig}
+          style={{width:'100%'}}
+          ref={ref}
+          value={html}
+          onChange={setHtml} placeholder={'说点什么'}/>
+          </Dropdown>
         </Space>
       </div>
     </div>
