@@ -1,0 +1,49 @@
+{
+  "name": "@wzx-unreal/unreal-design",
+  "version": "0.0.27",
+  "description": "this is a react component lib: Unreal Design.",
+  "type": "module",
+  "main": "lib/unreal-design.umd.js",
+  "module": "lib/unreal-design.es.js",
+  "types": "lib/types/index.d.ts",
+  "keywords": ["UnrealDesign",  "react","components"],
+  "author": "",
+  "license": "ISC",
+  "files": ["lib"],
+  "private": false,
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json && vite build ",
+    "watch": "tsc --project tsconfig.build.json && vite build -w"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LuciferWZX/unreal-monorepo/tree/master/packages/react-comment-input"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "@wzx-unreal/react-hooks": "workspace:*",
+    "@vitejs/plugin-react": "^4.2.1",
+    "dayjs": "^1.11.10",
+    "vite": "^5.0.12",
+    "vite-plugin-dts": "^3.7.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.3"
+  }
+}
