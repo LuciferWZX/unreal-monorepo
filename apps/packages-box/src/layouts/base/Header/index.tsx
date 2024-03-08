@@ -1,9 +1,10 @@
 import { FC } from 'react';
 import { Avatar, Layout } from '@arco-design/web-react';
-
+import styles from './index.module.less'
 const Header:FC = () => {
   return(
-    <Layout.Header style={{height:48,display:'flex',padding:'0 20px',alignItems:'center',justifyContent:'space-between'}}>
+    <Layout.Header
+      className={styles.header}>
       <div/>
       <Avatar size={30}>
         <img

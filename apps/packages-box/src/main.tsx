@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client'
-import "@arco-design/web-react/dist/css/arco.css";
+import "@arco-design/web-react/dist/css/arco.min.css";
 import './global.less'
 
 import { createHashRouter, Navigate, RouteObject, RouterProvider } from 'react-router-dom';

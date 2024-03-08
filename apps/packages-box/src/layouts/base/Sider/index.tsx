@@ -1,16 +1,17 @@
 import { FC } from 'react';
 import { Layout, Menu } from '@arco-design/web-react';
+import { useLocation } from 'react-router-dom';
 
 const Sider:FC = () => {
+  const pathname = useLocation().pathname
   return(
     <Layout.Sider
-      theme='dark'
       style={{
        minWidth: 150,
        maxWidth: 300,
       }}>
-      <Menu theme='dark' autoOpen style={{ width: '100%',height:'100%' }}>
-        <Menu.Item key='1'  >
+      <Menu selectedKeys={[pathname]} autoOpen style={{ width: '100%',height:'100%' }}>
+        <Menu.Item key='/react-comment-input'  >
           react-comment-input
         </Menu.Item>
       </Menu>

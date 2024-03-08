@@ -4,17 +4,19 @@ import { Box } from '@/components';
 import { Layout } from '@arco-design/web-react';
 import Header from './Header';
 import Sider from './Sider';
-
+import './index.less'
 const BaseLayout:FC = () => {
   return(
     <Box $full={true}>
-      <Layout style={{height:'100%',width:"100%"}}>
+      <Layout className={'package-box-layout'}>
         <Header/>
         <Layout style={{flexDirection:'row'}}>
           <Sider/>
-          <Layout.Content>
-            <Outlet/>
-          </Layout.Content>
+          <Layout style={{padding:20}}>
+            <Layout.Content >
+              <Outlet/>
+            </Layout.Content>
+          </Layout>
         </Layout>
       </Layout>
     </Box>

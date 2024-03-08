@@ -174,7 +174,7 @@ const ReactCommentInputPage:FC = () => {
           <Dropdown
             popupVisible={options.length>0}
             droplist={(
-              <Menu theme={'dark'}>
+              <Menu >
                 {options.map(op=>{
                   return <Menu.Item onClick={()=>{
                     if (ref.current){

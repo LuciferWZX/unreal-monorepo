@@ -204,7 +204,6 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
           break;
         }
       }
-      console.log(22222, beforeMatch);
       if (!beforeMatch) {
         setMention(undefined);
         setSearch('');
