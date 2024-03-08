@@ -13,6 +13,7 @@
     "@arco-design/web-react": "^2.60.2",
     "@wzx-unreal/react-comment-input": "workspace:^",
     "@wzx-unreal/react-hooks": "workspace:^",
+    "@wzx-unreal/unreal-design": "workspace:^",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.0",
