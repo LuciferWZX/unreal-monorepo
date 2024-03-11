@@ -10,6 +10,8 @@ import NotFoundPage from '@/pages/404-page';
 import UnrealDesignPage from '@/pages/unreal-design-page';
 import ButtonPage from '@/pages/unreal-design-page/button-page';
 import ScrollAreaPage from '@/pages/unreal-design-page/scroll-area-page';
+import DropdownMenuPage from '@/pages/unreal-design-page/dropdown-menu-page';
+import InputPage from './pages/unreal-design-page/input-page';
 
 const initialRouter = (): RouteObject[] => {
   return [
@@ -26,10 +28,18 @@ const initialRouter = (): RouteObject[] => {
               path: '/unreal-design',
               element: <UnrealDesignPage />,
               children: [
-                { path: '/unreal-design', element: <Navigate to="/unreal-design/button" replace /> },
+                { path: '/unreal-design', element: <Navigate to="/unreal-design/input" replace /> },
+                {
+                  path: '/unreal-design/input',
+                  element: <InputPage />
+                },
                 {
                   path: '/unreal-design/button',
                   element: <ButtonPage />
+                },
+                {
+                  path: '/unreal-design/dropdownMenu',
+                  element: <DropdownMenuPage />
                 },
                 {
                   path: '/unreal-design/scrollArea',

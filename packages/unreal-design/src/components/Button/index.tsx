@@ -4,7 +4,7 @@ import { cn } from '@/utils';
 import { ButtonHTMLAttributes, FC, forwardRef } from 'react';
 import { ClassNames } from '@wzx-unreal/react-hooks';
 import { Loader2 } from 'lucide-react';
-
+import './index.less';
 const buttonVariants = cva(
   'unreal-inline-flex unreal-items-center unreal-justify-center unreal-whitespace-nowrap unreal-rounded-md unreal-text-sm unreal-font-medium unreal-transition-colors focus-visible:unreal-outline-none focus-visible:unreal-ring-1 focus-visible:unreal-ring-ring disabled:unreal-pointer-events-none disabled:unreal-opacity-50',
   {
@@ -32,39 +32,39 @@ const buttonVariants = cva(
         square: 'unreal-rounded-full',
       },
       icon: {
-        true: '',
+        true: 'button-only-icon',
       },
     },
     compoundVariants: [
       {
         shape: 'circle',
         size: 'sm',
-        class: 'unreal-h-6 unreal-w-6',
+        className: 'unreal-h-6 unreal-w-6',
       },
       {
         shape: 'circle',
         size: 'default',
-        class: 'unreal-h-8 unreal-w-8 ',
+        className: 'unreal-h-8 unreal-w-8 ',
       },
       {
         shape: 'circle',
         size: 'lg',
-        class: 'unreal-h-10 unreal-w-10',
+        className: 'unreal-h-10 unreal-w-10',
       },
       {
         icon: true,
         size: 'sm',
-        class: 'unreal-h-6 unreal-w-6 unreal-px-1 unreal-py-1',
+        className: 'button-only-icon-sm',
       },
       {
         icon: true,
         size: 'default',
-        class: 'unreal-h-8 unreal-w-8  unreal-px-1.5 unreal-py-1.5',
+        className: 'button-only-icon-default',
       },
       {
         icon: true,
         size: 'lg',
-        class: 'unreal-h-10 unreal-w-10  unreal-px-2 unreal-py-2',
+        className: 'button-only-icon-lg',
       },
     ],
     defaultVariants: {

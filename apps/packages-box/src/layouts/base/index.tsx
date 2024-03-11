@@ -12,7 +12,7 @@ const BaseLayout:FC = () => {
         <Header/>
         <Layout style={{flexDirection:'row'}}>
           <Sider/>
-          <Layout style={{padding:20}}>
+          <Layout >
             <Layout.Content >
               <Outlet/>
             </Layout.Content>

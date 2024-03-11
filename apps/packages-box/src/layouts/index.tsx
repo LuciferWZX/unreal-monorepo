@@ -7,7 +7,7 @@ const Layouts:FC = () => {
   useTheme()
   return(
     <div>
-      <ThemeProvider>
+      <ThemeProvider rootElement={document.body} storageKey={'arco-theme'} >
         <Outlet/>
       </ThemeProvider>
     </div>
