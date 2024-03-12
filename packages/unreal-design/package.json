@@ -1,6 +1,6 @@
 {
   "name": "@wzx-unreal/unreal-design",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "this is a react component lib: Unreal Design.",
   "type": "module",
   "main": "lib/unreal-design.umd.js",
