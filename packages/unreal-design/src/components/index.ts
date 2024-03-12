@@ -1,4 +1,11 @@
-export * from './Input';
+//------------------------------------------------------input
+export { default as Input } from './Input';
+export type { InputProps, InputRef } from './Input';
+//-----------------------------------------------------------
+//------------------------------------------------------checkbox
+export { default as Checkbox } from './Checkbox';
+export type { CheckboxProps, CheckboxRef } from './Checkbox';
+//-----------------------------------------------------------
 export * from './Button';
 export * from './Icon';
 export * from './ScrollArea';
