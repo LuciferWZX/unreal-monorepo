@@ -3,7 +3,9 @@ import {
   FormEventHandler,
   ForwardedRef,
   forwardRef,
+  ReactElement,
   ReactNode,
+  RefAttributes,
   useEffect,
   useMemo,
   useState,
@@ -48,13 +50,40 @@ const CheckboxGroup = forwardRef(
       ...restProps
     } = props;
     const [value, setValue] = useState<T[]>(restProps.value || defaultValue || []);
-
+    const [registeredValues, setRegisteredValues] = useState<T[]>([]);
     useEffect(() => {
       if ('value' in restProps) {
         setValue(restProps.value || []);
       }
     }, [restProps.value]);
+    const toggleOption = (option: CheckboxOptionType<T>) => {
+      const optionIndex = value.indexOf(option.value);
+      const newValue = [...value];
+      if (optionIndex === -1) {
+        newValue.push(option.value);
+      } else {
+        newValue.splice(optionIndex, 1);
+      }
+      if (!('value' in restProps)) {
+        setValue(newValue);
+      }
 
+      onChange?.(
+        newValue
+          .filter((val) => registeredValues.includes(val))
+          .sort((a, b) => {
+            const indexA = memoOptions.findIndex((opt) => opt.value === a);
+            const indexB = memoOptions.findIndex((opt) => opt.value === b);
+            return indexA - indexB;
+          })
+      );
+    };
+    const registerValue = (val: T) => {
+      setRegisteredValues((prevValues) => [...prevValues, val]);
+    };
+    const cancelValue = (val: T) => {
+      setRegisteredValues((prevValues) => prevValues.filter((v) => v !== val));
+    };
     const memoOptions = useMemo<CheckboxOptionType<T>[]>(
       () =>
         options.map<CheckboxOptionType<T>>((option) => {
@@ -76,13 +105,18 @@ const CheckboxGroup = forwardRef(
             value={option.value}
             checked={value.includes(option.value as T)}
             onChange={option.onChange}
-          />
+          >
+            {option.label}
+          </Checkbox>
         ))
       : children;
     const context: CheckboxGroupContext = {
       name: restProps.name,
       value,
       disabled: restProps.disabled,
+      toggleOption: (option) => toggleOption(option as CheckboxOptionType<T>),
+      registerValue: (v) => registerValue(v as T),
+      cancelValue: (v) => cancelValue(v as T),
     };
     return (
       <div className={className} style={style} ref={ref}>
@@ -91,4 +125,6 @@ const CheckboxGroup = forwardRef(
     );
   }
 );
-export default CheckboxGroup;
+export default CheckboxGroup as <T extends CheckboxValueType = CheckboxValueType>(
+  props: CheckboxGroupProps<T> & RefAttributes<HTMLDivElement>
+) => ReactElement;

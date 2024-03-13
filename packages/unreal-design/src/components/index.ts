@@ -5,7 +5,25 @@ export type { InputProps, InputRef } from './Input';
 //------------------------------------------------------checkbox
 export { default as Checkbox } from './Checkbox';
 export type { CheckboxProps, CheckboxRef } from './Checkbox';
-//-----------------------------------------------------------
+//-------------------------------------------------------popover
+export { default as Popover } from './Popover';
+//-------------------------------------------------------dialog
+export { default as Dialog } from './Dialog';
+//-------------------------------------------------------command
+export {
+  default as UnrealCommand,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandList,
+  CommandSeparator,
+  CommandDialog,
+  CommandItem,
+  CommandShortcut,
+} from './Command';
+
+//-------------------------------------------------------button
 export * from './Button';
 export * from './Icon';
 export * from './ScrollArea';

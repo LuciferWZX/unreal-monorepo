@@ -13,6 +13,9 @@ import ScrollAreaPage from '@/pages/unreal-design-page/scroll-area-page';
 import DropdownMenuPage from '@/pages/unreal-design-page/dropdown-menu-page';
 import InputPage from './pages/unreal-design-page/input-page';
 import CheckBoxPage from '@/pages/unreal-design-page/check-box-page';
+import PopoverPage from '@/pages/unreal-design-page/popover-page';
+import CommandPage from '@/pages/unreal-design-page/command-page';
+import DialogPage from '@/pages/unreal-design-page/dialog-page';
 
 const initialRouter = (): RouteObject[] => {
   return [
@@ -31,7 +34,7 @@ const initialRouter = (): RouteObject[] => {
               children: [
                 {
                   path: '/unreal-design',
-                  element: <Navigate to="/unreal-design/checkBox" replace />,
+                  element: <Navigate to="/unreal-design/popover" replace />,
                 },
                 {
                   path: '/unreal-design/input',
@@ -52,6 +55,18 @@ const initialRouter = (): RouteObject[] => {
                 {
                   path: '/unreal-design/scrollArea',
                   element: <ScrollAreaPage />,
+                },
+                {
+                  path: '/unreal-design/popover',
+                  element: <PopoverPage />,
+                },
+                {
+                  path: '/unreal-design/command',
+                  element: <CommandPage />,
+                },
+                {
+                  path: '/unreal-design/dialog',
+                  element: <DialogPage />,
                 },
               ],
             },

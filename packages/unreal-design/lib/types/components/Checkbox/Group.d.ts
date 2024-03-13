@@ -1,4 +1,4 @@
-import { CSSProperties, FormEventHandler, ReactNode } from 'react';
+import { CSSProperties, FormEventHandler, ReactElement, ReactNode, RefAttributes } from 'react';
 export type CheckboxValueType = string | number | boolean;
 export interface CheckboxOptionType<T extends CheckboxValueType = CheckboxValueType> {
     label: ReactNode;
@@ -20,5 +20,5 @@ export interface CheckboxGroupProps<T extends CheckboxValueType = CheckboxValueT
     className?: string;
     style?: CSSProperties;
 }
-declare const CheckboxGroup: import("react").ForwardRefExoticComponent<CheckboxGroupProps<CheckboxValueType> & import("react").RefAttributes<HTMLDivElement>>;
-export default CheckboxGroup;
+declare const _default: <T extends CheckboxValueType = CheckboxValueType>(props: CheckboxGroupProps<T> & RefAttributes<HTMLDivElement>) => ReactElement;
+export default _default;
