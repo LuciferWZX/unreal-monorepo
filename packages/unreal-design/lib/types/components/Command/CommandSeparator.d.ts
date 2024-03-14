@@ -3,7 +3,7 @@ declare const CommandSeparator: import("react").ForwardRefExoticComponent<Omit<P
     ref?: import("react").Ref<HTMLDivElement> | undefined;
 } & {
     asChild?: boolean | undefined;
-}, "key" | keyof import("react").HTMLAttributes<HTMLDivElement> | "asChild"> & {
+}, "key" | "asChild" | keyof import("react").HTMLAttributes<HTMLDivElement>> & {
     alwaysRender?: boolean | undefined;
 } & import("react").RefAttributes<HTMLDivElement>, "ref"> & import("react").RefAttributes<HTMLDivElement>>;
 export default CommandSeparator;

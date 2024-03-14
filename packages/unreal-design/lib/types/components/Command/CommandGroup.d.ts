@@ -5,7 +5,7 @@ declare const CommandGroup: import("react").ForwardRefExoticComponent<Omit<{
     ref?: import("react").Ref<HTMLDivElement> | undefined;
 } & {
     asChild?: boolean | undefined;
-}, "key" | keyof import("react").HTMLAttributes<HTMLDivElement> | "asChild">, "value" | "heading"> & {
+}, "key" | "asChild" | keyof import("react").HTMLAttributes<HTMLDivElement>>, "value" | "heading"> & {
     heading?: import("react").ReactNode;
     value?: string | undefined;
     forceMount?: boolean | undefined;

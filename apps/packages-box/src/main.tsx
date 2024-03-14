@@ -16,6 +16,9 @@ import CheckBoxPage from '@/pages/unreal-design-page/check-box-page';
 import PopoverPage from '@/pages/unreal-design-page/popover-page';
 import CommandPage from '@/pages/unreal-design-page/command-page';
 import DialogPage from '@/pages/unreal-design-page/dialog-page';
+import TooltipPage from '@/pages/unreal-design-page/tooltip-page';
+import SonnerPage from '@/pages/unreal-design-page/sonner-page';
+import ToastPage from '@/pages/unreal-design-page/toast-page';
 
 const initialRouter = (): RouteObject[] => {
   return [
@@ -67,6 +70,18 @@ const initialRouter = (): RouteObject[] => {
                 {
                   path: '/unreal-design/dialog',
                   element: <DialogPage />,
+                },
+                {
+                  path: '/unreal-design/tooltip',
+                  element: <TooltipPage />,
+                },
+                {
+                  path: '/unreal-design/sonner',
+                  element: <SonnerPage />,
+                },
+                {
+                  path: '/unreal-design/toast',
+                  element: <ToastPage />,
                 },
               ],
             },

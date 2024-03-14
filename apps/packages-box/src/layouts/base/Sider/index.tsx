@@ -29,6 +29,9 @@ const Sider: FC = () => {
           <Menu.Item key="/unreal-design/popover">popover</Menu.Item>
           <Menu.Item key="/unreal-design/command">command</Menu.Item>
           <Menu.Item key="/unreal-design/dialog">dialog</Menu.Item>
+          <Menu.Item key="/unreal-design/tooltip">tooltip</Menu.Item>
+          <Menu.Item key="/unreal-design/sonner">sonner</Menu.Item>
+          <Menu.Item key="/unreal-design/toast">toast</Menu.Item>
         </Menu.SubMenu>
         <Menu.Item key="/react-comment-input">react-comment-input</Menu.Item>
       </Menu>

@@ -3,7 +3,7 @@ declare const CommandInput: import("react").ForwardRefExoticComponent<Omit<Omit<
     ref?: import("react").Ref<HTMLInputElement> | undefined;
 } & {
     asChild?: boolean | undefined;
-}, "key" | "asChild" | keyof import("react").InputHTMLAttributes<HTMLInputElement>>, "onChange" | "value" | "type"> & {
+}, "key" | keyof import("react").InputHTMLAttributes<HTMLInputElement> | "asChild">, "type" | "onChange" | "value"> & {
     value?: string | undefined;
     onValueChange?: ((search: string) => void) | undefined;
 } & import("react").RefAttributes<HTMLInputElement>, "ref"> & import("react").RefAttributes<HTMLInputElement>>;

@@ -5,7 +5,9 @@ import RcInput, { InputProps as RcInputProps, InputRef } from 'rc-input';
 import { composeRef } from 'rc-util/lib/ref';
 import './index.less';
 import getAllowClear from '@/_util/getAllowClear';
-export interface InputProps extends RcInputProps {}
+export interface InputProps extends Omit<RcInputProps, 'onChange'> {
+  onChange?: (value: string) => void;
+}
 export type { InputRef };
 const Input = forwardRef<InputRef, InputProps>(({ className, allowClear, type, ...props }, ref) => {
   const [state, setState] = useControllableValue(props, { defaultValue: '' });
@@ -19,7 +21,7 @@ const Input = forwardRef<InputRef, InputProps>(({ className, allowClear, type, .
         input: 'placeholder:unreal-text-muted-foreground unreal-bg-transparent ',
       }}
       className={cn(
-        `unreal-flex unreal-h-9 unreal-w-full unreal-rounded-md unreal-border unreal-border-input unreal-px-3 unreal-py-1 unreal-text-sm unreal-shadow-sm unreal-transition-colors`,
+        `unreal-flex unreal-h-8 unreal-w-full unreal-rounded-md unreal-border unreal-border-input unreal-px-3 unreal-py-1 unreal-text-sm unreal-shadow-sm unreal-transition-colors`,
         `${props.disabled ? 'unreal-cursor-not-allowed unreal-opacity-50' : ''}`,
         `focus-within:unreal-outline-none focus-within:unreal-ring-1 unreal-ring-ring `,
         className

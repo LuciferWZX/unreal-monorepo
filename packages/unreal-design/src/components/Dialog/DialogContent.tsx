@@ -1,7 +1,7 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { cn } from '@/utils';
 import { Cross2Icon } from '@radix-ui/react-icons';
-import { DialogOverlay, DialogPortal } from '@/components/ui/dialog';
+
 import React, {
   cloneElement,
   ComponentPropsWithoutRef,
@@ -11,6 +11,8 @@ import React, {
   ReactElement,
   ReactNode,
 } from 'react';
+import { DialogPortal } from './Dialog';
+import DialogOverlay from './DialogOverlay';
 import { ClassNames, isNull } from '@wzx-unreal/react-hooks';
 export interface DialogContentProps
   extends ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
@@ -52,10 +54,10 @@ const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Content>, Dia
         <DialogOverlay style={overlayStyle} className={overlayClassName} onClick={onClose} />
         <DialogPrimitive.Content
           ref={ref}
-          className={cn(
+          className={ClassNames(
             // 'unreal-fixed',
             'unreal-absolute',
-            ' unreal-left-[50%] unreal-top-[50%] unreal-z-50 unreal-grid unreal-w-full unreal-max-w-lg unreal-translate-x-[-50%] unreal-translate-y-[-50%] unreal-gap-4 unreal-border unreal-bg-background unreal-p-6 unreal-shadow-lg unreal-duration-200 data-[state=open]:unreal-animate-in data-[state=closed]:unreal-animate-out data-[state=closed]:unreal-fade-out-0 data-[state=open]:unreal-fade-in-0 data-[state=closed]:unreal-zoom-out-95 data-[state=open]:unreal-zoom-in-95 data-[state=closed]:unreal-slide-out-to-left-1/2 data-[state=closed]:unreal-slide-out-to-top-[48%] data-[state=open]:unreal-slide-in-from-left-1/2 data-[state=open]:unreal-slide-in-from-top-[48%] sm:unreal-rounded-lg',
+            'unreal-left-[50%] unreal-top-[50%] unreal-z-50 unreal-grid unreal-w-full unreal-max-w-lg unreal-translate-x-[-50%] unreal-translate-y-[-50%] unreal-gap-4 unreal-border unreal-bg-background unreal-p-6 unreal-shadow-lg unreal-duration-200 data-[state=open]:unreal-animate-in data-[state=closed]:unreal-animate-out data-[state=closed]:unreal-fade-out-0 data-[state=open]:unreal-fade-in-0 data-[state=closed]:unreal-zoom-out-95 data-[state=open]:unreal-zoom-in-95 data-[state=closed]:unreal-slide-out-to-left-1/2 data-[state=closed]:unreal-slide-out-to-top-[48%] data-[state=open]:unreal-slide-in-from-left-1/2 data-[state=open]:unreal-slide-in-from-top-[48%] sm:unreal-rounded-lg',
             className
           )}
           {...props}

@@ -5,7 +5,7 @@ declare const Command: import("react").ForwardRefExoticComponent<Omit<{
     ref?: import("react").Ref<HTMLDivElement> | undefined;
 } & {
     asChild?: boolean | undefined;
-}, "key" | keyof import("react").HTMLAttributes<HTMLDivElement> | "asChild"> & {
+}, "key" | "asChild" | keyof import("react").HTMLAttributes<HTMLDivElement>> & {
     label?: string | undefined;
     shouldFilter?: boolean | undefined;
     filter?: ((value: string, search: string, keywords?: string[] | undefined) => number) | undefined;
