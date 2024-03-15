@@ -19,6 +19,8 @@ import DialogPage from '@/pages/unreal-design-page/dialog-page';
 import TooltipPage from '@/pages/unreal-design-page/tooltip-page';
 import SonnerPage from '@/pages/unreal-design-page/sonner-page';
 import ToastPage from '@/pages/unreal-design-page/toast-page';
+import RadioGroupPage from '@/pages/unreal-design-page/radio-group-page';
+import TagPage from '@/pages/unreal-design-page/tag-page';
 
 const initialRouter = (): RouteObject[] => {
   return [
@@ -82,6 +84,14 @@ const initialRouter = (): RouteObject[] => {
                 {
                   path: '/unreal-design/toast',
                   element: <ToastPage />,
+                },
+                {
+                  path: '/unreal-design/radio-group',
+                  element: <RadioGroupPage />,
+                },
+                {
+                  path: '/unreal-design/tag',
+                  element: <TagPage />,
                 },
               ],
             },

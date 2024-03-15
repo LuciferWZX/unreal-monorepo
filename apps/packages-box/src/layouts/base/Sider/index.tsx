@@ -32,6 +32,8 @@ const Sider: FC = () => {
           <Menu.Item key="/unreal-design/tooltip">tooltip</Menu.Item>
           <Menu.Item key="/unreal-design/sonner">sonner</Menu.Item>
           <Menu.Item key="/unreal-design/toast">toast</Menu.Item>
+          <Menu.Item key="/unreal-design/radio-group">radio-group</Menu.Item>
+          <Menu.Item key="/unreal-design/tag">tag</Menu.Item>
         </Menu.SubMenu>
         <Menu.Item key="/react-comment-input">react-comment-input</Menu.Item>
       </Menu>

@@ -5,7 +5,7 @@ declare const CommandList: import("react").ForwardRefExoticComponent<Omit<{
     ref?: import("react").Ref<HTMLDivElement> | undefined;
 } & {
     asChild?: boolean | undefined;
-}, "key" | keyof import("react").HTMLAttributes<HTMLDivElement> | "asChild"> & {
+}, "key" | "asChild" | keyof import("react").HTMLAttributes<HTMLDivElement>> & {
     label?: string | undefined;
 } & import("react").RefAttributes<HTMLDivElement>, "ref"> & import("react").RefAttributes<HTMLDivElement>>;
 export default CommandList;

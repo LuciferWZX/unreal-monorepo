@@ -6,11 +6,18 @@ const ToastPage: FC = () => {
   const { toast } = useToast();
   const [value, setValue] = useState<string>('');
   const send = () => {
-    toast({
+    const data = toast({
       title: 'Scheduled: Catch up ',
       description: 'Friday, February 10, 2023 at 5:57 PM',
       action: <ToastAction altText="Goto schedule to undo">Undo</ToastAction>,
     });
+    setTimeout(() => {
+      data.update({
+        id: data.id,
+        description: 'yes',
+      });
+    }, 1000);
+    console.log(111, data);
   };
   return (
     <div style={{ flex: 1, padding: 20 }}>
@@ -19,6 +26,7 @@ const ToastPage: FC = () => {
         <Button onClick={send} variant={'outline'}>
           发送
         </Button>
+
         <Button
           onClick={() => {
             toast({
@@ -59,7 +67,7 @@ const ToastPage: FC = () => {
               variant: 'destructive',
               title: 'Uh oh! Something went wrong.',
               description: 'There was a problem with your request.',
-              action: <ToastAction altText="Try again">Try again</ToastAction>,
+              action: <ToastAction altText="Try again">Try again1</ToastAction>,
             });
           }}
         >

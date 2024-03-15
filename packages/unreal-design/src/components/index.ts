@@ -36,6 +36,11 @@ export { Toaster } from './Toast';
 export { default as ToastAction } from './Toast/ToastAction';
 export { type ToastProps } from './Toast/Toast';
 export { useToast, toast } from './Toast/useToast';
+//-------------------------------------------------------radio
+export { default as RadioGroup } from './Radio';
+export type { RadioProps, RadioGroupProps } from './Radio';
+//-------------------------------------------------------badge
+export { Tag, TagVariants } from './Tag';
 //-------------------------------------------------------button
 export * from './Button';
 export * from './Icon';

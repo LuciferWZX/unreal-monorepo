@@ -9,13 +9,13 @@ const UnrealTooltip = TooltipPrimitive.Root;
 
 const UnrealTooltipTrigger = TooltipPrimitive.Trigger;
 const UnrealTooltipPortal = TooltipPrimitive.Portal;
-export interface UnrealTooltipTriggerProps
+export interface UnrealTooltipContentProps
   extends ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> {
   container?: HTMLElement | null;
 }
 const UnrealTooltipContent = forwardRef<
   ElementRef<typeof TooltipPrimitive.Content>,
-  UnrealTooltipTriggerProps
+  UnrealTooltipContentProps
 >(({ className, container, sideOffset = 4, ...props }, ref) => (
   <UnrealTooltipPortal container={container}>
     <TooltipPrimitive.Content

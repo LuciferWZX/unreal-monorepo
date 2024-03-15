@@ -5,5 +5,5 @@ declare const CommandEmpty: import("react").ForwardRefExoticComponent<Omit<{
     ref?: import("react").Ref<HTMLDivElement> | undefined;
 } & {
     asChild?: boolean | undefined;
-}, "key" | keyof import("react").HTMLAttributes<HTMLDivElement> | "asChild"> & import("react").RefAttributes<HTMLDivElement>, "ref"> & import("react").RefAttributes<HTMLDivElement>>;
+}, "key" | "asChild" | keyof import("react").HTMLAttributes<HTMLDivElement>> & import("react").RefAttributes<HTMLDivElement>, "ref"> & import("react").RefAttributes<HTMLDivElement>>;
 export default CommandEmpty;

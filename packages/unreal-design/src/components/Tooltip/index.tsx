@@ -3,13 +3,14 @@ import {
   UnrealTooltipContent,
   UnrealTooltipProvider,
   UnrealTooltipTrigger,
-  UnrealTooltipTriggerProps,
+  UnrealTooltipContentProps,
 } from './Tooltip';
-import { FC, ReactNode, useContext } from 'react';
+import { ComponentPropsWithoutRef, FC, ReactNode, useContext } from 'react';
 import './index.less';
 import { ClassNames } from '@wzx-unreal/react-hooks';
 import TooltipContext from '@/components/Tooltip/TooltipContext';
-interface TooltipProps extends UnrealTooltipTriggerProps {
+import * as TooltipPrimitive from '@radix-ui/react-tooltip';
+interface TooltipProps extends UnrealTooltipContentProps {
   children: ReactNode;
   tooltipContent?: ReactNode;
   open?: boolean;
@@ -17,6 +18,7 @@ interface TooltipProps extends UnrealTooltipTriggerProps {
   delayDuration?: number;
   matchTriggerWidth?: boolean;
   matchAvailableHeight?: boolean;
+  trigger?: ComponentPropsWithoutRef<typeof TooltipPrimitive.Trigger>;
 }
 const Tooltip: FC<TooltipProps> = (props) => {
   const {
@@ -28,6 +30,7 @@ const Tooltip: FC<TooltipProps> = (props) => {
     className,
     matchTriggerWidth,
     matchAvailableHeight,
+    trigger,
     ...restProps
   } = props;
   const context = useContext(TooltipContext);
@@ -43,7 +46,9 @@ const Tooltip: FC<TooltipProps> = (props) => {
         open={open}
         onOpenChange={onOpenChange}
       >
-        <UnrealTooltipTrigger asChild>{children}</UnrealTooltipTrigger>
+        <UnrealTooltipTrigger {...trigger} asChild={trigger?.asChild ?? true}>
+          {children}
+        </UnrealTooltipTrigger>
         <UnrealTooltipContent
           className={ClassNames(
             {
