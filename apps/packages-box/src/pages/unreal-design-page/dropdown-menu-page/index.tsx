@@ -1,20 +1,36 @@
 import { FC } from 'react';
-import {Menu,Button} from "@wzx-unreal/unreal-design";
-const {DropdownMenu,DropdownMenuSubTrigger,DropdownMenuRadioItem,DropdownMenuRadioGroup,DropdownMenuPortal,DropdownMenuSubContent,DropdownMenuTrigger,DropdownMenuContent,DropdownMenuSub,DropdownMenuItem,DropdownMenuSeparator,DropdownMenuCheckboxItem,DropdownMenuGroup,DropdownMenuShortcut,DropdownMenuLabel}=Menu
+import { Menu, Button } from '@wzx-unreal/unreal-design';
+const {
+  DropdownMenu,
+  DropdownMenuSubTrigger,
+  DropdownMenuRadioItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuPortal,
+  DropdownMenuSubContent,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuSub,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuCheckboxItem,
+  DropdownMenuGroup,
+  DropdownMenuShortcut,
+  DropdownMenuLabel,
+} = Menu;
 
-const DropdownMenuPage:FC = () => {
-  return(
-    <div style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <div style={{width:500,height:500}}>
-        <DropdownMenu >
+const DropdownMenuPage: FC = () => {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ width: 500, height: 500 }}>
+        <DropdownMenu open={true}>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">Open</Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent >
-            <DropdownMenuLabel >My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator  />
-            <DropdownMenuGroup >
-              <DropdownMenuItem >
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
                 Profile
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
@@ -50,21 +66,15 @@ const DropdownMenuPage:FC = () => {
                 <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuCheckboxItem checked={true}>
-              Checkbox item
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem >
-              Checkbox item 2
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem disabled={true}>
-              Checkbox disabled
-            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem checked={true}>Checkbox item</DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem>Checkbox item 2</DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem disabled={true}>Checkbox disabled</DropdownMenuCheckboxItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>GitHub</DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuItem disabled>API</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuRadioGroup value={"top"}>
+            <DropdownMenuRadioGroup value={'top'}>
               <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
               <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
               <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
@@ -78,6 +88,6 @@ const DropdownMenuPage:FC = () => {
         </DropdownMenu>
       </div>
     </div>
-  )
-}
-export default DropdownMenuPage
+  );
+};
+export default DropdownMenuPage;
