@@ -2,13 +2,28 @@
   "name": "@wzx-unreal/react-code-editor",
   "version": "0.0.1",
   "description": "this is react code editor",
+  "keywords": [
+    "Unreal",
+    "react",
+    "code",
+    "editor",
+    "components"
+  ],
   "type": "module",
   "main": "lib/react-code-editor.umd.js",
   "module": "lib/react-code-editor.es.js",
   "types": "lib/types/index.d.ts",
-  "keywords": [],
   "author": "",
   "license": "ISC",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LuciferWZX/unreal-monorepo/tree/master/packages/react-comment-input"
+  },
   "scripts": {
     "build": "tsc --project tsconfig.build.json && vite build ",
     "watch": "tsc --project tsconfig.build.json && vite build -w"
