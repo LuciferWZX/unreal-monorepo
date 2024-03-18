@@ -1,6 +1,6 @@
 {
   "name": "@wzx-unreal/react-code-editor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "this is react code editor",
   "keywords": [
     "Unreal",
@@ -9,6 +9,7 @@
     "editor",
     "components"
   ],
+  "files": ["lib"],
   "type": "module",
   "main": "lib/react-code-editor.umd.js",
   "module": "lib/react-code-editor.es.js",

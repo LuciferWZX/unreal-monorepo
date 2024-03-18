@@ -199,7 +199,8 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
       let beforeMatch: RegExpMatchArray | '' | undefined | null = undefined;
       for (let i = 0; i < mentions.length; i++) {
         const { trigger } = mentions[i];
-        const regex = new RegExp(`^${trigger}(\\w+)$`);
+        // const regex = new RegExp(`^${trigger}(\\w+)$`);
+        const regex = new RegExp(`^${trigger}(\\w+|[\\u4e00-\\u9fff]+)`);
         beforeMatch = beforeText && beforeText.match(regex);
         if (beforeMatch) {
           setMention(mentions[i]);
