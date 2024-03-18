@@ -80,6 +80,7 @@ export interface ReactCommentInputProps extends Omit<EditableProps, 'value' | 'o
     mentionContainer?: MentionContainerProps;
     theme?: 'dark' | 'light';
     id?: string;
+    editableStyle?: CSSProperties;
 }
 declare const ReactCommentInput: import("react").ForwardRefExoticComponent<ReactCommentInputProps & import("react").RefAttributes<ReactCommentInputRef>>;
 export default ReactCommentInput;
