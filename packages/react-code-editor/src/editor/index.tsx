@@ -113,7 +113,11 @@ const ReactCodeEditor = forwardRef<ReactCodeEditorRef, ReactCodeEditorProps>((pr
   // ]
 
   return (
-    <div className={'cm-theme' + containerClassName ?? ''} style={containerStyle} ref={editorRef} />
+    <div
+      className={'cm-theme ' + containerClassName ? containerClassName : ''}
+      style={containerStyle}
+      ref={editorRef}
+    />
     // <CodeMirror
     //   ref={editorRef}
     //   style={style}
