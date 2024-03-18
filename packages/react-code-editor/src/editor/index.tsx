@@ -1,6 +1,7 @@
 import {
   CSSProperties,
   forwardRef,
+  ReactEventHandler,
   useCallback,
   useEffect,
   useImperativeHandle,
@@ -23,6 +24,8 @@ interface BaseEditProps {
   className?: string;
   style?: CSSProperties;
   readonly?: boolean;
+  value?: string;
+  onLoad?: ReactEventHandler<HTMLDivElement>;
 }
 interface ReactCodeEditorProps extends BaseEditProps {
   completions?: Completion[];
@@ -46,8 +49,9 @@ const ReactCodeEditor = forwardRef<ReactCodeEditorRef, ReactCodeEditorProps>((pr
     className,
     completions,
     language,
+    onLoad,
   } = props;
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(props.value);
   const editorRef = useRef<HTMLDivElement>(null);
   const onChange = useCallback((val: string) => {
     setValue(val);
@@ -79,9 +83,7 @@ const ReactCodeEditor = forwardRef<ReactCodeEditorRef, ReactCodeEditorProps>((pr
     basicSetup: {
       syntaxHighlighting: true,
     },
-    onLoad: (editor) => {
-      console.log('editor:', editor);
-    },
+    onLoad: onLoad,
     onChange: onChange,
   });
   useEffect(() => {
