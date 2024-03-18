@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import CodeMirror, { EditorState, ReactCodeMirrorRef } from '@uiw/react-codemirror';
+import { EditorState } from '@uiw/react-codemirror';
 import * as editorTheme from '@uiw/codemirror-themes-all';
 import { MirrorUtils } from '@/utils/MirrorUtils';
 import { Completion } from '@codemirror/autocomplete';
@@ -23,6 +23,8 @@ interface BaseEditProps {
   maxHeight?: string;
   className?: string;
   style?: CSSProperties;
+  containerStyle?: CSSProperties;
+  containerClassName?: string;
   readonly?: boolean;
   value?: string;
   onLoad?: ReactEventHandler<HTMLDivElement>;
@@ -50,6 +52,8 @@ const ReactCodeEditor = forwardRef<ReactCodeEditorRef, ReactCodeEditorProps>((pr
     completions,
     language,
     onLoad,
+    containerClassName,
+    containerStyle,
   } = props;
   const [value, setValue] = useState(props.value);
   const editorRef = useRef<HTMLDivElement>(null);
@@ -109,7 +113,7 @@ const ReactCodeEditor = forwardRef<ReactCodeEditorRef, ReactCodeEditorProps>((pr
   // ]
 
   return (
-    <div ref={editorRef} />
+    <div className={'cm-theme' + containerClassName ?? ''} style={containerStyle} ref={editorRef} />
     // <CodeMirror
     //   ref={editorRef}
     //   style={style}
