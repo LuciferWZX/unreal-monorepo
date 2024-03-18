@@ -101,6 +101,7 @@ export interface ReactCommentInputProps
   mentionContainer?: MentionContainerProps;
   theme?: 'dark' | 'light';
   id?: string;
+  editableStyle?: CSSProperties;
 }
 const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProps>((props, ref) => {
   const basicProps = useReactCommentInputStore(useShallow((state) => state.basicProps));
@@ -121,6 +122,7 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
     mentionContainer,
     id,
     onKeyDown,
+    style,
     ...editableProps
   } = props;
   const boxRef = useRef<HTMLDivElement>(null);
@@ -241,7 +243,7 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
     >
       {popMenu}
       <div
-        style={{ ...(colorSchema as Record<string, any>) }}
+        style={{ ...(colorSchema as Record<string, any>), ...style }}
         ref={boxRef}
         className={classNames}
         id={id}
@@ -263,7 +265,7 @@ const ReactCommentInput = forwardRef<ReactCommentInputRef, ReactCommentInputProp
           {...editableProps}
           style={{
             wordBreak: 'break-all',
-            ...editableProps.style,
+            ...editableProps.editableStyle,
           }}
         />
       </div>
