@@ -27,6 +27,7 @@ interface BaseEditProps {
   containerClassName?: string;
   readonly?: boolean;
   value?: string;
+  onChange?: (text: string) => void;
   onLoad?: ReactEventHandler<HTMLDivElement>;
 }
 interface ReactCodeEditorProps extends BaseEditProps {
@@ -57,9 +58,13 @@ const ReactCodeEditor = forwardRef<ReactCodeEditorRef, ReactCodeEditorProps>((pr
   } = props;
   const [value, setValue] = useState(props.value);
   const editorRef = useRef<HTMLDivElement>(null);
-  const onChange = useCallback((val: string) => {
-    setValue(val);
-  }, []);
+  const onChange = useCallback(
+    (val: string) => {
+      setValue(val);
+      props.onChange?.(val);
+    },
+    [props]
+  );
   const getPropsTheme = useMemo(() => {
     if (!theme) {
       return undefined;
