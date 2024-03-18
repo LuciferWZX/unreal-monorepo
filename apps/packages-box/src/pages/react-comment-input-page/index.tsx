@@ -13,6 +13,7 @@ import { Button, Dropdown, Menu, Space } from '@arco-design/web-react';
 import BookNode, { BookElement } from '@/pages/react-comment-input-page/Nodes/book';
 import NumberUtils from '@/utils/number.ts';
 import { delay } from '@wzx-unreal/react-hooks';
+import { ReactCodeEditor } from '@wzx-unreal/react-code-editor';
 
 const ReactCommentInputPage: FC = () => {
   const [html, setHtml] = useState<string | undefined>('');
@@ -80,6 +81,19 @@ const ReactCommentInputPage: FC = () => {
   console.log('html:', html);
   return (
     <div className={styles.box}>
+      <div style={{ width: 500 }}>
+        <ReactCodeEditor
+          language={'tsx'}
+          theme={'dark'}
+          completions={[
+            { label: 'match', type: 'keyword' },
+            { label: 'hello', type: 'variable', info: '(文本)' },
+            { label: 'magic', type: 'text', apply: '⠁⭒*.✩.*⭒⠁', detail: 'macro' },
+          ]}
+          style={{ height: '100%' }}
+          height={'100%'}
+        />
+      </div>
       <div className={styles.previewBox}>
         预览组件:
         <PreviewCommentInput

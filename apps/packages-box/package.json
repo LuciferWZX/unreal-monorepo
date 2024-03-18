@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@arco-design/web-react": "^2.60.2",
+    "@wzx-unreal/react-code-editor": "workspace:^",
     "@wzx-unreal/react-comment-input": "workspace:^",
     "@wzx-unreal/react-hooks": "workspace:^",
     "@wzx-unreal/unreal-design": "workspace:^",

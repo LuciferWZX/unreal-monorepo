@@ -2,6 +2,7 @@ import {
   CSSProperties,
   forwardRef,
   useCallback,
+  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -47,30 +48,10 @@ const ReactCodeEditor = forwardRef<ReactCodeEditorRef, ReactCodeEditorProps>((pr
     language,
   } = props;
   const [value, setValue] = useState('');
-  const editorRef = useRef<ReactCodeMirrorRef>(null);
-  const { state, view } = useCodeMirror({
-    container: editorRef.current?.editor,
-  });
-  useImperativeHandle(
-    ref,
-    () => {
-      return {
-        editor: editorRef.current?.editor,
-        state: state,
-        view: view,
-      };
-    },
-    [editorRef, view, state]
-  );
+  const editorRef = useRef<HTMLDivElement>(null);
   const onChange = useCallback((val: string) => {
     setValue(val);
   }, []);
-
-  // options: [
-  //     {label: "match", type: "keyword"},
-  //     {label: "hello", type: "variable", info: "(文本)"},
-  //     {label: "magic", type: "text", apply: "⠁⭒*.✩.*⭒⠁", detail: "macro"}
-  // ]
   const getPropsTheme = useMemo(() => {
     if (!theme) {
       return undefined;
@@ -80,30 +61,76 @@ const ReactCodeEditor = forwardRef<ReactCodeEditorRef, ReactCodeEditorProps>((pr
     }
     return editorTheme[theme];
   }, [theme]);
+  const { state, view, setContainer } = useCodeMirror({
+    container: editorRef.current,
+    style: style,
+    className: className,
+    height: height,
+    width: width,
+    maxHeight: maxHeight,
+    maxWidth: maxWidth,
+    readOnly: readonly,
+    theme: getPropsTheme,
+    value: value,
+    extensions: [
+      EditorState.languageData.of(() => [{ autocomplete: completions }]),
+      MirrorUtils.getLangs(language ?? 'textile'),
+    ],
+    basicSetup: {
+      syntaxHighlighting: true,
+    },
+    onLoad: (editor) => {
+      console.log('editor:', editor);
+    },
+    onChange: onChange,
+  });
+  useEffect(() => {
+    if (editorRef.current) {
+      setContainer(editorRef.current);
+    }
+  }, [editorRef.current]);
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        state: state,
+        view: view,
+      };
+    },
+    [view, state]
+  );
+
+  // options: [
+  //     {label: "match", type: "keyword"},
+  //     {label: "hello", type: "variable", info: "(文本)"},
+  //     {label: "magic", type: "text", apply: "⠁⭒*.✩.*⭒⠁", detail: "macro"}
+  // ]
+
   return (
-    <CodeMirror
-      ref={editorRef}
-      style={style}
-      className={className}
-      height={height}
-      width={width}
-      maxHeight={maxHeight}
-      maxWidth={maxWidth}
-      readOnly={readonly}
-      theme={getPropsTheme}
-      value={value}
-      extensions={[
-        EditorState.languageData.of(() => [{ autocomplete: completions }]),
-        MirrorUtils.getLangs(language ?? 'textile'),
-      ]}
-      basicSetup={{
-        syntaxHighlighting: true,
-      }}
-      onLoad={(editor) => {
-        console.log('editor:', editor);
-      }}
-      onChange={onChange}
-    />
+    <div ref={editorRef} />
+    // <CodeMirror
+    //   ref={editorRef}
+    //   style={style}
+    //   className={className}
+    //   height={height}
+    //   width={width}
+    //   maxHeight={maxHeight}
+    //   maxWidth={maxWidth}
+    //   readOnly={readonly}
+    //   theme={getPropsTheme}
+    //   value={value}
+    //   extensions={[
+    //     EditorState.languageData.of(() => [{ autocomplete: completions }]),
+    //     MirrorUtils.getLangs(language ?? 'textile'),
+    //   ]}
+    //   basicSetup={{
+    //     syntaxHighlighting: true,
+    //   }}
+    //   onLoad={(editor) => {
+    //     console.log('editor:', editor);
+    //   }}
+    //   onChange={onChange}
+    // />
   );
 });
 export default ReactCodeEditor;

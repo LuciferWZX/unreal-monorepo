@@ -33,6 +33,9 @@ importers:
       '@arco-design/web-react':
         specifier: ^2.60.2
         version: 2.60.2(@types/react@18.2.62)(react-dom@18.2.0)(react@18.2.0)
+      '@wzx-unreal/react-code-editor':
+        specifier: workspace:^
+        version: link:../../packages/react-code-editor
       '@wzx-unreal/react-comment-input':
         specifier: workspace:^
         version: link:../../packages/react-comment-input
