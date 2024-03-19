@@ -56,15 +56,16 @@ const ReactCodeEditor = forwardRef<ReactCodeEditorRef, ReactCodeEditorProps>((pr
     containerClassName,
     containerStyle,
   } = props;
-  const [value, setValue] = useState(props.value);
+  // const [value, setValue] = useState(props.value);
   const editorRef = useRef<HTMLDivElement>(null);
-  const onChange = useCallback(
-    (val: string) => {
-      setValue(val);
-      props.onChange?.(val);
-    },
-    [props]
-  );
+  // const onChange = useCallback(
+  //   (val: string) => {
+  //     setValue(val);
+  //     props.onChange?.(val);
+  //   },
+  //   [props]
+  // );
+  useEffect(() => {}, []);
   const getPropsTheme = useMemo(() => {
     if (!theme) {
       return undefined;
@@ -84,7 +85,7 @@ const ReactCodeEditor = forwardRef<ReactCodeEditorRef, ReactCodeEditorProps>((pr
     maxWidth: maxWidth,
     readOnly: readonly,
     theme: getPropsTheme,
-    value: value,
+    value: props.value,
     extensions: [
       EditorState.languageData.of(() => [{ autocomplete: completions }]),
       MirrorUtils.getLangs(language ?? 'textile'),
@@ -93,7 +94,7 @@ const ReactCodeEditor = forwardRef<ReactCodeEditorRef, ReactCodeEditorProps>((pr
       syntaxHighlighting: true,
     },
     onLoad: onLoad,
-    onChange: onChange,
+    onChange: props.onChange,
   });
   useEffect(() => {
     if (editorRef.current) {
