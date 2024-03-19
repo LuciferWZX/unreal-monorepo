@@ -86,6 +86,7 @@ const ReactCodeEditor = forwardRef<ReactCodeEditorRef, ReactCodeEditorProps>((pr
     readOnly: readonly,
     theme: getPropsTheme,
     value: props.value,
+    editable: !readonly,
     extensions: [
       EditorState.languageData.of(() => [{ autocomplete: completions }]),
       MirrorUtils.getLangs(language ?? 'textile'),
