@@ -21,6 +21,7 @@ import SonnerPage from '@/pages/unreal-design-page/sonner-page';
 import ToastPage from '@/pages/unreal-design-page/toast-page';
 import RadioGroupPage from '@/pages/unreal-design-page/radio-group-page';
 import TagPage from '@/pages/unreal-design-page/tag-page';
+import JbDesginPage from './pages/jb-desgin';
 
 const initialRouter = (): RouteObject[] => {
   return [
@@ -32,7 +33,12 @@ const initialRouter = (): RouteObject[] => {
           path: '',
           element: <BaseLayout />,
           children: [
-            { path: '', element: <Navigate to="/unreal-design" replace /> },
+            { path: '', element: <Navigate to="/jb-design" replace /> },
+            {
+              path: '/jb-design',
+              element: <JbDesginPage />,
+              // children: [],
+            },
             {
               path: '/unreal-design',
               element: <UnrealDesignPage />,

@@ -1,0 +1,30 @@
+.jb-button{
+  @apply jb-rounded-[--app-radius] jb-h-[28px] jb-p-[6px_15px] jb-text-[--default-size] jb-font-[--default-weight-semibold] jb-leading-[--default-line-height];
+  @apply dark:jb-text-[--dark-gray-12];
+  @apply focus:jb-outline focus:jb-outline-[2px] focus:jb-outline-offset-0 focus:jb-outline-[--blue-4];
+  @apply dark:focus:jb-outline dark:focus:jb-outline-[2px] dark:focus:jb-outline-offset-0 dark:focus:jb-outline-[--dark-blue-4];
+
+}
+.jb-button-secondary{
+  @apply jb-border-[1px] jb-border-[--gray-9] jb-text-[--gray-1] jb-bg-[--gray-14] ;
+  @apply hover:jb-border-[--gray-8];
+  @apply active:jb-border-[--gray-7] active:jb-bg-[--gray-13];
+  @apply dark:jb-bg-[unset] dark:jb-border-[--dark-gray-5] dark:hover:jb-border-[--dark-gray-7] dark:active:jb-bg-[--dark-gray-2];
+  @apply focus:jb-border-[transparent] dark:focus:jb-border-[transparent];
+}
+.jb-button-primary{
+  @apply jb-border-[1px] jb-border-[--blue-4] jb-text-[--gray-14] jb-bg-[--blue-4] ;
+  @apply hover:jb-border-[--blue-3] hover:jb-bg-[--blue-3];
+  @apply active:jb-border-[--blue-2] active:jb-bg-[--blue-2];
+  @apply focus:jb-outline-offset-[1px] dark:focus:jb-outline-offset-[1px];
+
+  @apply dark:jb-bg-[--dark-blue-6] dark:jb-border-[--dark-blue-6];
+  @apply dark:hover:jb-border-[--dark-blue-5] dark:hover:jb-bg-[--dark-blue-5];
+  @apply dark:focus:jb-bg-[--dark-blue-6] dark:focus:jb-border-[--dark-blue-6];
+  @apply dark:active:jb-bg-[--dark-blue-4] dark:active:jb-border-[--dark-blue-4];
+
+}
+.jb-button-disabled{
+  @apply disabled:jb-bg-[--gray-12] disabled:jb-text-[--gray-8] disabled:jb-border-[--gray-12] disabled:jb-cursor-not-allowed;
+  @apply dark:disabled:jb-bg-[--dark-gray-5] dark:disabled:jb-text-[--dark-gray-8] dark:disabled:jb-border-[--dark-gray-5] ;
+}

@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @import 'styles/light_color.less';
+  @import 'styles/dark_color.less';
+}
+
+@layer base {
+  * {
+    @apply jb-border-border;
+  }
+  body {
+    @apply jb-bg-background jb-text-foreground;
+  }
+}

@@ -20,6 +20,9 @@ const Sider: FC = () => {
         autoOpen
         style={{ width: '100%', height: '100%' }}
       >
+        <Menu.SubMenu key="/jb-design" title={'jb-design'}>
+          JB-DESIGN
+        </Menu.SubMenu>
         <Menu.SubMenu key="/unreal-design" title={'unreal-design'}>
           <Menu.Item key="/unreal-design/input">input</Menu.Item>
           <Menu.Item key="/unreal-design/button">button</Menu.Item>
