@@ -15,7 +15,7 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src","declare.d.ts"],
   "exclude": ["node_modules","lib"],
 
   "references": [{

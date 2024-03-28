@@ -6,7 +6,8 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-    './styles/**/*.css',
+    './src/*.{less}',
+    './styles/**/*.{css,less}',
   ],
   prefix: 'jb-',
   theme: {
@@ -54,7 +55,7 @@ module.exports = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        foreground: 'var(--gray-1)',
         // primary: {
         //   DEFAULT: 'hsl(var(--primary))',
         //   foreground: 'hsl(var(--primary-foreground))',

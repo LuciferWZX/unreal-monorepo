@@ -1,30 +1,101 @@
 .jb-button{
-  @apply jb-rounded-[--app-radius] jb-h-[28px] jb-p-[6px_15px] jb-text-[--default-size] jb-font-[--default-weight-semibold] jb-leading-[--default-line-height];
-  @apply dark:jb-text-[--dark-gray-12];
+  @apply jb-rounded-[--app-radius] jb-h-[28px] jb-p-[5px_14px] jb-text-[--default-size] jb-font-[--default-weight-semibold] jb-leading-[--default-line-height];
+  @apply dark:jb-text-[--gray-12];
   @apply focus:jb-outline focus:jb-outline-[2px] focus:jb-outline-offset-0 focus:jb-outline-[--blue-4];
-  @apply dark:focus:jb-outline dark:focus:jb-outline-[2px] dark:focus:jb-outline-offset-0 dark:focus:jb-outline-[--dark-blue-4];
+
+  /*@apply dark:focus:jb-outline dark:focus:jb-outline-[2px] dark:focus:jb-outline-offset-0 dark:focus:jb-outline-[--blue-4];*/
+  @apply active:jb-outline-none;
 
 }
 .jb-button-secondary{
   @apply jb-border-[1px] jb-border-[--gray-9] jb-text-[--gray-1] jb-bg-[--gray-14] ;
-  @apply hover:jb-border-[--gray-8];
-  @apply active:jb-border-[--gray-7] active:jb-bg-[--gray-13];
-  @apply dark:jb-bg-[unset] dark:jb-border-[--dark-gray-5] dark:hover:jb-border-[--dark-gray-7] dark:active:jb-bg-[--dark-gray-2];
+  @apply dark:jb-bg-[unset] dark:jb-border-[--gray-5]  ;
+  @apply hover:jb-border-[--gray-8] dark:hover:jb-border-[--gray-7];
   @apply focus:jb-border-[transparent] dark:focus:jb-border-[transparent];
+  @apply active:jb-border-[--gray-7] active:jb-bg-[--gray-13] dark:active:jb-bg-[--gray-2] dark:active:jb-border-[--gray-7];
+
+
 }
 .jb-button-primary{
   @apply jb-border-[1px] jb-border-[--blue-4] jb-text-[--gray-14] jb-bg-[--blue-4] ;
-  @apply hover:jb-border-[--blue-3] hover:jb-bg-[--blue-3];
-  @apply active:jb-border-[--blue-2] active:jb-bg-[--blue-2];
-  @apply focus:jb-outline-offset-[1px] dark:focus:jb-outline-offset-[1px];
-
-  @apply dark:jb-bg-[--dark-blue-6] dark:jb-border-[--dark-blue-6];
-  @apply dark:hover:jb-border-[--dark-blue-5] dark:hover:jb-bg-[--dark-blue-5];
-  @apply dark:focus:jb-bg-[--dark-blue-6] dark:focus:jb-border-[--dark-blue-6];
-  @apply dark:active:jb-bg-[--dark-blue-4] dark:active:jb-border-[--dark-blue-4];
-
+  @apply dark:jb-bg-[--blue-6] dark:jb-border-[--blue-6]  ;
+  @apply hover:jb-border-[--blue-3] hover:jb-bg-[--blue-3] dark:hover:jb-border-[--blue-5] dark:hover:jb-bg-[--blue-5] ;
+  @apply focus:jb-border-[--blue-4] focus:jb-bg-[--blue-4] focus:jb-outline-offset-1 dark:focus:jb-border-[--blue-6] dark:focus:jb-bg-[--blue-6] dark:focus:jb-outline-[--blue-6];
+  @apply active:jb-border-[--blue-2] active:jb-bg-[--blue-2] dark:active:jb-border-[--blue-4] dark:active:jb-bg-[--blue-4] dark:active:jb-outline-none;
+}
+.jb-button-slim{
+  @apply jb-h-[24px] jb-p-[3px_14px];
+  @apply dark:hover:jb-border-[--gray-7] dark:hover:jb-text-[--gray-13];
+  @apply dark:focus:jb-border-[transparent];
+  @apply dark:active:jb-border-[--gray-5] dark:active:jb-text-[--gray-12];
 }
 .jb-button-disabled{
   @apply disabled:jb-bg-[--gray-12] disabled:jb-text-[--gray-8] disabled:jb-border-[--gray-12] disabled:jb-cursor-not-allowed;
-  @apply dark:disabled:jb-bg-[--dark-gray-5] dark:disabled:jb-text-[--dark-gray-8] dark:disabled:jb-border-[--dark-gray-5] ;
+  @apply dark:disabled:jb-bg-[--gray-5] dark:disabled:jb-text-[--gray-8] dark:disabled:jb-border-[--gray-5] ;
+}
+.jb-button-slim{
+  @apply dark:disabled:jb-bg-[transparent] dark:disabled:jb-text-[--gray-12] dark:disabled:jb-border-[--gray-5];
+}
+.jb-button-split{
+  @apply jb-p-0 jb-inline-flex;
+}
+.jb-button-split-children{
+  @apply jb-p-[5px_14px] jb-h-full;
+}
+.jb-button-split-action{
+  @apply jb-p-[6px] jb-h-full;
+}
+
+/**
+icon
+ */
+.jb-button-split-icon{
+  @apply jb-h-[16px] jb-w-[16px] jb-text-[--gray-7] ;
+
+}
+
+.jb-button:disabled .jb-button-split-icon{
+  @apply jb-text-[--gray-9] dark:jb-text-[--gray-7];
+}
+.jb-button-primary-split-action .jb-button-split-icon{
+  @apply jb-text-[--gray-14] dark:jb-text-[--gray-14];
+}
+/**
+分割线
+ */
+.jb-button-split-divider{
+  @apply jb-h-full jb-w-[1px] ;
+}
+.jb-button-secondary-split-divider{
+  @apply jb-bg-[--gray-9] dark:jb-bg-[--gray-5];
+}
+.jb-button:hover .jb-button-secondary-split-divider{
+  @apply jb-bg-[--gray-8] dark:jb-bg-[--gray-7];
+}
+.jb-button:focus .jb-button-secondary-split-divider{
+  @apply jb-bg-[--gray-8] dark:jb-bg-[--gray-5];
+}
+.jb-button:active .jb-button-secondary-split-divider{
+  @apply jb-bg-[--gray-7] dark:jb-bg-[--gray-7];
+}
+.jb-button:disabled .jb-button-secondary-split-divider{
+  @apply jb-bg-[--gray-11] dark:jb-bg-[--gray-6];
+}
+
+
+.jb-button-primary-split-divider{
+  height: calc(100% - 8px);
+  @apply jb-my-[4px] jb-bg-[--blue-7] dark:jb-bg-[--blue-9];
+}
+.jb-button:hover .jb-button-primary-split-divider{
+  @apply jb-bg-[--blue-7] dark:jb-bg-[--blue-9];
+}
+.jb-button:focus .jb-button-primary-split-divider{
+  @apply jb-bg-[--blue-7] dark:jb-bg-[--blue-9];
+}
+.jb-button:active .jb-button-primary-split-divider{
+  @apply jb-bg-[--blue-7] dark:jb-bg-[--blue-9];
+}
+.jb-button:disabled .jb-button-primary-split-divider{
+  @apply jb-bg-[--gray-11] dark:jb-bg-[--gray-6] jb-h-full jb-my-0;
 }

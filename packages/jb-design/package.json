@@ -35,7 +35,10 @@
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.2.1",
+    "antd": "^5.13.3",
     "clsx": "^2.1.0",
+    "lucide-react": "^0.363.0",
+    "rc-dialog": "^9.4.0",
     "tailwind-merge": "^2.2.1",
     "ts-node": "^10.9.2",
     "vite": "^5.0.12",
