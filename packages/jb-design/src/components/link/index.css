@@ -1,0 +1,12 @@
+.jb-link{
+    font-size: var(--default-size);
+    @apply jb-inline-flex jb-items-center jb-leading-[--default-line-height] jb-font-[--default-weight] jb-cursor-pointer hover:jb-underline jb-underline-offset-4;
+
+    @apply jb-text-[--blue-2] dark:jb-text-[--blue-9];
+
+    @apply aria-[disabled=true]:jb-cursor-not-allowed aria-[disabled=true]:jb-no-underline;
+    @apply aria-[disabled=true]:jb-text-[--gray-8] dark:aria-[disabled=true]:jb-text-[--gray-7] aria-[disabled=true]:jb-select-none;
+}
+.jb-link-suffix-icon{
+    @apply jb-h-[16px] jb-w-[16px] jb-flex jb-items-center jb-justify-center;
+}

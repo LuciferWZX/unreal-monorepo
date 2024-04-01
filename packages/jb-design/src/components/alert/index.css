@@ -1,7 +1,12 @@
 .rc-dialog {
     position: relative;
     width: auto;
-    margin: 10px;
+    margin: 30px auto;
+
+}
+.jb-alert-centered{
+    @apply jb-top-[50%] jb-translate-y-[-50%] jb-m-auto;
+
 }
 .rc-dialog-wrap {
     position: fixed;
@@ -24,13 +29,16 @@
     /*font-weight: bold;*/
 }
 .rc-dialog-content {
-    @apply jb-bg-clip-padding jb-relative jb-border-[1px] jb-border-[--gray-10] jb-rounded-[--app-radius] jb-bg-[--gray-13] jb-shadow-lg jb-p-[20px] jb-pl-[60px];
+    @apply jb-bg-clip-padding jb-relative jb-border-[1px] jb-border-[--gray-10] jb-rounded-[--app-modal-radius] jb-bg-[--gray-13] jb-shadow-lg jb-p-[20px] jb-pl-[60px];
     @apply dark:jb-bg-[--gray-2] dark:jb-border-[--gray-4] ;
     /*position: relative;*/
     /*background-color: #ffffff;*/
     /*border: none;*/
     /*border-radius: 6px 6px;*/
     /*background-clip: padding-box;*/
+}
+.jb-alert-content-no-icon{
+    @apply jb-pl-[20px];
 }
 .jb-alert-icon{
     @apply jb-absolute jb-left-[20px] jb-top-[20px] jb-w-[28px] jb-h-[28px] jb-text-[28px];
@@ -73,11 +81,11 @@
    @apply dark:jb-text-[--gray-12];
 }
 .rc-dialog-footer {
-    @apply jb-py-[6px] jb-mt-[12px];
+    @apply jb-py-[6px] jb-mt-[12px] ;
     /*border-top: 1px solid #e9e9e9;*/
     /*padding: 10px 20px;*/
     text-align: right;
-    border-radius: 0 0 5px 5px;
+    /*border-radius: 0 0 5px 5px;*/
 }
 .rc-dialog-zoom-enter,
 .rc-dialog-zoom-appear {
@@ -124,7 +132,7 @@
 @media (min-width: 768px) {
     .rc-dialog {
         width: 600px;
-        margin: 30px auto;
+        /*margin: 30px auto;*/
     }
 }
 .rc-dialog-mask {

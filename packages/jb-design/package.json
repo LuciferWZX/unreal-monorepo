@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.2.1",
+    "ahooks": "^3.7.10",
     "antd": "^5.13.3",
     "clsx": "^2.1.0",
     "lucide-react": "^0.363.0",

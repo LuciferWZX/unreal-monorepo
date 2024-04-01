@@ -1,14 +1,14 @@
-import { Button, useTheme, Alert } from '@wzx-unreal/jb-design';
+import { Button, useTheme, Alert, Input, Link } from '@wzx-unreal/jb-design';
 import { useState } from 'react';
 
 const ButtonPage = () => {
   const { theme, setTheme } = useTheme();
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
   return (
     <div
       style={{
         padding: 20,
-        background: theme === 'dark' ? '#000' : '#fff',
+        background: theme === 'dark' ? '#2B2D30' : '#fff',
         width: '100vw',
         height: '100vh',
       }}
@@ -16,7 +16,6 @@ const ButtonPage = () => {
       <Button
         onClick={() => {
           if (theme === 'system') {
-            console.log(111);
             setTheme('dark');
           } else {
             setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -25,6 +24,35 @@ const ButtonPage = () => {
       >
         切换
       </Button>
+      <div style={{ margin: '40px 0' }}></div>
+      <div>
+        <Link
+          onClick={() => {
+            console.log(1);
+          }}
+          suffix={[{ type: 'arrow-top-right', key: '1' }]}
+          style={{ marginRight: '30px' }}
+        >
+          Link to the web
+        </Link>
+        <Link
+          onClick={() => {
+            console.log(2);
+          }}
+          style={{ marginRight: '30px' }}
+        >
+          Link with options
+        </Link>
+        <Link
+          onClick={() => {
+            console.log(3);
+          }}
+          suffix={[{ type: 'arrow-top-right', key: '1' }]}
+          disabled={true}
+        >
+          disabled
+        </Link>
+      </div>
       <div style={{ margin: '40px 0' }}></div>
       <div>
         <Button style={{ marginRight: '10px' }}>Button</Button>
@@ -84,9 +112,112 @@ const ButtonPage = () => {
       </div>
       <div style={{ margin: '40px 0' }}>
         <Button onClick={() => setOpen(true)}>打开</Button>
-        <Alert title={'我是弹出'} visible={open} onClose={() => setOpen(false)}>
+        <Alert type={'question'} title={'我是弹出'} open={open} onClose={() => setOpen(false)}>
           我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容
         </Alert>
+      </div>
+      <div style={{ margin: '40px 0' }}>
+        <Input placeholder={'请输入'} style={{ marginRight: '10px' }} />
+        <Input placeholder={'error'} aria-invalid={'true'} style={{ marginRight: '10px' }} />
+        <Input
+          value={'this is disabled'}
+          placeholder={'请输入'}
+          disabled={true}
+          style={{ marginRight: '10px' }}
+        />
+        <Input
+          placeholder={'error'}
+          aria-invalid={'true'}
+          value={'this is disabled error'}
+          disabled={true}
+          style={{ marginRight: '10px' }}
+        />
+        <Input
+          suffix={[
+            {
+              type: 'folder',
+              disabled: true,
+              key: '1',
+              onClick: () => {
+                console.log(1);
+              },
+            },
+            {
+              type: 'folder',
+              key: '2',
+              onClick: () => {
+                console.log(2);
+              },
+            },
+          ]}
+          placeholder={'请输入'}
+          style={{ marginRight: '10px' }}
+        />
+        <Input
+          disabled={true}
+          suffix={[
+            {
+              type: 'folder',
+              key: '1',
+              onClick: () => {
+                console.log(1);
+              },
+            },
+            {
+              type: 'expand',
+              key: '2',
+              onClick: () => {
+                console.log(2);
+              },
+            },
+          ]}
+          value={'disabled value'}
+          placeholder={'请输入'}
+          style={{ marginRight: '10px' }}
+        />
+        <Input
+          suffix={[
+            {
+              type: 'folder',
+              key: '1',
+              onClick: () => {
+                console.log(1);
+              },
+            },
+            {
+              type: 'expand',
+              key: '2',
+              onClick: () => {
+                console.log(2);
+              },
+            },
+          ]}
+          placeholder={'请输入'}
+          style={{ marginRight: '10px' }}
+          aria-invalid={'true'}
+        />
+        <Input
+          block={true}
+          suffix={[
+            {
+              type: 'folder',
+              disabled: true,
+              key: '1',
+              onClick: () => {
+                console.log(1);
+              },
+            },
+            {
+              type: 'folder',
+              key: '2',
+              onClick: () => {
+                console.log(2);
+              },
+            },
+          ]}
+          placeholder={'请输入'}
+          style={{ marginRight: '10px' }}
+        />
       </div>
     </div>
   );

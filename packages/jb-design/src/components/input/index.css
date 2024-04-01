@@ -1,0 +1,56 @@
+.jb-input{
+    font-size: var(--default-size);
+    /**
+    base
+     */
+    @apply jb-outline-offset-[-1px] jb-box-border jb-border-[1px] jb-rounded-[--app-radius] jb-p-[5px_8px] jb-leading-[--default-line-height] jb-font-[--default-weight] jb-outline-none;
+    @apply disabled:jb-outline-0 disabled:jb-cursor-not-allowed;
+    @apply disabled:jb-border-[--gray-11] disabled:jb-text-[--gray-8] disabled:jb-bg-[--gray-13];
+}
+.jb-input-base-colors{
+    /**
+   light
+    */
+    @apply jb-bg-[--gray-14] jb-border-[--gray-9] jb-text-[--gray-1];
+    @apply focus:jb-outline-[--blue-4];
+    @apply aria-[invalid="true"]:jb-outline-[--red-9] focus:aria-[invalid="true"]:jb-outline-[--red-4];
+
+    /**
+    dark
+     */
+    @apply dark:jb-bg-[--gray-2] dark:jb-border-[--gray-5] dark:jb-text-[--gray-12];
+    @apply dark:focus:jb-outline-[--blue-6];
+    @apply dark:aria-[invalid="true"]:jb-outline-[--red-2] dark:focus:aria-[invalid="true"]:jb-outline-[--red-6];
+    /**
+    disabled
+     */
+    @apply dark:disabled:jb-border-[--gray-5] dark:disabled:jb-text-[--gray-7];
+}
+.jb-input-box{
+
+    @apply jb-inline-flex;
+
+    @apply has-[input:focus]:jb-outline-[--blue-4] dark:has-[input:focus]:jb-outline-[--blue-6];
+    @apply aria-[invalid="true"]:jb-outline-[--red-9] has-[input:focus]:aria-[invalid="true"]:jb-outline-[--red-4];
+    @apply dark:aria-[invalid="true"]:jb-outline-[--red-2] dark:has-[input:focus]:aria-[invalid="true"]:jb-outline-[--red-6];
+
+
+
+    @apply has-[input:disabled]:jb-outline-0 has-[input:disabled]:jb-cursor-not-allowed ;
+    @apply has-[input:disabled]:jb-border-[--gray-11] has-[input:disabled]:jb-text-[--gray-8] has-[input:disabled]:jb-bg-[--gray-13];
+
+    @apply dark:has-[input:disabled]:jb-border-[--gray-5] dark:has-[input:disabled]:jb-text-[--gray-7] dark:has-[input:disabled]:jb-bg-[--gray-2] ;
+
+}
+.jb-input-box .jb-input-in-box{
+    @apply jb-flex-1 jb-truncate jb-mr-[8px] jb-outline-0 jb-bg-transparent disabled:jb-text-[--gray-8] disabled:jb-cursor-not-allowed jb-outline-none;
+}
+.jb-suffix-icon{
+    @apply jb-cursor-pointer jb-select-none jb-text-[--gray-8] jb-h-[16px] jb-w-[16px] jb-text-[16px];
+    @apply hover:jb-text-[--gray-5] aria-[disabled=true]:jb-cursor-not-allowed;
+    @apply aria-[disabled=true]:jb-text-[--gray-9] dark:aria-[disabled=true]:jb-text-[--gray-7] dark:hover:jb-text-[--gray-12];
+}
+
+.jb-input-block{
+    @apply jb-w-full;
+}
