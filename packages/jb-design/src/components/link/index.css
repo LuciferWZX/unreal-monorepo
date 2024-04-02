@@ -1,6 +1,6 @@
 .jb-link{
     font-size: var(--default-size);
-    @apply jb-inline-flex jb-items-center jb-leading-[--default-line-height] jb-font-[--default-weight] jb-cursor-pointer hover:jb-underline jb-underline-offset-4;
+    @apply jb-outline-[--blue-4] dark:jb-outline-[--blue-6] jb-inline-flex jb-items-center jb-leading-[--default-line-height] jb-font-[--default-weight] jb-cursor-pointer hover:jb-underline jb-underline-offset-4;
 
     @apply jb-text-[--blue-2] dark:jb-text-[--blue-9];
 

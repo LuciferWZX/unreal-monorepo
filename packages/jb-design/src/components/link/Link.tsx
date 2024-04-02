@@ -5,9 +5,6 @@ import { ArrowTopRightOutline } from '@/icons';
 
 export interface SuffixProps {
   type: 'arrow-top-right';
-  key: string;
-  onClick?: () => void;
-  disabled?: boolean;
   className?: string;
   children?: ReactNode;
 }
@@ -22,7 +19,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => {
   const renderSuffix = () => {
     if (props.suffix) {
       if (Array.isArray(props.suffix)) {
-        return props.suffix.map((item) => {
+        return props.suffix.map((item, index) => {
           let child = item.children;
           if (!child) {
             switch (item.type) {
@@ -32,7 +29,7 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => {
             }
           }
           return (
-            <span key={item.key} className={cn('jb-link-suffix-icon', item.className)}>
+            <span key={index} className={cn('jb-link-suffix-icon', item.className)}>
               {child}
             </span>
           );

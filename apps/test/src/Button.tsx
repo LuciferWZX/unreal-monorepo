@@ -1,4 +1,4 @@
-import { Button, useTheme, Alert, Input, Link } from '@wzx-unreal/jb-design';
+import { Button, useTheme, Alert, Input, Link, Checkbox, ContextMenu } from '@wzx-unreal/jb-design';
 import { useState } from 'react';
 
 const ButtonPage = () => {
@@ -11,6 +11,7 @@ const ButtonPage = () => {
         background: theme === 'dark' ? '#2B2D30' : '#fff',
         width: '100vw',
         height: '100vh',
+        overflow: 'auto',
       }}
     >
       <Button
@@ -24,9 +25,62 @@ const ButtonPage = () => {
       >
         切换
       </Button>
+      <div style={{ margin: '40px 0' }}>
+        <ContextMenu>
+          <div
+            style={{
+              border: '1px solid grey',
+              height: 200,
+              width: 200,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            Right Click Space
+          </div>
+        </ContextMenu>
+      </div>
+      <div style={{ margin: '40px 0' }}>
+        <Checkbox style={{ marginRight: 20 }}>checkBox</Checkbox>
+        <Checkbox style={{ marginRight: 20 }}>checkBox2</Checkbox>
+        <Checkbox style={{ marginRight: 20 }} checked={true} disabled={true}>
+          disabled checked
+        </Checkbox>
+        <Checkbox disabled={true} aria-invalid={'true'} style={{ marginRight: 20 }}>
+          invalid
+        </Checkbox>
+        <Checkbox disabled={true} aria-invalid={'true'} checked={true} style={{ marginRight: 20 }}>
+          invalid
+        </Checkbox>
+        <Checkbox style={{ marginRight: 20 }} indeterminate={true}>
+          indeterminate
+        </Checkbox>
+      </div>
+      <div style={{ margin: '40px 0' }}>
+        <Checkbox.Group onChange={(v) => console.log(v)}>
+          <Checkbox disabled={true} value={'a'}>
+            A
+          </Checkbox>
+          <Checkbox value={'b'}>
+            B<span style={{ color: 'grey' }}>你好</span>
+          </Checkbox>
+          <Checkbox value={'c'}>C</Checkbox>
+          <Checkbox value={'d'}>D</Checkbox>
+        </Checkbox.Group>
+        <Checkbox.Group direction={'vertical'} onChange={(v) => console.log(v)}>
+          <Checkbox disabled={true} value={'a'}>
+            A
+          </Checkbox>
+          <Checkbox value={'b'}>B</Checkbox>
+          <Checkbox value={'c'}>C</Checkbox>
+          <Checkbox value={'d'}>D</Checkbox>
+        </Checkbox.Group>
+      </div>
       <div style={{ margin: '40px 0' }}></div>
       <div>
         <Link
+          href="https://www.baidu.com"
           onClick={() => {
             console.log(1);
           }}
@@ -36,6 +90,7 @@ const ButtonPage = () => {
           Link to the web
         </Link>
         <Link
+          href="https://www.baidu.com"
           onClick={() => {
             console.log(2);
           }}

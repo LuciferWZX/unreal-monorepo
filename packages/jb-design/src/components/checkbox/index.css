@@ -1,0 +1,68 @@
+.jb-checkbox{
+    /*@apply jb-bg-[red];*/
+    @apply jb-box-border jb-inline-flex jb-items-center jb-space-x-2 jb-h-[32px];
+
+    @apply jb-text-[--gray-1] dark:jb-text-[--gray-12];
+}
+.jb-checkbox-disabled{
+    @apply jb-cursor-not-allowed  jb-text-[--gray-8] dark:jb-text-[--gray-7];
+}
+.jb-checkbox-label{
+    font-size:var(--default-size);
+    @apply jb-font-[--default-weight] jb-leading-[--default-line-height];
+
+}
+.jb-checkbox-primitive{
+    @apply jb-w-[16px] jb-h-[16px] jb-rounded-[--app-checkbox-radius] jb-border jb-outline-2 jb-outline-offset-[-1px];
+    @apply jb-border-[--gray-8] dark:jb-border-[--gray-6] jb-bg-[--gray-14] dark:jb-bg-[unset];
+    @apply group-hover:jb-border-[--gray-6] dark:group-hover:jb-border-[--gray-9];
+    @apply focus:jb-outline  focus:jb-outline-[--blue-4] dark:focus:jb-outline-[--blue-6];
+    /**
+    checked状态正常情况下
+     */
+    @apply data-[state=checked]:jb-text-[--gray-14] data-[state=checked]:jb-bg-[--blue-4] dark:data-[state=checked]:jb-bg-[--blue-6] data-[state=checked]:jb-border-[--blue-4] dark:data-[state=checked]:jb-border-[--blue-6];
+    /**
+    checked状态hover情况下
+     */
+    @apply data-[state=checked]:group-hover:jb-border-[--blue-3] dark:data-[state=checked]:group-hover:jb-border-[--blue-5] data-[state=checked]:group-hover:jb-bg-[--blue-3] dark:data-[state=checked]:group-hover:jb-bg-[--blue-5];
+
+    /**
+    invalid情况
+     */
+    @apply aria-[invalid="true"]:jb-outline aria-[invalid="true"]:jb-outline-[--red-4] dark:aria-[invalid="true"]:jb-outline-[--red-6] data-[state=checked]:aria-[invalid="true"]:jb-outline-offset-[2px];
+
+    /**
+    checked状态focus情况下
+     */
+    @apply data-[state=checked]:focus:jb-border-[--blue-4] dark:data-[state=checked]:focus:jb-border-[--blue-6] data-[state=checked]:focus:jb-bg-[--blue-4] dark:data-[state=checked]:focus:jb-bg-[--blue-6] data-[state=checked]:focus:jb-outline-offset-[2px];
+    /**
+    disabled 正常状态下
+     */
+    @apply disabled:jb-bg-[--gray-13] dark:disabled:jb-bg-[--gray-3] disabled:jb-border-[--gray-11] dark:disabled:jb-border-[--gray-6];
+    /**
+   disabled unchecked hover状态下
+    */
+    @apply disabled:group-hover:jb-bg-[--gray-13] dark:disabled:group-hover:jb-bg-[--gray-3] disabled:group-hover:jb-border-[--gray-11] dark:group-hover:disabled:jb-border-[--gray-6];
+    /**
+    disabled checked 状态下
+     */
+    @apply data-[state=checked]:disabled:jb-bg-[--gray-9] data-[state=checked]:dark:disabled:jb-bg-[--gray-3] data-[state=checked]:disabled:jb-border-[--gray-9] data-[state=checked]:dark:disabled:jb-border-[--gray-3];
+    /**
+    disabled checked hover 状态下
+     */
+    @apply data-[state=checked]:group-hover:disabled:jb-bg-[--gray-9] data-[state=checked]:group-hover:dark:disabled:jb-bg-[--gray-3] data-[state=checked]:group-hover:disabled:jb-border-[--gray-9] data-[state=checked]:group-hover:dark:disabled:jb-border-[--gray-3];
+    /**
+    disabled checked icon的颜色
+     */
+    @apply dark:data-[state=checked]:disabled:jb-text-[--gray-8];
+    /**
+    disabled checked
+     */
+    @apply aria-[invalid="true"]:disabled:jb-outline-none disabled:jb-cursor-not-allowed;
+}
+.jb-checkbox-indicator{
+    @apply jb-flex jb-items-center jb-justify-center jb-text-current;
+}
+.jb-checkbox-checked-icon{
+    @apply jb-h-[14px] jb-w-[14px];
+}
