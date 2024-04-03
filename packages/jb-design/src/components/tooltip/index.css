@@ -1,0 +1,23 @@
+.jb-tooltip{
+
+}
+.jb-tooltip-content{
+    @apply jb-text-[--gray-9] dark:jb-text-[--gray-10];
+}
+.jb-tooltip-shortcut{
+    @apply jb-ml-[6px] jb-text-[--gray-8] dark:jb-text-[--gray-9];
+}
+.jb-tooltip-content-shortcut{
+    @apply jb-ml-0 jb-text-[--gray-7] dark:jb-text-[--gray-7];
+}
+.jb-tooltip-link{
+    @apply jb-text-[--blue-9] dark:jb-text-[--blue-9];
+}
+.jb-tooltip>.ant-tooltip-content >.ant-tooltip-inner{
+    font-size: var(--default-size);
+    @apply jb-box-border jb-p-[8px] jb-leading-[--default-line-height] jb-font-[--default-weight] jb-rounded-[--app-radius];
+    @apply jb-text-[--gray-14] dark:jb-text-[--gray-14];
+}
+.jb-tooltip-color>.ant-tooltip-content >.ant-tooltip-inner{
+    @apply jb-bg-[--gray-2] dark:jb-bg-[--gray-3];
+}

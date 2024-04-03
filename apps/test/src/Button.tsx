@@ -1,4 +1,16 @@
-import { Button, useTheme, Alert, Input, Link, Checkbox, ContextMenu } from '@wzx-unreal/jb-design';
+import {
+  Button,
+  useTheme,
+  Alert,
+  Input,
+  Link,
+  Checkbox,
+  ContextMenu,
+  IdeaOutline,
+  PasteOutline,
+  Tooltip,
+  Select,
+} from '@wzx-unreal/jb-design';
 import { useState } from 'react';
 
 const ButtonPage = () => {
@@ -26,7 +38,86 @@ const ButtonPage = () => {
         切换
       </Button>
       <div style={{ margin: '40px 0' }}>
-        <ContextMenu>
+        <Select
+          style={{ marginRight: 20 }}
+          placeholder={'请选择'}
+          // options={[
+          //   { value: 'jack', label: 'Jack' },
+          //   { value: 'lucy', label: 'Lucy' },
+          //   { value: 'Yiminghe', label: 'yiminghe' },
+          //   { value: 'disabled', label: 'Disabled', disabled: true },
+          // ]}
+        />
+        <Select placeholder={'请选择'} aria-invalid={true} />
+      </div>
+      <div style={{ margin: '40px 0' }}>
+        <Tooltip title="纯文本">
+          <Link href="https://www.baidu.com" style={{ marginRight: 130 }}>
+            纯文本
+          </Link>
+        </Tooltip>
+        <Tooltip title="附带快捷操作" shortcut={'Alt+0'}>
+          <Link style={{ marginRight: 130 }} href="https://www.baidu.com">
+            附带快捷操作
+          </Link>
+        </Tooltip>
+        <Tooltip
+          title="Header"
+          content="Explain behavior that is not clear from the setting or action name."
+          shortcut={'Shit+Alt+1'}
+          link={{ href: 'https://www.baidu.com', children: 'External', disabled: true }}
+        >
+          <Link href="https://www.baidu.com">完整内容</Link>
+        </Tooltip>
+      </div>
+      <div style={{ margin: '40px 0' }}>
+        <ContextMenu
+          options={[
+            {
+              label: 'Show Context Actions',
+              key: '01',
+              type: 'item',
+              icon: <IdeaOutline />,
+              shortcut: 'Alt+Enter',
+              // disabled: true,
+              onClick: () => {
+                alert('Show Context Actions');
+              },
+            },
+            { type: 'separator', key: 'separator_1' },
+            {
+              label: 'Paste',
+              key: '02',
+              type: 'item',
+              shortcut: 'Ctrl+V',
+              icon: <PasteOutline />,
+              onClick: () => {
+                alert('Paste');
+              },
+            },
+            {
+              label: 'Copy/Paste Special Copy/Paste Special Copy/Paste Special',
+              key: 'cps',
+              type: 'submenu',
+              keepIcon: true,
+              // disabled: true,
+              onClick: () => {
+                alert('submenu');
+              },
+              children: [
+                {
+                  label: 'Copy References',
+                  key: 'cr',
+                  type: 'item',
+                  shortcut: 'Ctrl+Alt+Shift+C',
+                  onClick: () => {
+                    alert('Copy References');
+                  },
+                },
+              ],
+            },
+          ]}
+        >
           <div
             style={{
               border: '1px solid grey',
@@ -84,7 +175,7 @@ const ButtonPage = () => {
           onClick={() => {
             console.log(1);
           }}
-          suffix={[{ type: 'arrow-top-right', key: '1' }]}
+          suffix={[{ type: 'arrow-top-right' }]}
           style={{ marginRight: '30px' }}
         >
           Link to the web
@@ -99,10 +190,11 @@ const ButtonPage = () => {
           Link with options
         </Link>
         <Link
+          href="https://www.baidu.com"
           onClick={() => {
             console.log(3);
           }}
-          suffix={[{ type: 'arrow-top-right', key: '1' }]}
+          suffix={[{ type: 'arrow-top-right' }]}
           disabled={true}
         >
           disabled

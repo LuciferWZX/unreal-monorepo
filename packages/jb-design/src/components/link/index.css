@@ -4,7 +4,7 @@
 
     @apply jb-text-[--blue-2] dark:jb-text-[--blue-9];
 
-    @apply aria-[disabled=true]:jb-cursor-not-allowed aria-[disabled=true]:jb-no-underline;
+    @apply aria-[disabled=true]:jb-pointer-events-none aria-[disabled=true]:jb-no-underline;
     @apply aria-[disabled=true]:jb-text-[--gray-8] dark:aria-[disabled=true]:jb-text-[--gray-7] aria-[disabled=true]:jb-select-none;
 }
 .jb-link-suffix-icon{

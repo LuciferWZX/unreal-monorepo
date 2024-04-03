@@ -4,7 +4,8 @@ import './index.css';
 const ContextMenuShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
   return (
     <span
-      className={cn('jb-ml-auto jb-text-xs jb-tracking-widest jb-text-muted-foreground', className)}
+      // className={cn('jb-ml-auto jb-text-xs jb-tracking-widest jb-text-muted-foreground', className)}
+      className={cn('jb-context-menu-item-shortcut', className)}
       {...props}
     />
   );
