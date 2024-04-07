@@ -126,7 +126,6 @@ const ContextMenu: FC<ContextMenuProps> = (props) => {
             <ContextMenuSubTrigger
               disabled={option.disabled}
               className={cn('jb-group', classes?.root)}
-              inset
               onClick={option.onClick}
             >
               {content}

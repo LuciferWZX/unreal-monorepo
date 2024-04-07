@@ -7,7 +7,7 @@ const CommandInput = forwardRef<
   ElementRef<typeof CommandPrimitive.Input>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
-  <div className="jb-flex jb-items-center jb-border-b jb-px-3" cmdk-input-wrapper="">
+  <div className="jb-flex jb-items-center  jb-px-3" cmdk-input-wrapper="">
     {/*<MagnifyingGlassIcon className="jb-mr-2 jb-h-4 jb-w-4 jb-shrink-0 jb-opacity-50" />*/}
     <CommandPrimitive.Input
       ref={ref}

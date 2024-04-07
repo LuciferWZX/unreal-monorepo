@@ -20,7 +20,7 @@ const ButtonPage = () => {
     <div
       style={{
         padding: 20,
-        background: theme === 'dark' ? '#2B2D30' : '#fff',
+        background: theme === 'dark' ? '#000000' : '#FFFFFF',
         width: '100vw',
         height: '100vh',
         overflow: 'auto',
@@ -41,12 +41,40 @@ const ButtonPage = () => {
         <Select
           style={{ marginRight: 20 }}
           placeholder={'请选择'}
-          // options={[
-          //   { value: 'jack', label: 'Jack' },
-          //   { value: 'lucy', label: 'Lucy' },
-          //   { value: 'Yiminghe', label: 'yiminghe' },
-          //   { value: 'disabled', label: 'Disabled', disabled: true },
-          // ]}
+          options={[
+            { value: 'Light', label: 'Light' },
+            { value: 'Dark', label: 'Dark', disabled: true },
+            { type: 'separator' },
+            {
+              type: 'sub',
+              value: 'lucy',
+              label: 'Lucy',
+              disabled: true,
+              options: [
+                { value: 'lucy', label: 'Lucy' },
+                { value: 'disabled', label: 'Disabled', disabled: true },
+              ],
+            },
+            {
+              type: 'group',
+              label: 'Group',
+              value: 'group',
+              disabled: true,
+              options: [
+                {
+                  type: 'sub',
+                  value: 'sub',
+                  label: 'sub',
+                  options: [
+                    { value: 'lucy1', label: 'Lucy1' },
+                    { value: 'disabled', label: 'Disabled', disabled: true },
+                  ],
+                },
+              ],
+            },
+            { value: 'Yiminghe', label: 'yiminghe' },
+            { value: 'disabled2', label: 'Disabled2', disabled: true },
+          ]}
         />
         <Select placeholder={'请选择'} aria-invalid={true} />
       </div>

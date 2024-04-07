@@ -46,6 +46,7 @@
     "cmdk": "^1.0.0",
     "lucide-react": "^0.363.0",
     "rc-dialog": "^9.4.0",
+    "rc-menu": "^9.13.0",
     "tailwind-merge": "^2.2.1",
     "ts-node": "^10.9.2",
     "vite": "^5.0.12",

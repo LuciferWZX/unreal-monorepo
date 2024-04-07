@@ -1,0 +1,64 @@
+.jb-dropdown-menu-container{
+    @apply jb-box-border jb-inline-flex ;
+}
+.jb-dropdown-menu-content{
+    font-size: var(--default-size);
+    /**
+    基本配置
+     */
+    @apply jb-shadow-md jb-py-[8px] jb-rounded-[--app-modal-radius] jb-box-border jb-border-solid  jb-border-[1px] jb-leading-[--default-line-height] jb-font-[--default-weight];
+    /**
+    边框颜色
+     */
+    @apply  jb-border-[--gray-9] dark:jb-border-[--gray-3];
+    /**
+    背景颜色
+     */
+    @apply jb-bg-[--gray-14] dark:jb-bg-[--gray-2];
+    /**
+    字体颜色
+     */
+    @apply jb-text-[--gray-1] dark:jb-text-[--gray-12];
+}
+.jb-dropdown-menu-item{
+    /**
+    基本配置
+     */
+    @apply jb-box-border jb-relative jb-cursor-default jb-select-none jb-items-center jb-outline-none jb-px-[12px];
+    /**
+    禁用
+     */
+    @apply data-[disabled]:jb-pointer-events-none data-[disabled]:jb-text-[--gray-8] dark:data-[disabled]:jb-text-[--gray-7]
+}
+.jb-dropdown-menu-item-content{
+    /**
+    基本配置
+     */
+    @apply jb-box-border jb-flex jb-items-center jb-p-[4px_8px]  jb-rounded-[--app-radius];
+    /**
+    hover状态
+     */
+    @apply group-hover:jb-bg-[--blue-11] dark:group-hover:jb-bg-[--blue-3];
+    /**
+    focus状态
+     */
+    @apply group-focus:jb-bg-[--blue-11]  dark:group-focus:jb-bg-[--blue-3];
+    /**
+    active状态
+     */
+    @apply group-active:jb-bg-[--blue-11] dark:group-active:jb-bg-[--blue-3];
+}
+.jb-dropdown-menu-item-label{
+    @apply jb-truncate jb-flex-1;
+
+}
+.jb-chevron-right{
+    @apply jb-box-border jb-ml-auto jb-h-[16px] jb-w-[16px]
+}
+.jb-dropdown-menu-separator{
+    @apply jb-box-border jb-h-[1px] jb-my-[4px] jb-mx-[12px];
+    /**
+    背景颜色
+     */
+    @apply jb-bg-[--gray-9] dark:jb-bg-[--gray-3];
+}
