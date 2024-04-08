@@ -38,6 +38,7 @@
     "@radix-ui/react-context-menu": "^2.1.5",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-scroll-area": "^1.0.5",
     "@vitejs/plugin-react": "^4.2.1",
     "@wzx-unreal/react-hooks": "workspace:^",
     "ahooks": "^3.7.10",

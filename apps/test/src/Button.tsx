@@ -39,8 +39,9 @@ const ButtonPage = () => {
       </Button>
       <div style={{ margin: '40px 0' }}>
         <Select
-          style={{ marginRight: 20 }}
+          style={{ marginRight: 20, width: 120 }}
           placeholder={'请选择'}
+          defaultValue={'Dark'}
           options={[
             { value: 'Light', label: 'Light' },
             { value: 'Dark', label: 'Dark', disabled: true },
@@ -72,11 +73,47 @@ const ButtonPage = () => {
                 },
               ],
             },
-            { value: 'Yiminghe', label: 'yiminghe' },
+            { value: 'Yiminghe', label: 'yiminghexxaaaaaasyiminghexxaaaaaas' },
             { value: 'disabled2', label: 'Disabled2', disabled: true },
           ]}
         />
-        <Select placeholder={'请选择'} aria-invalid={true} />
+        <Select
+          placeholder={'请选择'}
+          mode={'multiple'}
+          options={[
+            { value: 'Light', label: 'Light' },
+            { value: 'Dark', label: 'Dark' },
+            { type: 'separator' },
+            {
+              type: 'sub',
+              value: 'lucy',
+              label: 'Lucy',
+              options: [
+                { value: 'lucy', label: 'Lucy' },
+                { value: 'disabled', label: 'Disabled' },
+              ],
+            },
+            {
+              type: 'group',
+              label: 'Group',
+              value: 'group',
+              options: [
+                {
+                  type: 'sub',
+                  value: 'sub',
+                  label: 'sub',
+                  options: [
+                    { value: 'lucy1', label: 'Lucy1' },
+                    { value: 'disabled', label: 'Disabled', disabled: true },
+                  ],
+                },
+              ],
+            },
+            { value: 'Yiminghe', label: 'yiminghexxaaaaaas' },
+            { value: 'disabled2', label: 'Disabled2' },
+          ]}
+          aria-invalid={true}
+        />
       </div>
       <div style={{ margin: '40px 0' }}>
         <Tooltip title="纯文本">

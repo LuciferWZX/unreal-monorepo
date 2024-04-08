@@ -24,11 +24,14 @@
     /**
     基本配置
      */
-    @apply jb-box-border jb-relative jb-cursor-default jb-select-none jb-items-center jb-outline-none jb-px-[12px];
+    @apply jb-box-border jb-relative jb-cursor-default jb-select-none jb-items-center jb-outline-none jb-px-[4px];
     /**
     禁用
      */
     @apply data-[disabled]:jb-pointer-events-none data-[disabled]:jb-text-[--gray-8] dark:data-[disabled]:jb-text-[--gray-7]
+}
+.jb-dropdown-menu-item-checked{
+    @apply jb-flex jb-items-center jb-justify-center jb-w-[16px] jb-h-[16px] jb-mr-[6px];
 }
 .jb-dropdown-menu-item-content{
     /**

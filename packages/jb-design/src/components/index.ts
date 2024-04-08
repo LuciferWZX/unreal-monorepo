@@ -4,6 +4,7 @@ export { Input } from './input';
 export { Link } from './link';
 export { Alert } from './alert';
 export { Tooltip } from './tooltip';
+export { ScrollBar, ScrollArea } from './scroll-area';
 export { Dropdown } from './dropdown';
 export { Select } from './select';
 export { ContextMenu } from './context-menu';

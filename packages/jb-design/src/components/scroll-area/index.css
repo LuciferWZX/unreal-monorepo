@@ -1,0 +1,27 @@
+.jb-scroll-area{
+    @apply jb-relative jb-overflow-hidden;
+}
+.jb-scroll-area-viewport{
+    @apply jb-h-full jb-w-full jb-rounded-[inherit];
+}
+.jb-scrollbar{
+    @apply jb-flex jb-touch-none jb-select-none jb-transition-colors;
+}
+.jb-scrollbar-vertical{
+    @apply jb-h-full jb-w-2.5 jb-border-l jb-border-l-transparent jb-p-[1px];
+}
+.jb-scrollbar-horizontal{
+    @apply jb-h-2.5 jb-flex-col jb-border-t jb-border-t-transparent jb-p-[1px];
+}
+.jb-scroll-area-thumb{
+    @apply jb-relative jb-flex-1 jb-rounded-[--app-radius] jb-bg-border;
+
+    /**
+    背景颜色
+     */
+    @apply jb-bg-[#D9D9D9] dark:jb-bg-[#48494B];
+    /**
+    hover
+     */
+    @apply hover:jb-bg-[#7B7C7D] dark:hover:jb-bg-[#595A5C];
+}

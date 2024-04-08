@@ -46,12 +46,26 @@
     */
     @apply  aria-[invalid=true]:focus:jb-outline-[--red-4] dark:aria-[invalid=true]:focus:jb-outline-[--red-6];
 
+    /**
+    disabled 字体颜色
+     */
+    @apply disabled:jb-outline-none disabled:jb-outline-0 disabled:jb-text-[--gray-8] dark:disabled:jb-text-[--gray-7];
+    /**
+    disabled 背景颜色
+     */
+    @apply disabled:jb-bg-[--gray-13] dark:disabled:jb-bg-[--gray-4];
+    /**
+    disabled 轮廓颜色
+     */
+    @apply disabled:jb-border-[--gray-11] dark:disabled:jb-border-[--gray-2];
+
 
 
 }
 .jb-select-label{
-    @apply jb-flex-1 jb-py-[6px] jb-px-[9px];
+    @apply jb-flex-1 jb-py-[6px] jb-px-[9px] jb-text-start jb-truncate;
 }
+
 .jb-select-chevron-down{
     @apply jb-w-[28px] jb-h-[28px] jb-text-[28px] jb-flex jb-items-center jb-justify-center;
     @apply jb-text-[--gray-7] dark:jb-text-[--gray-10];

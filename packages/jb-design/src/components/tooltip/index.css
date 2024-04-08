@@ -15,9 +15,186 @@
 }
 .jb-tooltip>.ant-tooltip-content >.ant-tooltip-inner{
     font-size: var(--default-size);
-    @apply jb-box-border jb-p-[8px] jb-leading-[--default-line-height] jb-font-[--default-weight] jb-rounded-[--app-radius];
+    @apply jb-box-border jb-p-[8px] jb-leading-[--default-line-height] jb-font-[--default-weight] jb-rounded-[--app-tooltip-radius];
     @apply jb-text-[--gray-14] dark:jb-text-[--gray-14];
 }
 .jb-tooltip-color>.ant-tooltip-content >.ant-tooltip-inner{
     @apply jb-bg-[--gray-2] dark:jb-bg-[--gray-3];
+}
+.jb-tooltip-color>.ant-tooltip-arrow:before{
+    @apply jb-bg-[--gray-2] dark:jb-bg-[--gray-3];
+}
+
+.jb-tooltip-has-error>.ant-tooltip-content >.ant-tooltip-inner{
+    @apply jb-p-[0] jb-bg-[unset];
+}
+.jb-tooltip-has-warning>.ant-tooltip-content >.ant-tooltip-inner{
+    @apply jb-p-[0] jb-bg-[unset];
+}
+
+.jb-tooltip-has-more-info>.ant-tooltip-content >.ant-tooltip-inner{
+    @apply jb-p-[0] jb-bg-[unset] dark:jb-bg-[unset];
+}
+.jb-tooltip-has-more-info-error>.ant-tooltip-content >.ant-tooltip-inner{
+    @apply jb-p-[0] jb-bg-[unset] dark:jb-bg-[unset];
+}
+.jb-tooltip-has-more-info-warning>.ant-tooltip-content >.ant-tooltip-inner{
+    @apply jb-p-[0] jb-bg-[unset] dark:jb-bg-[unset];
+}
+.jb-tooltip-has-more-info-success>.ant-tooltip-content >.ant-tooltip-inner{
+    @apply jb-p-[0] jb-bg-[unset] dark:jb-bg-[unset];
+}
+
+.jb-tooltip-has-more-info>.ant-tooltip-arrow:before{
+    @apply jb-bg-[--gray-14] dark:jb-bg-[--gray-3];
+}
+.jb-tooltip-has-more-info-error>.ant-tooltip-arrow:before{
+    @apply jb-bg-[--red-10] dark:jb-bg-[--red-2];
+}
+.jb-tooltip-has-more-info-warning>.ant-tooltip-arrow:before{
+    @apply jb-bg-[--yellow-9] dark:jb-bg-[--yellow-2];
+}
+.jb-tooltip-has-more-info-success>.ant-tooltip-arrow:before{
+    @apply jb-bg-[--green-11] dark:jb-bg-[--green-2];
+}
+
+.jb-tooltip-error{
+    /**
+    基本配置
+     */
+    @apply jb-p-[7px] jb-rounded-[--app-tooltip-radius] jb-box-border jb-border-solid  jb-border-[1px];
+    /**
+    字体颜色
+     */
+    @apply jb-text-[--gray-1] dark:jb-text-[--gray-14];
+    /**
+    背景颜色
+     */
+    @apply jb-bg-[--red-10] dark:jb-bg-[--red-2];
+    /**
+    轮廓颜色
+     */
+    @apply jb-border-[--red-6] dark:jb-border-[--red-5];
+}
+.jb-tooltip-warning{
+    /**
+    基本配置
+     */
+    @apply jb-p-[7px] jb-rounded-[--app-tooltip-radius] jb-box-border jb-border-solid  jb-border-[1px];
+    /**
+    字体颜色
+     */
+    @apply jb-text-[--gray-1] dark:jb-text-[--gray-14];
+    /**
+    背景颜色
+     */
+    @apply jb-bg-[--yellow-9] dark:jb-bg-[--yellow-2];
+    /**
+    轮廓颜色
+     */
+    @apply jb-border-[--yellow-4] dark:jb-border-[--yellow-5];
+}
+
+.jb-tooltip-type-content-body{
+    @apply jb-flex;
+}
+.jb-tooltip-type-icon{
+    @apply jb-mr-[7px] jb-w-[16px] jb-h-[16px] jb-flex jb-items-center jb-justify-center;
+}
+.jb-tooltip-type-right{
+    @apply jb-flex-1;
+}
+
+.jb-tooltip-more-info{
+    /**
+    基本配置
+     */
+    @apply jb-p-[12px_16px] jb-rounded-[--app-tooltip-radius] jb-box-border;
+    /**
+    字体颜色
+     */
+    @apply jb-text-[--gray-1] dark:jb-text-[--gray-14];
+    /**
+    背景颜色
+     */
+    @apply jb-bg-[--gray-14] dark:jb-bg-[--gray-3];
+}
+.jb-tooltip-more-info-error{
+    /**
+    基本配置
+     */
+    @apply jb-p-[12px_16px] jb-rounded-[--app-tooltip-radius] jb-box-border;
+    /**
+    字体颜色
+     */
+    @apply jb-text-[--gray-1] dark:jb-text-[--gray-14];
+    /**
+    背景颜色
+     */
+    @apply jb-bg-[--red-10] dark:jb-bg-[--red-2];
+}
+.jb-tooltip-more-info-warning{
+    /**
+    基本配置
+     */
+    @apply jb-p-[12px_16px] jb-rounded-[--app-tooltip-radius] jb-box-border;
+    /**
+    字体颜色
+     */
+    @apply jb-text-[--gray-1] dark:jb-text-[--gray-14];
+    /**
+    背景颜色
+     */
+    @apply jb-bg-[--yellow-9] dark:jb-bg-[--yellow-2];
+}
+.jb-tooltip-more-info-success{
+    /**
+    基本配置
+     */
+    @apply jb-p-[12px_16px] jb-rounded-[--app-tooltip-radius] jb-box-border;
+    /**
+    字体颜色
+     */
+    @apply jb-text-[--gray-1] dark:jb-text-[--gray-14];
+    /**
+    背景颜色
+     */
+    @apply jb-bg-[--green-11] dark:jb-bg-[--green-2];
+}
+
+.jb-tooltip-type-title{
+    font-size: var(--default-size);
+    /**
+   基本配置
+    */
+    @apply jb-leading-[--default-line-height] jb-font-[--default-weight-semibold];
+    /**
+   字体颜色
+     */
+    @apply jb-text-[--gray-1] dark:jb-text-[--gray-12];
+
+}
+.jb-tooltip-type-content{
+    font-size: var(--default-size);
+    /**
+   基本配置
+    */
+    @apply jb-leading-[--default-line-height] jb-font-[--default-weight];
+    /**
+   字体颜色
+     */
+    @apply jb-text-[--gray-1] dark:jb-text-[--gray-12];
+
+}
+.jb-tooltip-type-footer{
+    font-size: var(--default-size);
+    /**
+   基本配置
+    */
+    @apply jb-leading-[--default-line-height] jb-font-[--default-weight];
+    /**
+   字体颜色
+     */
+    @apply jb-text-[--gray-7] dark:jb-text-[--gray-7];
+
 }

@@ -1,13 +1,15 @@
 import * as React from 'react';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import { cn } from '@/utils';
-
+import { RoundCheck } from '@/icons';
+import './index.css';
 const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
     inset?: boolean;
+    checked?: boolean;
   }
->(({ className, inset, children, ...props }, ref) => (
+>(({ className, inset, checked, children, ...props }, ref) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn('jb-group', 'jb-dropdown-menu-item', inset && 'jb-pl-8', className)}
@@ -18,7 +20,10 @@ const DropdownMenuItem = React.forwardRef<
     // )}
     {...props}
   >
-    <div className={cn('jb-dropdown-menu-item-content')}>{children}</div>
+    <div className={cn('jb-dropdown-menu-item-content')}>
+      <span className={cn('jb-dropdown-menu-item-checked')}>{checked && <RoundCheck />}</span>
+      <div className={cn('jb-dropdown-menu-item-label')}>{children}</div>
+    </div>
   </DropdownMenuPrimitive.Item>
 ));
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;

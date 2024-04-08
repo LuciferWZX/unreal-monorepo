@@ -1,10 +1,10 @@
 import '@wzx-unreal/jb-design/lib/style.css';
 import { ThemeProvider } from '@wzx-unreal/jb-design';
-import ButtonPage from './Button.tsx';
+import Demo from './Demo.tsx';
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <ButtonPage />
+      <Demo />
     </ThemeProvider>
   );
 }

@@ -1,10 +1,23 @@
 .jb-link{
     font-size: var(--default-size);
-    @apply jb-outline-[--blue-4] dark:jb-outline-[--blue-6] jb-inline-flex jb-items-center jb-leading-[--default-line-height] jb-font-[--default-weight] jb-cursor-pointer hover:jb-underline jb-underline-offset-4;
+    @apply jb-inline-flex jb-items-center jb-leading-[--default-line-height] jb-font-[--default-weight] jb-cursor-pointer hover:jb-underline jb-underline-offset-4;
 
+    /**
+     * 字体颜色
+     */
     @apply jb-text-[--blue-2] dark:jb-text-[--blue-9];
+    /**
+     * focus
+     */
+    @apply focus:jb-outline focus:jb-outline-offset-2 focus:jb-outline-[--blue-4] dark:focus:jb-outline-[--blue-6];
 
+    /**
+     * 禁用
+     */
     @apply aria-[disabled=true]:jb-pointer-events-none aria-[disabled=true]:jb-no-underline;
+    /**
+     * 禁用 字体颜色
+     */
     @apply aria-[disabled=true]:jb-text-[--gray-8] dark:aria-[disabled=true]:jb-text-[--gray-7] aria-[disabled=true]:jb-select-none;
 }
 .jb-link-suffix-icon{
