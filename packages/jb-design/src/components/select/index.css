@@ -1,3 +1,6 @@
+.jb-select-custom-trigger{
+    @apply jb-outline-none jb-rounded-[--app-radius] jb-p-[0] jb-m-[0] focus:jb-outline-[--blue-4]  dark:focus:jb-outline-[--blue-6];
+}
 .jb-select{
     font-size: var(--default-size);
     /**

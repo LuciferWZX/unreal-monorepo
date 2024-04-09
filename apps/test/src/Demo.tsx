@@ -4,6 +4,8 @@ import { Button, useTheme } from '@wzx-unreal/jb-design';
 
 import TooltipDemo from './components/TooltipDemo.tsx';
 import ScrollAreaDemo from './components/ScrollAreaDemo.tsx';
+import BannerDemo from './components/BannerDemo.tsx';
+import TreeDemo from './components/TreeDemo.tsx';
 const Demo: FC = () => {
   const { theme, setTheme } = useTheme();
   return (
@@ -19,6 +21,8 @@ const Demo: FC = () => {
       >
         切换
       </Button>
+      <TreeDemo />
+      <BannerDemo />
       <ScrollAreaDemo />
       <TooltipDemo />
     </div>

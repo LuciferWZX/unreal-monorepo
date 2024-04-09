@@ -6,11 +6,7 @@ const CommandList = forwardRef<
   ElementRef<typeof CommandPrimitive.List>,
   ComponentPropsWithoutRef<typeof CommandPrimitive.List>
 >(({ className, ...props }, ref) => (
-  <CommandPrimitive.List
-    ref={ref}
-    className={cn('jb-max-h-[300px] jb-overflow-y-auto jb-overflow-x-hidden', className)}
-    {...props}
-  />
+  <CommandPrimitive.List ref={ref} className={cn('', className)} {...props} />
 ));
 
 CommandList.displayName = CommandPrimitive.List.displayName;

@@ -1,0 +1,31 @@
+.jb-tree-container {
+    /**
+    基本配置
+     */
+    font-size: var(--default-size);
+    @apply jb-block jb-box-border jb-py-[8px] jb-leading-[--default-line-height] jb-font-[--default-weight];
+    /**
+    文本颜色
+     */
+    @apply jb-text-[--gray-1] dark:jb-text-[--gray-12];
+}
+.jb-tree-item{
+    /**
+    基本配置
+     */
+    @apply jb-cursor-default jb-outline-none jb-px-[12px];
+}
+.jb-tree-item-children{
+    /**
+    基本配置
+     */
+    @apply jb-box-border jb-rounded-[--app-radius] jb-p-[4px];
+    /**
+   选中 背景颜色
+    */
+    @apply group-aria-selected:jb-bg-[--blue-11] dark:group-aria-selected:jb-bg-[--blue-2];
+    /**
+    禁用
+     */
+    @apply group-data-[disabled]:jb-pointer-events-none group-data-[disabled]:jb-opacity-50;
+}

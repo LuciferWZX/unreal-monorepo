@@ -9,7 +9,7 @@ export interface SuffixProps {
   children?: ReactNode;
 }
 export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
-  href: string;
+  href?: string;
   disabled?: boolean;
   suffix?: ReactNode | SuffixProps[];
 }

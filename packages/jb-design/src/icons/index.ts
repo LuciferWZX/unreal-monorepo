@@ -10,3 +10,4 @@ export { PasteOutline } from './paste-outline';
 export { ChevronRight } from './chevron-right';
 export { Checkmark } from './checkmark';
 export { ChevronDown } from './chevron-down';
+export { Close } from './close';

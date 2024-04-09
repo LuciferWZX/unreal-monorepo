@@ -1,0 +1,26 @@
+.jb-toggle{
+    font-size: var(--default-size);
+    @apply jb-box-border jb-inline-flex jb-items-center jb-justify-center jb-rounded-[--app-toggle-radius] jb-leading-[--default-line-height] jb-font-[--default-weight] jb-p-[5px] jb-transition-colors;
+    /**
+    字体颜色
+     */
+    @apply jb-text-[--gray-6] dark:jb-text-[--gray-11];
+    /**
+    hover
+     */
+    @apply hover:jb-bg-[rgba(0,0,0,0.05)] dark:hover:jb-bg-[rgba(255,255,255,0.1)];
+    /**
+    focus
+     */
+    @apply focus-visible:jb-outline-none focus-visible:jb-bg-[rgba(0,0,0,0.05)] dark:focus-visible:jb-bg-[rgba(255,255,255,0.1)];
+    /**
+    处于选中状态
+     */
+    @apply data-[state=on]:jb-bg-[rgba(0,0,0,0.05)] dark:data-[state=on]:jb-bg-[rgba(255,255,255,0.1)];
+    /*@apply data-[state=on]:jb-text-accent-foreground;*/
+    /**
+    disabled
+     */
+    @apply disabled:jb-pointer-events-none disabled:jb-opacity-50 ;
+
+}

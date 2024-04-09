@@ -2,6 +2,7 @@ import {
   ButtonHTMLAttributes,
   CSSProperties,
   FC,
+  MouseEvent,
   ReactNode,
   useMemo,
   useRef,
@@ -27,14 +28,14 @@ import { isArray, isUndefined, useSize } from '@wzx-unreal/react-hooks';
 export interface BaseOptionItem {
   className?: string;
   style?: CSSProperties;
-  onClick?: (value: string | number) => void;
+  onClick?: (value: string | number, e: MouseEvent) => void;
   disabled?: boolean;
 }
 export interface NormalOptionItem extends BaseOptionItem {
   type?: 'item';
-
   value: string | number;
   label: ReactNode;
+  icon?: boolean;
 }
 export interface DividerOptionItem extends Omit<BaseOptionItem, 'onClick' | 'disabled'> {
   type: 'separator';
@@ -70,6 +71,7 @@ export type SelectValueType = (string | number)[] | string | number | boolean | 
 export interface SelectProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'value' | 'defaultValue'> {
   placeholder?: string;
+  customTriggerNode?: ReactNode;
   align?: 'center' | 'start' | 'end';
   options?: OptionItem[];
   open?: boolean;
@@ -91,6 +93,7 @@ const Select: FC<SelectProps> = (props) => {
     options = [],
     mode = 'single',
     customSelected,
+    customTriggerNode,
     open,
     popupMatchSelectWidth = true,
     ...restProps
@@ -184,6 +187,13 @@ const Select: FC<SelectProps> = (props) => {
   //   );
   // };
   const customRenderSelect = useMemo(() => {
+    if (customTriggerNode) {
+      return (
+        <button className={cn('jb-select-custom-trigger')} ref={buttonRef}>
+          {customTriggerNode}
+        </button>
+      );
+    }
     let child: ReactNode = placeholder;
     if (!isUndefined(mergedValue)) {
       if (mode === 'single' && !isArray(mergedValue)) {
@@ -245,8 +255,8 @@ const Select: FC<SelectProps> = (props) => {
               indeterminate={true}
               className={option.classes?.trigger}
               style={option.styles?.trigger}
-              onClick={() => {
-                option.onClick?.(option.value);
+              onClick={(e) => {
+                option.onClick?.(option.value, e);
               }}
             >
               {option.label}
@@ -268,6 +278,7 @@ const Select: FC<SelectProps> = (props) => {
         <DropdownMenuItem
           key={option.value}
           disabled={mergedDisabled}
+          icon={option.icon}
           onClick={(e) => {
             if (mode === 'multiple') {
               e.preventDefault();
@@ -285,7 +296,7 @@ const Select: FC<SelectProps> = (props) => {
             } else {
               mergedOnChange(option.value);
             }
-            option.onClick?.(option.value);
+            option.onClick?.(option.value, e);
           }}
           className={option.className}
           style={option.style}
@@ -299,7 +310,6 @@ const Select: FC<SelectProps> = (props) => {
   const matchWidthStyle: CSSProperties = {
     width: size?.width,
   };
-  console.log(111, size?.width);
   return (
     <DropdownMenuContainer open={mergedOpen} onOpenChange={setOpen}>
       <DropdownMenuTrigger disabled={props.disabled} asChild={true}>
