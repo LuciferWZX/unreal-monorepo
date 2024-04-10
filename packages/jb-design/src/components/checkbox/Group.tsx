@@ -39,6 +39,7 @@ export interface CheckboxGroupProps<T extends CheckboxValueType = CheckboxValueT
   align?: 'start' | 'end' | 'center' | 'baseline';
   space?: number;
   style?: CSSProperties;
+  customLayout?: boolean;
 }
 const CheckboxGroup = forwardRef(
   <T extends CheckboxValueType = CheckboxValueType>(
@@ -55,6 +56,7 @@ const CheckboxGroup = forwardRef(
       direction = 'horizontal',
       align = 'center',
       space,
+      customLayout,
       ...restProps
     } = props;
     const [value, setValue] = useState<T[]>(restProps.value || defaultValue || []);
@@ -135,6 +137,9 @@ const CheckboxGroup = forwardRef(
       registerValue: (v) => registerValue(v as T),
       cancelValue: (v) => cancelValue(v as T),
     };
+    if (customLayout) {
+      return <GroupContext.Provider value={context}>{childrenNode}</GroupContext.Provider>;
+    }
     return (
       <div className={className} style={style} ref={ref}>
         <GroupContext.Provider value={context}>

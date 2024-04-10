@@ -3,7 +3,7 @@
     基本配置
      */
     font-size: var(--default-size);
-    @apply jb-block jb-box-border jb-py-[8px] jb-leading-[--default-line-height] jb-font-[--default-weight];
+    @apply jb-select-none jb-block jb-box-border jb-py-[8px] jb-leading-[--default-line-height] jb-font-[--default-weight];
     /**
     文本颜色
      */
@@ -19,13 +19,31 @@
     /**
     基本配置
      */
-    @apply jb-box-border jb-rounded-[--app-radius] jb-p-[4px];
+    @apply jb-box-border jb-rounded-[--app-radius] jb-p-[2px] jb-flex;
     /**
    选中 背景颜色
     */
-    @apply group-aria-selected:jb-bg-[--blue-11] dark:group-aria-selected:jb-bg-[--blue-2];
+    @apply group-aria-selected:jb-bg-[--gray-11] dark:group-aria-selected:jb-bg-[--gray-4];
+
+    @apply group-focus/tree:group-aria-selected:jb-bg-[--blue-11] dark:group-focus/tree:group-aria-selected:jb-bg-[--blue-2];
     /**
     禁用
      */
-    @apply group-data-[disabled]:jb-pointer-events-none group-data-[disabled]:jb-opacity-50;
+    @apply group-data-[disabled="true"]:jb-pointer-events-none;
+}
+.jb-tree-item-children .jb-tree-item-switch-icon{
+    @apply  jb-inline-flex jb-box-border jb-m-[2px] jb-min-h-[16px] jb-min-w-[16px] jb-items-center jb-justify-center;
+}
+.jb-tree-item-children .jb-tree-item-label{
+    @apply jb-flex jb-flex-1 jb-py-[2px];
+}
+.jb-tree-item-children .jb-tree-item-label .jb-tree-item-label-icon{
+    @apply  jb-inline-flex jb-box-border jb-mr-[6px] jb-h-[16px] jb-w-[16px] jb-items-center jb-justify-center;
+}
+.jb-tree-item-children .jb-tree-item-label .jb-tree-item-label-text{
+    @apply  jb-inline-flex jb-box-border jb-flex-1;
+}
+.jb-tree-item-children .jb-tree-item-label .jb-tree-item-label-text .jb-tree-item-label-text-hint{
+    @apply  jb-ml-[6px];
+    @apply jb-text-[--gray-7] dark:jb-text-[--gray-7];
 }
