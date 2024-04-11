@@ -71,12 +71,11 @@ const ThreeItem: FC<TreeItemProps> = (props) => {
   };
   return (
     <CommandItem
-      onSelect={(_v) => {
-        console.log(123, _v);
-        match(checkable).with(true, () => {
-          mergedCheckedChange(!mergedChecked);
-        });
-      }}
+      // onSelect={(_v) => {
+      //   match(checkable).with(true, () => {
+      //     mergedCheckedChange(!mergedChecked);
+      //   });
+      // }}
       onDoubleClick={(e) => onDoubleClick?.(e, value || '')}
       value={value}
       className={_classes}
@@ -93,35 +92,18 @@ const ThreeItem: FC<TreeItemProps> = (props) => {
             (node) => node
           )}
         </span>
-        {/*<span className={'jb-tree-item-switch-icon'}>*/}
-        {/*  <ChevronRight />*/}
-        {/*</span>*/}
-        <label className={'jb-tree-item-label'}>
-          {renderIcon(
-            checkable,
-            <Checkbox
-              value={value}
-              // indeterminate={indeterminate}
-              // onCheckedChange={mergedCheckedChange}
-              // value={value}
-              // checked={checked}
-              {...checkboxProps}
-            />,
-            (node) => (
-              <span className={'jb-tree-item-label-icon'}>{node}</span>
-            )
-          )}
+        <div className={'jb-tree-item-label'}>
+          {renderIcon(checkable, <Checkbox value={value} {...checkboxProps} />, (node) => (
+            <span className={'jb-tree-item-label-icon'}>{node}</span>
+          ))}
           {renderIcon(icon, <Folder />, (node) => (
             <span className={'jb-tree-item-label-icon'}>{node}</span>
           ))}
-          {/*<span className={'jb-tree-item-label-icon'}>*/}
-          {/*  <Folder />*/}
-          {/*</span>*/}
           <span className={'jb-tree-item-label-text'}>
             <span className={'jb-tree-item-label-text-main'}>{children}</span>
             <span className={'jb-tree-item-label-text-hint'}>{hint}</span>
           </span>
-        </label>
+        </div>
       </div>
     </CommandItem>
   );

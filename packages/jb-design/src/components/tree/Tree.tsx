@@ -112,7 +112,7 @@ const Tree: FC<TreeProps> = (props) => {
   const mergedCheckedChange = onCheckedValuesChanges ?? setCheckedKeys;
   const mergedValue = value ?? _value;
   const mergedExpandKeys = expandKeys ?? _expandKeys;
-  const { findPath } = useTreeCheckbox(treeData, mergedCheckedKeys);
+  const { getChildrenKeys } = useTreeCheckbox(treeData, mergedCheckedKeys);
 
   const mergedOnValueChange = onValueChange ?? setValue;
   const handleValueChange = (value: string) => {
@@ -139,14 +139,10 @@ const Tree: FC<TreeProps> = (props) => {
       );
   };
   const handleOnKeyDown: KeyboardEventHandler<HTMLDivElement> = (e) => {
-    match(e.code)
-      .with('Enter', () => {
-        e.preventDefault();
-        handleExpandKey(mergedValue);
-      })
-      .with('Space', () => {
-        e.preventDefault();
-      });
+    match(e.code).with('Enter', () => {
+      e.preventDefault();
+      handleExpandKey(mergedValue);
+    });
   };
   const handleExpand = (e: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>, key?: string) => {
     e.stopPropagation();
@@ -195,7 +191,6 @@ const Tree: FC<TreeProps> = (props) => {
           const checkedStatus = getCheckedStatus(
             value.children.filter((_c) => _c.checkable ?? mergedCheckable)
           );
-          console.log('checkedStatus', value.key, checkedStatus);
           return (
             <SubTreeContainer key={value.key}>
               <ThreeItem
@@ -209,8 +204,22 @@ const Tree: FC<TreeProps> = (props) => {
                   checked: checkedStatus !== 'unchecked',
                   skipGroup: true,
                   onCheckedChange(checked: CheckedState) {
-                    const paths = findPath(treeData, value.key);
-                    console.log(111111, paths);
+                    console.log(123, checked, value.key);
+                    const childrenKeys = getChildrenKeys(treeData, value.key);
+                    match(checkedStatus)
+                      .with('checked', () => {
+                        const setKeys = new Set(childrenKeys);
+                        const newCheckedKeys = mergedCheckedKeys.filter(
+                          (item) => !setKeys.has(item)
+                        );
+                        mergedCheckedChange(newCheckedKeys);
+                      })
+                      .otherwise(() => {
+                        const newCheckedKeys = Array.from(
+                          new Set([...mergedCheckedKeys, ...childrenKeys])
+                        );
+                        mergedCheckedChange(newCheckedKeys);
+                      });
                   },
                   indeterminate: checkedStatus === 'indeterminate',
                 }}

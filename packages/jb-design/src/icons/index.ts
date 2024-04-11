@@ -12,3 +12,4 @@ export { Checkmark } from './checkmark';
 export { ChevronDown } from './chevron-down';
 export { Close } from './close';
 export { Folder } from './folder';
+export { MoreHorizontal } from './more-horizontal';

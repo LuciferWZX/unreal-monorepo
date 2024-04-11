@@ -1,0 +1,14 @@
+.base_sider{
+    /**
+     * 侧边栏基本配置
+     */
+    @apply ai-box-border ai-border-r-[1px] ai-p-[5px_6px_5px_5px];
+    /**
+    边框颜色
+     */
+    @apply ai-border-[--gray-12];
+}
+.base_sider_item{
+    font-size: 20px;
+    @apply ai-h-[30px] ai-w-[30px] ai-flex ai-items-center ai-justify-center ;
+}

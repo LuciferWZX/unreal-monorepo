@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    *{
+        @apply ai-p-0 ai-m-0;
+    }
+    body {
+        font-size: var(--default-size);
+        /**
+        默认配置
+         */
+        @apply ai-h-svh ai-w-svw ai-leading-[--default-line-height] ai-font-[--default-weight];
+        /**
+        整体背景
+         */
+        @apply ai-bg-[--gray-14] dark:ai-bg-[--gray-2];
+    }
+    #root {
+        @apply ai-h-full ai-w-full;
+    }
+}

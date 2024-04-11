@@ -19,48 +19,79 @@ export function useTreeCheckbox(treeData: TreeData[], checkedValues: string[]) {
     return null;
   };
 
-  function findKeys(_treeData: TreeData[], key: string): string[] | null {
-    const stack: TreeData[] = [..._treeData];
-    const keys: string[] = [];
+  const getChildrenKeys = (_treeData: TreeData[], key: string) => {
+    let results: string[] = [];
+    const target = findTarget(_treeData, key);
+    if (target) {
+      results = results.concat(key);
+      match(target).with({ children: P.not(undefined) }, (_, _value) => {
+        const childrenKeys = findTargetChildrenKeys(_value.children);
+        results = results.concat(childrenKeys);
+      });
+    }
+    return results;
+  };
+  const findTarget = (_treeData: TreeData[], key: string): TreeData | undefined => {
+    const target = _treeData.find((_value) => _value.key === key);
 
-    while (stack.length > 0) {
-      const node = stack.pop();
-      if (node) {
-        if (node.key === key) {
-          keys.push(node!.key);
-          stack.push(...getChildren('children' in node ? node.children : []));
-          break;
+    if (target) {
+      return target;
+    }
+    const withChildren = _treeData.filter((_v) => {
+      return match(_v)
+        .with({ children: P.not(undefined) }, (_, _v) => {
+          return true;
+        })
+        .otherwise(() => {
+          return false;
+        });
+    });
+
+    /**
+     * 先检查children是否存在
+     */
+    return match(withChildren)
+      .with(P.array({ key: key }), (_, _cv) => {
+        return _cv.find((_c) => _c.key === key);
+      })
+      .otherwise((_value) => {
+        let _target: TreeData | undefined = undefined;
+        for (let i = 0; i < _value.length; i++) {
+          _target = match(_value[i])
+            .with({ key: key }, (_, _cv) => {
+              return _cv;
+            })
+            .with({ children: P.not(undefined) }, (_, _cv) => {
+              return findTarget(_cv.children, key);
+            })
+            .otherwise((_value) => {
+              return undefined;
+            });
+          if (_target) {
+            break;
+          }
         }
-
-        if ('children' in node) {
-          stack.push(...(node.children ?? []));
-        }
-      }
+        return _target;
+      });
+  };
+  const findTargetChildrenKeys = (_treeData: TreeData[]) => {
+    let results: string[] = [];
+    for (let i = 0; i < _treeData.length; i++) {
+      match(_treeData[i])
+        .with({ children: P.not(undefined) }, (_, _value) => {
+          const keys = findTargetChildrenKeys(_value.children);
+          results = results.concat(keys);
+        })
+        .otherwise((_value) => {
+          results = results.concat(_value.key);
+        });
     }
-
-    return keys.length > 0 ? keys : null;
-  }
-
-  function getChildren(children?: TreeData[]): TreeData[] {
-    if (!children) {
-      return [];
-    }
-
-    const result: TreeData[] = [];
-
-    for (const child of children) {
-      result.push(child);
-      if ('children' in child) {
-        result.push(...getChildren(child.children));
-      }
-    }
-
-    return result;
-  }
+    return Array.from(new Set(results));
+  };
 
   return {
     findHierarchy: findHierarchy,
-    findPath: findKeys,
+    getChildrenKeys: getChildrenKeys,
   };
 }
 export default useTreeCheckbox;
