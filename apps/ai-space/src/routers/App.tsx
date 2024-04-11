@@ -18,7 +18,7 @@ const AIApp: FC = () => {
           },
         ];
   return (
-    <ThemeProvider defaultTheme="light" storageKey={'ai'}>
+    <ThemeProvider defaultTheme="dark" storageKey={'ai'}>
       <RouterProvider router={createHashRouter(mergedRouter)} />
     </ThemeProvider>
   );

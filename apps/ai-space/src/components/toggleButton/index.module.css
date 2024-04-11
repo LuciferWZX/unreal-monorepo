@@ -16,7 +16,7 @@
     /**
     选中状态的背景颜色
      */
-    @apply data-[state=on]:ai-bg-[--blue-4] dark:data-[state=on]:ai-text-[--blue-6];
+    @apply data-[state=on]:ai-bg-[--blue-4] dark:data-[state=on]:ai-bg-[--blue-6];
     /**
    选中状态的字体颜色
     */
