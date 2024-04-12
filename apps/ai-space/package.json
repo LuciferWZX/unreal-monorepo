@@ -12,6 +12,7 @@
   "dependencies": {
     "@wzx-unreal/jb-design": "workspace:^",
     "@wzx-unreal/react-hooks": "workspace:^",
+    "nanoid": "^5.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.0",

@@ -1,0 +1,10 @@
+.workflow_space{
+    @apply ai-h-full ai-w-full;
+    /**
+    背景颜色
+     */
+    @apply ai-bg-[--gray-13] dark:ai-bg-[--gray-2];
+}
+.workflow_space .workflow_space_tree{
+    @apply ai-min-w-max;
+}

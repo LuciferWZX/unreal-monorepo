@@ -27,6 +27,7 @@ interface TreeProps {
   indent?: number;
   height?: number;
   width?: number;
+  treeData?: TreeData[];
   defaultExpandKeys?: string[];
   onExpandKeysChanges?: (keys: string[]) => void;
   defaultCheckedValues?: string[];
@@ -42,6 +43,7 @@ const Tree: FC<TreeProps> = (props) => {
   const {
     indent = 20,
     value,
+    treeData = [],
     onValueChange,
     defaultValue,
     expandKeys,
@@ -54,57 +56,57 @@ const Tree: FC<TreeProps> = (props) => {
     checkable,
     width,
   } = props;
-  const treeData: TreeData[] = [
-    {
-      title: '0-0',
-      key: '0-0',
-      hint: '0-0 hint',
-      chevron: (isExpand) => {
-        return (isExpand ?? 'undefined').toString();
-      },
-      children: [
-        {
-          title: '0-0-0',
-          key: '0-0-0',
-          children: [
-            { title: '0-0-0-0', key: '0-0-0-0', isLeaf: true },
-            { title: '0-0-0-1', key: '0-0-0-1', icon: false },
-            { title: '0-0-0-2', key: '0-0-0-2' },
-          ],
-        },
-        {
-          title: '0-0-1',
-          key: '0-0-1',
-          chevron: false,
-          icon: false,
-          children: [
-            { title: '0-0-1-0', key: '0-0-1-0' },
-            { title: '0-0-1-1', key: '0-0-1-1' },
-            { title: '0-0-1-2', key: '0-0-1-2' },
-          ],
-        },
-        {
-          title: '0-0-2',
-          key: '0-0-2',
-        },
-      ],
-    },
-    {
-      title: '0-1',
-      key: '0-1',
-      icon: false,
-      children: [
-        { title: '0-1-0-0', key: '0-1-0-0' },
-        { title: '0-1-0-1', key: '0-1-0-1' },
-        { title: '0-1-0-2', key: '0-1-0-2' },
-      ],
-    },
-    {
-      icon: false,
-      title: '0-2',
-      key: '0-2',
-    },
-  ];
+  // const treeData: TreeData[] = [
+  //   {
+  //     title: '0-0',
+  //     key: '0-0',
+  //     hint: '0-0 hint',
+  //     chevron: (isExpand) => {
+  //       return (isExpand ?? 'undefined').toString();
+  //     },
+  //     children: [
+  //       {
+  //         title: '0-0-0',
+  //         key: '0-0-0',
+  //         children: [
+  //           { title: '0-0-0-0', key: '0-0-0-0', isLeaf: true },
+  //           { title: '0-0-0-1', key: '0-0-0-1', icon: false },
+  //           { title: '0-0-0-2', key: '0-0-0-2' },
+  //         ],
+  //       },
+  //       {
+  //         title: '0-0-1',
+  //         key: '0-0-1',
+  //         chevron: false,
+  //         icon: false,
+  //         children: [
+  //           { title: '0-0-1-0', key: '0-0-1-0' },
+  //           { title: '0-0-1-1', key: '0-0-1-1' },
+  //           { title: '0-0-1-2', key: '0-0-1-2' },
+  //         ],
+  //       },
+  //       {
+  //         title: '0-0-2',
+  //         key: '0-0-2',
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: '0-1',
+  //     key: '0-1',
+  //     icon: false,
+  //     children: [
+  //       { title: '0-1-0-0', key: '0-1-0-0' },
+  //       { title: '0-1-0-1', key: '0-1-0-1' },
+  //       { title: '0-1-0-2', key: '0-1-0-2' },
+  //     ],
+  //   },
+  //   {
+  //     icon: false,
+  //     title: '0-2',
+  //     key: '0-2',
+  //   },
+  // ];
   const [_expandKeys, setExpandKeys] = useState<string[]>(defaultExpandKeys ?? []);
   const [_value, setValue] = useState<string | undefined>(defaultValue ?? '');
   const [_checkedKeys, setCheckedKeys] = useState<string[]>(defaultCheckedValues ?? []);
@@ -204,7 +206,6 @@ const Tree: FC<TreeProps> = (props) => {
                   checked: checkedStatus !== 'unchecked',
                   skipGroup: true,
                   onCheckedChange(checked: CheckedState) {
-                    console.log(123, checked, value.key);
                     const childrenKeys = getChildrenKeys(treeData, value.key);
                     match(checkedStatus)
                       .with('checked', () => {

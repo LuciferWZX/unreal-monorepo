@@ -32,7 +32,7 @@ const ThreeItem: FC<TreeItemProps> = (props) => {
     onClickChevron,
     onDoubleClick,
     style,
-    checkable,
+    checkable = false,
     checkboxProps,
     value,
     chevron,

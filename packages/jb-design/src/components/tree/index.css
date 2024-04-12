@@ -3,7 +3,7 @@
     基本配置
      */
     font-size: var(--default-size);
-    @apply jb-select-none jb-block jb-box-border jb-py-[8px] jb-leading-[--default-line-height] jb-font-[--default-weight];
+    @apply jb-select-none jb-block jb-box-border jb-leading-[--default-line-height] jb-font-[--default-weight];
     /**
     文本颜色
      */

@@ -1,15 +1,7 @@
-import {
-  CSSProperties,
-  FC,
-  forwardRef,
-  HTMLAttributes,
-  KeyboardEventHandler,
-  ReactNode,
-} from 'react';
+import { CSSProperties, FC, KeyboardEventHandler, ReactNode } from 'react';
 import './index.css';
 import { cn } from '@/utils';
 import { Command, CommandList } from '@/components/command';
-import { ScrollArea } from '@/components';
 interface TreeContainerProps {
   className?: string;
   style?: CSSProperties;
@@ -32,7 +24,7 @@ const TreeContainer: FC<TreeContainerProps> = (props) => {
       onKeyDown={onKeyDown}
     >
       <CommandList style={style} className={classes}>
-        <ScrollArea style={{ height: height, width: width }}>{children}</ScrollArea>
+        {children}
       </CommandList>
     </Command>
   );

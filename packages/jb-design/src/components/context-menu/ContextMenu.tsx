@@ -58,11 +58,14 @@ export interface OptionSeparator extends Omit<BaseMenuOption, 'classes'> {
 
 export type ContextMenuOptions = OptionItem | OptionSubmenu | OptionSeparator;
 export interface ContextMenuProps {
+  disabled?: boolean;
   children?: ReactNode;
   options?: ContextMenuOptions[];
+  onContextMenu?: MouseEventHandler<HTMLSpanElement>;
+  onOpenChange?: (open: boolean) => void;
 }
 const ContextMenu: FC<ContextMenuProps> = (props) => {
-  const { children, options } = props;
+  const { children, onOpenChange, options, onContextMenu, disabled } = props;
 
   const renderOptions = (options: ContextMenuOptions[]) => {
     return options?.map((option) => {
@@ -147,8 +150,10 @@ const ContextMenu: FC<ContextMenuProps> = (props) => {
     });
   };
   return (
-    <ContextMenuBox>
-      <ContextMenuTrigger>{children}</ContextMenuTrigger>
+    <ContextMenuBox onOpenChange={onOpenChange}>
+      <ContextMenuTrigger onContextMenu={onContextMenu} disabled={disabled}>
+        {children}
+      </ContextMenuTrigger>
       <ContextMenuPortal>
         <ContextMenuContent>{renderOptions(options ?? [])}</ContextMenuContent>
       </ContextMenuPortal>
