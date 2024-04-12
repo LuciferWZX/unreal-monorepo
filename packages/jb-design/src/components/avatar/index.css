@@ -1,0 +1,4 @@
+.jb-avatar {
+    @apply jb-outline-none jb-relative jb-flex jb-h-10 jb-w-10 jb-shrink-0 jb-overflow-hidden jb-rounded-full;
+    @apply focus:jb-outline-[1px] focus:jb-outline-[--blue-4] focus:dark:jb-outline-[--blue-6];
+}

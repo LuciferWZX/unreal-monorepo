@@ -1,5 +1,5 @@
 .toggle_button{
-    @apply ai-transition-colors ai-rounded-[--app-tooltip-radius] ai-outline-none;
+    @apply ai-transition-colors ai-duration-150 ai-rounded-[--app-tooltip-radius] ai-outline-none;
 
     /**
     字体颜色

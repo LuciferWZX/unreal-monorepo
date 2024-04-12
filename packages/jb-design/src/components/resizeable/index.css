@@ -1,0 +1,4 @@
+.jb-resize-handle{
+    @apply jb-relative jb-flex jb-w-px jb-items-center jb-justify-center jb-bg-border after:jb-absolute after:jb-inset-y-0 after:jb-left-1/2 after:jb-w-1 after:jb--translate-x-1/2 focus-visible:jb-outline-none focus-visible:jb-ring-1 focus-visible:jb-ring-ring focus-visible:jb-ring-offset-1 data-[panel-group-direction=vertical]:jb-h-px data-[panel-group-direction=vertical]:jb-w-full data-[panel-group-direction=vertical]:after:jb-left-0 data-[panel-group-direction=vertical]:after:jb-h-1 data-[panel-group-direction=vertical]:after:jb-w-full data-[panel-group-direction=vertical]:after:jb--translate-y-1/2 data-[panel-group-direction=vertical]:after:jb-translate-x-0 [&[data-panel-group-direction=vertical]>div]:jb-rotate-90;
+    @apply jb-bg-[--gray-12] dark:jb-bg-[--gray-3];
+}

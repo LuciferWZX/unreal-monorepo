@@ -1,6 +1,13 @@
 .base_header{
-    @apply ai-box-border ai-h-[40px] ai-bg-[--gray-13] dark:ai-bg-[--gray-2] ai-flex ai-items-center ai-pl-[12px];
+    @apply ai-box-border ai-h-[40px] ai-bg-[--gray-13] dark:ai-bg-[--gray-2] ai-flex ai-items-center ai-px-[12px];
+    @apply ai-border-b-[1px] ai-border-[--gray-12] dark:ai-border-[--gray-3];
 }
 .base_header .base_header_logo{
-    @apply ai-h-[16px] ai-w-[16px] ai-mr-[16px];
+    @apply ai-h-[16px] ai-w-[16px] ai-mr-[16px] ai-cursor-pointer;
+}
+.base_header_title{
+    @apply ai-flex-1 ai-flex ai-items-center ai-justify-center;
+}
+.base_header .base_header_actions{
+
 }

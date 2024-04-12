@@ -1,6 +1,7 @@
 /// <reference types="react" />
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 export { default as Dropdown } from './Dropdown';
+export type { OptionItem, NormalOptionItem } from './Dropdown';
 export { default as DropdownMenuContent } from './DropdownMenuContent';
 export { default as DropdownMenuLabel } from './DropdownMenuLabel';
 export { default as DropdownMenuItem } from './DropdownMenuItem';

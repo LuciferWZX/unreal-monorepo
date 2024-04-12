@@ -6,7 +6,7 @@
     /**
     边框颜色
      */
-    @apply ai-border-[--gray-12] dark:ai-border-[--gray-2];
+    @apply ai-border-[--gray-12] dark:ai-border-[--gray-3];
     /**
     背景颜色
      */
