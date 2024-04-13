@@ -6,53 +6,73 @@ import {
   ScrollArea,
   Tree,
 } from '@wzx-unreal/jb-design';
+import workflowSpaceIcon from '@/assets/workflow_space.svg';
+import workflowIcon from '@/assets/workflow.svg';
 import styles from './index.module.css';
 import { useMemo, useRef } from 'react';
 import { useSize } from '@wzx-unreal/react-hooks';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 import useContextMenuTarget from '@/pages/workflow-page/workflow_space/useContextMenuTarget.ts';
-import useWorkflowTree from '@/pages/workflow-page/workflow_space/useWorkflowTree.ts';
+import useWorkflowTree from '@/pages/workflow-page/workflow_space/useWorkflowTree.tsx';
+import useWorkflowStore from '@/stores/useWorkflowStore.ts';
 const WorkflowSpace = () => {
   const ref = useRef(null);
   const size = useSize(ref);
   const { targetKey, setTargetKey } = useContextMenuTarget();
-  const [treeData, { addTreeData }] = useWorkflowTree();
+  const [treeData, openKeys, { addTreeData, setOpenKeys }] = useWorkflowTree();
   const baseOptions: ContextMenuOptions[] = useMemo(() => {
-    const _base: ContextMenuOptions[] = [
+    const baseItem: ContextMenuOptions[] = [
       {
         key: 'add_workflow',
         label: '新建工作流',
-        onClick: () => {
-          console.log('新建工作流');
-          addTreeData(targetKey);
-        },
+        icon: <img src={workflowIcon} alt={'工作流'} />,
+      },
+      {
+        key: 'add_folder',
+        label: '新建目录',
+        icon: <img src={workflowSpaceIcon} alt={'空间'} />,
       },
     ];
-    return match(targetKey)
+    const treeItemBase = match(targetKey)
       .with(null, () => {
-        return _base;
+        return baseItem;
       })
-      .otherwise((_key) => {
-        return _base.concat([
+      .otherwise(() => {
+        return baseItem.concat([
           {
             key: 'delete_workflow',
             label: '删除工作流',
-            onClick: () => {
-              console.log('删除工作流:', _key);
-            },
           },
         ]);
       });
-  }, [targetKey]);
+    return treeItemBase.map((_op) => {
+      return {
+        ..._op,
+        onClick: () => {
+          match(_op.key)
+            .with('add_workflow', () => {
+              addTreeData(targetKey);
+            })
+            .with('add_folder', () => {
+              addTreeData(targetKey, 'dir');
+            })
+            .otherwise(() => undefined);
+        },
+      };
+    });
+  }, [addTreeData, targetKey]);
+  const clickTreeItem = (key: string) => {
+    match(key).with(P.string.startsWith('wk_'), (_key) => {
+      const cacheMap = useWorkflowStore.getState().workflowBuilderMap;
+      console.log(111, cacheMap);
+      if (!cacheMap.has(_key)) {
+        useWorkflowStore.getState().handleWorkflowBuilderMap('set', _key, '我是数据');
+      }
+    });
+  };
   return (
     <ResizablePanel defaultSize={20} minSize={1}>
       <ContextMenu
-        onContextMenu={(e) => {
-          const target = e.target as HTMLElement;
-          console.log(2222, target);
-          const targetKey = target.getAttribute('data-key');
-          setTargetKey(targetKey);
-        }}
         onOpenChange={(open) => {
           if (!open) {
             setTargetKey(null);
@@ -74,7 +94,15 @@ const WorkflowSpace = () => {
                   }}
                 >
                   <div className={cn(styles.workflow_space_tree)}>
-                    <Tree treeData={treeData} />
+                    <Tree
+                      expandKeys={openKeys}
+                      onExpandKeysChanges={setOpenKeys}
+                      onClickItem={clickTreeItem}
+                      onContextMenu={(_, _key) => {
+                        setTargetKey(_key || null);
+                      }}
+                      treeData={treeData}
+                    />
                   </div>
                 </ScrollArea>
               );

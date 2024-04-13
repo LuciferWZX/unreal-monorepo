@@ -19,6 +19,9 @@ export { Tree } from './tree';
 export type { TreeData } from './tree';
 export { Space } from 'antd';
 export type { CheckboxProps, CheckboxRef } from './checkbox';
+
+export { TabsContent, TabsList, TabsTrigger, Tabs, Tab } from './tab';
+export type { TabProps, TabOptions } from './tab';
 export * from '../icons';
 export * from './theme-provider';
 export * from '../utils';

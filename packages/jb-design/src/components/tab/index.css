@@ -1,0 +1,50 @@
+.jb-tab-list{
+    @apply jb-box-border jb-border-b-[1px] jb-border-solid jb-flex;
+    /**
+    border颜色
+     */
+    @apply jb-border-[--gray-12] dark:jb-border-[--gray-3];
+    /**
+    背景颜色
+     */
+    @apply jb-bg-[--gray-14] dark:jb-bg-[--gray-2];
+}
+.jb-tab-icon{
+    @apply jb-mr-[4px] jb-w-[16px] jb-h-[16px] jb-text-[10px] jb-flex jb-items-center jb-justify-center;
+}
+.jb-tab-close-icon{
+    @apply jb-mr-[0] jb-ml-[6px];
+    @apply jb-text-[--gray-8] dark:jb-text-[--gray-7];
+}
+.jb-tab-trigger{
+    /**
+    基本配置
+     */
+    @apply jb-outline-none jb-relative jb-inline-flex jb-items-center  jb-whitespace-nowrap jb-p-[12px_6px_12px_12px] jb-transition-all ;
+    /**
+    常态
+     */
+    /*@apply;*/
+    /**
+    hover
+     */
+    @apply hover:jb-bg-[--gray-12] dark:hover:jb-bg-[--gray-3];
+
+    /**
+    selected
+     */
+    @apply data-[state=active]:jb-bg-[--gray-12] dark:data-[state=active]:jb-bg-[--gray-3];
+
+    /**
+    禁用
+     */
+    @apply disabled:jb-opacity-50;
+}
+.jb-tab-trigger:after{
+    content: "";
+    @apply jb-absolute jb-bottom-0 jb-left-0 jb-w-full jb-h-[2px] jb-rounded-[--app-radius];
+    @apply data-[state=active]:jb-bg-[--blue-4] dark:data-[state=active]:jb-bg-[--blue-6];
+}
+.jb-tab-content{
+
+}

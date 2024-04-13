@@ -1,0 +1,6 @@
+.ai_tab{
+    @apply ai-h-full ai-flex ai-flex-col;
+}
+.ai_tab_content{
+    @apply ai-flex-1 ;
+}

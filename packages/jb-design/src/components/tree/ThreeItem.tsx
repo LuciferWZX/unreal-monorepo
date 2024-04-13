@@ -22,8 +22,10 @@ interface TreeItemProps {
   checkable?: boolean;
   checked?: boolean;
   checkboxProps?: CheckboxProps;
+  onContextMenu?: (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>, value?: string) => void;
   onCheckedChange?: (checked: boolean) => void;
   isExpand?: boolean;
+  onSelect?: (value: string) => void;
 }
 const ThreeItem: FC<TreeItemProps> = (props) => {
   const {
@@ -38,6 +40,8 @@ const ThreeItem: FC<TreeItemProps> = (props) => {
     chevron,
     hint,
     children,
+    onSelect,
+    onContextMenu,
     icon,
   } = props;
   const [_checked, { toggle }] = useBoolean(false);
@@ -76,9 +80,13 @@ const ThreeItem: FC<TreeItemProps> = (props) => {
       //     mergedCheckedChange(!mergedChecked);
       //   });
       // }}
+      onSelect={onSelect}
       onDoubleClick={(e) => onDoubleClick?.(e, value || '')}
       value={value}
       className={_classes}
+      onContextMenu={(e) => {
+        onContextMenu?.(e, value);
+      }}
       style={style}
     >
       <div style={{ paddingLeft: props.indent }} className={'jb-tree-item-children'}>

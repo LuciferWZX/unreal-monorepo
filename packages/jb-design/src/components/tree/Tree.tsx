@@ -33,8 +33,11 @@ interface TreeProps {
   defaultCheckedValues?: string[];
   checkedValues?: string[];
   onCheckedValuesChanges?: (values: string[]) => void;
+  onContextMenu?: (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>, value?: string) => void;
   expandKeys?: string[];
+  onDoubleClick?: (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>, value?: string) => void;
   value?: string;
+  onClickItem?: (key: string) => void;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
   checkable?: boolean;
@@ -48,12 +51,15 @@ const Tree: FC<TreeProps> = (props) => {
     defaultValue,
     expandKeys,
     onExpandKeysChanges,
+    onClickItem,
+    onDoubleClick,
     defaultCheckedValues,
     onCheckedValuesChanges,
     checkedValues,
     defaultExpandKeys,
     height,
     checkable,
+    onContextMenu,
     width,
   } = props;
   // const treeData: TreeData[] = [
@@ -144,6 +150,11 @@ const Tree: FC<TreeProps> = (props) => {
     match(e.code).with('Enter', () => {
       e.preventDefault();
       handleExpandKey(mergedValue);
+      match(mergedValue)
+        .with(undefined, () => {})
+        .otherwise((_mv) => {
+          onClickItem?.(_mv);
+        });
     });
   };
   const handleExpand = (e: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>, key?: string) => {
@@ -201,7 +212,9 @@ const Tree: FC<TreeProps> = (props) => {
                 isExpand={isExpand}
                 checkable={mergedCheckable}
                 onClickChevron={handleExpand}
+                onSelect={onClickItem}
                 onDoubleClick={handleDoubleClick}
+                onContextMenu={onContextMenu}
                 checkboxProps={{
                   checked: checkedStatus !== 'unchecked',
                   skipGroup: true,
@@ -243,8 +256,11 @@ const Tree: FC<TreeProps> = (props) => {
               icon={item.icon}
               hint={item.hint}
               key={item.key}
+              onSelect={onClickItem}
+              onDoubleClick={onDoubleClick}
               chevron={false}
               indent={_indent}
+              onContextMenu={onContextMenu}
               // checkboxProps={{
               //   onCheckedChange(checked: CheckedState) {
               //     if (parentData) {
