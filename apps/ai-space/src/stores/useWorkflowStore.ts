@@ -4,15 +4,19 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { produce, enableMapSet } from 'immer';
 import { match } from 'ts-pattern';
 enableMapSet();
+interface WorkflowBuilderDataType {
+  id: string;
+  name: string;
+}
 interface WorkflowStoreType {
   workflowSpace: TreeData[];
-  workflowBuilderMap: Map<string, string>;
+  workflowBuilderMap: Map<string, WorkflowBuilderDataType>;
 }
 interface WorkflowStoreActionsType {
-  handleWorkflowBuilderMap: <T = string>(
+  handleWorkflowBuilderMap: (
     type: 'set' | 'remove' | 'clear',
     key: string,
-    value?: T
+    value?: WorkflowBuilderDataType
   ) => void;
 }
 const initialValue: WorkflowStoreType = {
@@ -28,7 +32,7 @@ const useWorkflowStore = create(
           produce((_state: WorkflowStoreType & WorkflowStoreActionsType) => {
             match(type)
               .with('set', () => {
-                _state.workflowBuilderMap.set(key, JSON.stringify(value));
+                _state.workflowBuilderMap.set(key, value as WorkflowBuilderDataType);
               })
               .with('remove', () => {
                 _state.workflowBuilderMap.delete(key);
@@ -42,7 +46,23 @@ const useWorkflowStore = create(
     }),
     {
       name: 'ai-space',
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => localStorage, {
+        reviver: (key, value) => {
+          return match(key)
+            .with('workflowBuilderMap', () => {
+              return new Map(value as [string, string][]);
+            })
+            .otherwise(() => value);
+        },
+        replacer: (_, value) => {
+          return match(value instanceof Map)
+            .with(true, () => {
+              return Array.from((value as Map<string, string>).entries());
+            })
+            .otherwise(() => value);
+        },
+      }),
+      partialize: (state) => ({ ...state, workflowSpace: [] }),
     }
   )
 );

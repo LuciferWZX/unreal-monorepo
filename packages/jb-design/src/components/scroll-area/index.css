@@ -11,7 +11,10 @@
     @apply jb-h-full jb-w-2.5 jb-border-l jb-border-l-transparent jb-p-[1px];
 }
 .jb-scrollbar-horizontal{
-    @apply jb-h-2.5 jb-flex-col jb-border-t jb-border-t-transparent jb-p-[1px];
+    @apply jb-h-2.5 jb-flex-col jb-border-t jb-border-t-transparent jb-p-[1px] jb-top-0;
+}
+.jb-scrollbar-horizontal-top{
+    @apply jb-top-0 jb-p-[0];
 }
 .jb-scroll-area-thumb{
     @apply jb-relative jb-flex-1 jb-rounded-[--app-radius] jb-bg-border;

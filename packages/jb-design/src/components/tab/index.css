@@ -9,6 +9,9 @@
      */
     @apply jb-bg-[--gray-14] dark:jb-bg-[--gray-2];
 }
+.jb-tab-scroll-list{
+    @apply jb-whitespace-nowrap;
+}
 .jb-tab-icon{
     @apply jb-mr-[4px] jb-w-[16px] jb-h-[16px] jb-text-[10px] jb-flex jb-items-center jb-justify-center;
 }
@@ -44,6 +47,9 @@
     content: "";
     @apply jb-absolute jb-bottom-0 jb-left-0 jb-w-full jb-h-[2px] jb-rounded-[--app-radius];
     @apply data-[state=active]:jb-bg-[--blue-4] dark:data-[state=active]:jb-bg-[--blue-6];
+}
+.jb-tab-actions{
+    @apply jb-absolute jb-end-0;
 }
 .jb-tab-content{
 

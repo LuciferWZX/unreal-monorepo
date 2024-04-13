@@ -1,32 +1,38 @@
-import { ResizablePanel, Tab, TabOptions, Button, cn } from '@wzx-unreal/jb-design';
+import { ResizablePanel, Tab, TabOptions, cn } from '@wzx-unreal/jb-design';
 import workflowIcon from '@/assets/workflow.svg';
 import styles from './index.module.css';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import useWorkflowStore from '@/stores/useWorkflowStore.ts';
+import { useShallow } from 'zustand/react/shallow';
 const WorkflowBuilder = () => {
   const [workflowKey, setWorkflowKey] = useState<string | undefined>(undefined);
-  const options: TabOptions[] = [
-    {
-      value: '1',
-      label: '工作流1',
-      icon: <img src={workflowIcon} alt={'工作流'} />,
-      onClose: (e, value) => {
-        e.preventDefault();
-        console.log(123, value);
-      },
-      closeable: true,
-      content: ' Hello World',
-    },
-    {
-      value: '2',
-      label: '工作流2',
-      closeable: true,
-      content: (
-        <div>
-          <Button>xx</Button>
-        </div>
-      ),
-    },
-  ];
+  const cacheMap = useWorkflowStore(useShallow((state) => state.workflowBuilderMap));
+
+  const options: TabOptions[] = useMemo(() => {
+    return Array.from(cacheMap.entries()).map(([key, data]) => {
+      return {
+        value: key,
+        label: data.name,
+        icon: <img src={workflowIcon} alt={data.name} />,
+        onClose: (e, value) => {
+          e.preventDefault();
+          console.log(123, value);
+        },
+        closeable: true,
+        content: (
+          <div>
+            {JSON.stringify(data)}
+            {JSON.stringify(data)}
+            {JSON.stringify(data)}
+            {JSON.stringify(data)}
+            {JSON.stringify(data)}
+            {JSON.stringify(data)}
+            {JSON.stringify(data)}
+          </div>
+        ),
+      };
+    });
+  }, [cacheMap]);
   return (
     <ResizablePanel minSize={50}>
       <Tab

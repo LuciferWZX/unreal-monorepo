@@ -5,5 +5,5 @@
     @apply ai-flex-1 ai-flex;
 }
 .base_layout .base_layout_content .base_layout_content_with_sider{
-    @apply ai-flex-1;
+    @apply ai-flex-1 ai-overflow-auto;
 }

@@ -19,7 +19,7 @@ const WorkflowSpace = () => {
   const ref = useRef(null);
   const size = useSize(ref);
   const { targetKey, setTargetKey } = useContextMenuTarget();
-  const [treeData, openKeys, { addTreeData, setOpenKeys }] = useWorkflowTree();
+  const [treeData, openKeys, { addTreeData, setOpenKeys, findTreeDataByKey }] = useWorkflowTree();
   const baseOptions: ContextMenuOptions[] = useMemo(() => {
     const baseItem: ContextMenuOptions[] = [
       {
@@ -66,7 +66,13 @@ const WorkflowSpace = () => {
       const cacheMap = useWorkflowStore.getState().workflowBuilderMap;
       console.log(111, cacheMap);
       if (!cacheMap.has(_key)) {
-        useWorkflowStore.getState().handleWorkflowBuilderMap('set', _key, '我是数据');
+        const target = findTreeDataByKey(treeData, _key);
+        match(target).with(P.not(undefined), (_target) => {
+          useWorkflowStore.getState().handleWorkflowBuilderMap('set', _target.key, {
+            id: _target.key,
+            name: _target.title as string,
+          });
+        });
       }
     });
   };

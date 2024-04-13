@@ -11,6 +11,7 @@ import { isArray } from '@wzx-unreal/react-hooks';
 interface WorkflowTreeActions {
   addTreeData: (targetKey: string | null, type?: 'file' | 'dir') => void;
   setOpenKeys: (keys: string[]) => void;
+  findTreeDataByKey: (treeData: TreeData[], key: string) => TreeData | undefined;
 }
 const useWorkflowTree = (): [TreeData[], string[], WorkflowTreeActions] => {
   const [openKeys, setOpenKeys] = useState<string[]>([]);
@@ -103,6 +104,30 @@ const useWorkflowTree = (): [TreeData[], string[], WorkflowTreeActions] => {
         });
     });
   };
-  return [treeData, openKeys, { addTreeData, setOpenKeys }];
+  const findTreeDataByKey = (_treeData: TreeData[], key: string): TreeData | undefined => {
+    const target = _treeData.find((item) => item.key === key);
+    return match(target)
+      .with(undefined, () => {
+        const withChildren = _treeData.filter((_td) =>
+          match(_td).with({ children: P.not(undefined) }, () => true)
+        );
+        let result: TreeData | undefined = undefined;
+        for (let i = 0; i < withChildren.length; i++) {
+          const _target = withChildren[i];
+
+          match(_target).with({ children: P.not(undefined) }, (_hasChildTarget) => {
+            result = findTreeDataByKey(_hasChildTarget.children, key);
+          });
+          if (result) {
+            return result;
+          }
+        }
+        return result;
+      })
+      .otherwise((_target) => {
+        return _target;
+      });
+  };
+  return [treeData, openKeys, { addTreeData, setOpenKeys, findTreeDataByKey }];
 };
 export default useWorkflowTree;
