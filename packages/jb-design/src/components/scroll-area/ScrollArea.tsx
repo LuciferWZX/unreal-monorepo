@@ -6,25 +6,38 @@ interface ScrollAreaProps extends React.ComponentPropsWithoutRef<typeof ScrollAr
   horizontalPosition?: 'top';
   horizontalScrollBarStyle?: React.CSSProperties;
   scrollBarStyle?: React.CSSProperties;
+  hideXBar?: boolean;
+  hideYBar?: boolean;
 }
 const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Root>,
   ScrollAreaProps
 >(
   (
-    { className, scrollBarStyle, horizontalScrollBarStyle, horizontalPosition, children, ...props },
+    {
+      className,
+      scrollBarStyle,
+      hideYBar,
+      hideXBar,
+      horizontalScrollBarStyle,
+      horizontalPosition,
+      children,
+      ...props
+    },
     ref
   ) => (
     <ScrollAreaPrimitive.Root ref={ref} className={cn('jb-scroll-area', className)} {...props}>
       <ScrollAreaPrimitive.Viewport className={cn('jb-scroll-area-viewport', className)}>
         {children}
       </ScrollAreaPrimitive.Viewport>
-      <ScrollBar style={scrollBarStyle} orientation={'vertical'} />
-      <ScrollBar
-        style={horizontalScrollBarStyle}
-        position={horizontalPosition}
-        orientation={'horizontal'}
-      />
+      {!hideYBar && <ScrollBar style={scrollBarStyle} orientation={'vertical'} />}
+      {!hideXBar && (
+        <ScrollBar
+          style={horizontalScrollBarStyle}
+          position={horizontalPosition}
+          orientation={'horizontal'}
+        />
+      )}
       <ScrollAreaPrimitive.Corner />
     </ScrollAreaPrimitive.Root>
   )

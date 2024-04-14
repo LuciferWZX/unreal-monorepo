@@ -9,15 +9,12 @@ import {
   ReactNode,
   MouseEvent as ReMouseEvent,
   CSSProperties,
-  useRef,
-  useEffect,
   useMemo,
 } from 'react';
 import { cn } from '@/utils';
 import { Close } from '@/icons';
 import { match, P } from 'ts-pattern';
 import './index.css';
-import { useSize } from '@wzx-unreal/react-hooks';
 import { Space } from 'antd';
 import { ScrollArea, Toggle } from '@/components';
 export interface TabOptions {
@@ -45,6 +42,11 @@ type TabRef = ElementRef<typeof TabsPrimitive.Root>;
 type BaseTabProps = ComponentPropsWithoutRef<typeof TabsPrimitive.Root>;
 export interface TabProps extends BaseTabProps {
   options?: TabOptions[];
+  actions?: ReactNode;
+  tabProps?: {
+    hideScrollY?: boolean;
+    hideScrollX?: boolean;
+  };
   classes?: {
     tab?: string;
     tabItem?: string;
@@ -58,20 +60,8 @@ export interface TabProps extends BaseTabProps {
 }
 
 const Tab = forwardRef<TabRef, TabProps>((props, ref) => {
-  const { options = [], className, classes, styles, ...restProps } = props;
-  const listRef = useRef<HTMLDivElement>(null);
-  const listSize = useSize(listRef);
-  useEffect(() => {
-    match(listRef.current).with(P.not(null), (_current) => {
-      match(listSize).with(P.not(undefined), (_listSize) => {
-        if (_listSize.width >= _current.scrollWidth) {
-          console.log('未超出');
-        } else {
-          console.log('超出');
-        }
-      });
-    });
-  }, [listSize]);
+  const { options = [], actions, className, tabProps, classes, styles, ...restProps } = props;
+
   const renderClose = (option: TabOptions) => {
     const { closeable, closeIcon, onClose, classes, styles } = option;
     return match(closeable)
@@ -90,17 +80,15 @@ const Tab = forwardRef<TabRef, TabProps>((props, ref) => {
       })
       .otherwise(() => null);
   };
-  const actions = useMemo(() => {
-    return (
-      <Space className={cn('jb-tab-actions')}>
-        <Toggle pressed={false}>...</Toggle>
-      </Space>
-    );
-  }, []);
+  const actionsNode = useMemo(() => {
+    return <Space className={cn('jb-tab-actions')}>{actions}</Space>;
+  }, [actions]);
   return (
     <Tabs ref={ref} className={cn(className)} {...restProps}>
-      <TabsList ref={listRef} className={cn(classes?.tab)} style={styles?.tab}>
+      <TabsList className={cn(classes?.tab)} style={styles?.tab}>
         <ScrollArea
+          hideXBar={tabProps?.hideScrollX}
+          hideYBar={tabProps?.hideScrollY}
           horizontalScrollBarStyle={{ height: 4 }}
           horizontalPosition={'top'}
           className={cn('jb-tab-scroll-list')}
@@ -126,8 +114,8 @@ const Tab = forwardRef<TabRef, TabProps>((props, ref) => {
               </TabsTrigger>
             );
           })}
-          {actions}
         </ScrollArea>
+        {actionsNode}
       </TabsList>
       {options.map((opt) => {
         return (

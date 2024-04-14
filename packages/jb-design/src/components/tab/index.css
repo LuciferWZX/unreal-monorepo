@@ -1,5 +1,5 @@
 .jb-tab-list{
-    @apply jb-box-border jb-border-b-[1px] jb-border-solid jb-flex;
+    @apply jb-box-border jb-border-b-[1px] jb-border-solid jb-flex jb-relative;
     /**
     border颜色
      */
@@ -9,9 +9,7 @@
      */
     @apply jb-bg-[--gray-14] dark:jb-bg-[--gray-2];
 }
-.jb-tab-scroll-list{
-    @apply jb-whitespace-nowrap;
-}
+
 .jb-tab-icon{
     @apply jb-mr-[4px] jb-w-[16px] jb-h-[16px] jb-text-[10px] jb-flex jb-items-center jb-justify-center;
 }
@@ -48,8 +46,11 @@
     @apply jb-absolute jb-bottom-0 jb-left-0 jb-w-full jb-h-[2px] jb-rounded-[--app-radius];
     @apply data-[state=active]:jb-bg-[--blue-4] dark:data-[state=active]:jb-bg-[--blue-6];
 }
+.jb-tab-scroll-list{
+    @apply jb-whitespace-nowrap jb-flex-1;
+}
 .jb-tab-actions{
-    @apply jb-absolute jb-end-0;
+    @apply  jb-inline-flex jb-items-center ;
 }
 .jb-tab-content{
 

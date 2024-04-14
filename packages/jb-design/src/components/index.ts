@@ -14,6 +14,7 @@ export { ContextMenu } from './context-menu';
 export type { ContextMenuOptions } from './context-menu';
 export { default as Checkbox } from './checkbox';
 export { Toggle, ToggleGroupContext, ToggleGroup, ToggleGroupItem } from './toggle';
+export { Modal } from './modal';
 export { Avatar, AvatarFallback, AvatarImage, AvatarRoot } from './avatar';
 export { Tree } from './tree';
 export type { TreeData } from './tree';

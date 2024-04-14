@@ -1,21 +1,27 @@
 import { create } from 'zustand';
-import { TreeData } from '@wzx-unreal/jb-design';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { produce, enableMapSet } from 'immer';
 import { match } from 'ts-pattern';
 enableMapSet();
+export interface WorkflowSpaceDataType {
+  key: string;
+  title: string;
+  chevron?: boolean;
+  children?: WorkflowSpaceDataType[];
+  isLeaf?: boolean;
+}
 interface WorkflowBuilderDataType {
   id: string;
   name: string;
 }
 interface WorkflowStoreType {
-  workflowSpace: TreeData[];
+  workflowSpace: WorkflowSpaceDataType[];
   workflowBuilderMap: Map<string, WorkflowBuilderDataType>;
 }
 interface WorkflowStoreActionsType {
   handleWorkflowBuilderMap: (
     type: 'set' | 'remove' | 'clear',
-    key: string,
+    key: string | null,
     value?: WorkflowBuilderDataType
   ) => void;
 }
@@ -30,6 +36,9 @@ const useWorkflowStore = create(
       handleWorkflowBuilderMap: (type, key, value) => {
         set(
           produce((_state: WorkflowStoreType & WorkflowStoreActionsType) => {
+            if (!key) {
+              return;
+            }
             match(type)
               .with('set', () => {
                 _state.workflowBuilderMap.set(key, value as WorkflowBuilderDataType);
@@ -62,7 +71,6 @@ const useWorkflowStore = create(
             .otherwise(() => value);
         },
       }),
-      partialize: (state) => ({ ...state, workflowSpace: [] }),
     }
   )
 );

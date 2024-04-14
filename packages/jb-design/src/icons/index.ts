@@ -13,4 +13,5 @@ export { ChevronDown } from './chevron-down';
 export { Close } from './close';
 export { Folder } from './folder';
 export { MoreHorizontal } from './more-horizontal';
+export { MoreVertical } from './more-vertical';
 export { SettingsOutline } from './settings-outline';

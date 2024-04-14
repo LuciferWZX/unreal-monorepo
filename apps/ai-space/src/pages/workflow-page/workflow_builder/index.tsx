@@ -1,47 +1,34 @@
-import { ResizablePanel, Tab, TabOptions, cn } from '@wzx-unreal/jb-design';
-import workflowIcon from '@/assets/workflow.svg';
+import { ResizablePanel, Tab, cn, Toggle, MoreVertical, Space } from '@wzx-unreal/jb-design';
 import styles from './index.module.css';
-import { useMemo, useState } from 'react';
-import useWorkflowStore from '@/stores/useWorkflowStore.ts';
-import { useShallow } from 'zustand/react/shallow';
+import { match, P } from 'ts-pattern';
+import useTab from '@/pages/workflow-page/workflow_builder/useTab.tsx';
 const WorkflowBuilder = () => {
-  const [workflowKey, setWorkflowKey] = useState<string | undefined>(undefined);
-  const cacheMap = useWorkflowStore(useShallow((state) => state.workflowBuilderMap));
-
-  const options: TabOptions[] = useMemo(() => {
-    return Array.from(cacheMap.entries()).map(([key, data]) => {
-      return {
-        value: key,
-        label: data.name,
-        icon: <img src={workflowIcon} alt={data.name} />,
-        onClose: (e, value) => {
-          e.preventDefault();
-          console.log(123, value);
-        },
-        closeable: true,
-        content: (
-          <div>
-            {JSON.stringify(data)}
-            {JSON.stringify(data)}
-            {JSON.stringify(data)}
-            {JSON.stringify(data)}
-            {JSON.stringify(data)}
-            {JSON.stringify(data)}
-            {JSON.stringify(data)}
-          </div>
-        ),
-      };
-    });
-  }, [cacheMap]);
+  const [workflowKey, options, { setWorkflowKey }] = useTab();
   return (
     <ResizablePanel minSize={50}>
-      <Tab
-        value={workflowKey}
-        onValueChange={setWorkflowKey}
-        className={cn(styles.ai_tab)}
-        options={options}
-        classes={{ content: styles.ai_tab_content }}
-      />
+      {match(options.length)
+        .with(P.not(0), () => {
+          return (
+            <Tab
+              value={workflowKey}
+              onValueChange={setWorkflowKey}
+              className={cn(styles.ai_tab)}
+              options={options}
+              actions={
+                <Space style={{ padding: '0 10px' }}>
+                  <Toggle pressed={false} value={'more'}>
+                    <MoreVertical />
+                  </Toggle>
+                </Space>
+              }
+              tabProps={{ hideScrollY: true }}
+              classes={{ content: styles.ai_tab_content }}
+            />
+          );
+        })
+        .otherwise(() => {
+          return null;
+        })}
     </ResizablePanel>
   );
 };

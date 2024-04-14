@@ -9,17 +9,30 @@ import {
 import workflowSpaceIcon from '@/assets/workflow_space.svg';
 import workflowIcon from '@/assets/workflow.svg';
 import styles from './index.module.css';
-import { useMemo, useRef } from 'react';
-import { useSize } from '@wzx-unreal/react-hooks';
+import { useMemo, useRef, useState } from 'react';
+import { useBoolean, useSize } from '@wzx-unreal/react-hooks';
 import { match, P } from 'ts-pattern';
 import useContextMenuTarget from '@/pages/workflow-page/workflow_space/useContextMenuTarget.ts';
 import useWorkflowTree from '@/pages/workflow-page/workflow_space/useWorkflowTree.tsx';
 import useWorkflowStore from '@/stores/useWorkflowStore.ts';
+import RenameModal from '@/pages/workflow-page/workflow_space/RenameModal.tsx';
 const WorkflowSpace = () => {
   const ref = useRef(null);
   const size = useSize(ref);
   const { targetKey, setTargetKey } = useContextMenuTarget();
-  const [treeData, openKeys, { addTreeData, setOpenKeys, findTreeDataByKey }] = useWorkflowTree();
+  const [
+    ,
+    treeData,
+    openKeys,
+    { addTreeData, setOpenKeys, findTreeDataByKey, deleteTreeDataByKey },
+  ] = useWorkflowTree();
+  const [renameKey, setRenameKey] = useState<string | null>(null);
+  const [renameOpen, { set: setRenameOpen }] = useBoolean(false);
+  const isSpace = (key: string) => {
+    return match(key)
+      .with(P.string.startsWith('sp_'), () => true)
+      .otherwise(() => false);
+  };
   const baseOptions: ContextMenuOptions[] = useMemo(() => {
     const baseItem: ContextMenuOptions[] = [
       {
@@ -37,11 +50,17 @@ const WorkflowSpace = () => {
       .with(null, () => {
         return baseItem;
       })
-      .otherwise(() => {
+      .otherwise((_targetKey) => {
         return baseItem.concat([
           {
+            key: 'rename',
+            label: '重命名',
+            keepIcon: true,
+          },
+          {
             key: 'delete_workflow',
-            label: '删除工作流',
+            label: isSpace(_targetKey) ? '删除空间' : '删除工作流',
+            keepIcon: true,
           },
         ]);
       });
@@ -56,6 +75,15 @@ const WorkflowSpace = () => {
             .with('add_folder', () => {
               addTreeData(targetKey, 'dir');
             })
+            .with('delete_workflow', () => {
+              console.log('[删除:]', targetKey);
+              deleteTreeDataByKey(targetKey);
+            })
+            .with('rename', () => {
+              console.log('[重命名:]', targetKey);
+              setRenameKey(targetKey);
+              setRenameOpen(true);
+            })
             .otherwise(() => undefined);
         },
       };
@@ -64,7 +92,6 @@ const WorkflowSpace = () => {
   const clickTreeItem = (key: string) => {
     match(key).with(P.string.startsWith('wk_'), (_key) => {
       const cacheMap = useWorkflowStore.getState().workflowBuilderMap;
-      console.log(111, cacheMap);
       if (!cacheMap.has(_key)) {
         const target = findTreeDataByKey(treeData, _key);
         match(target).with(P.not(undefined), (_target) => {
@@ -78,6 +105,12 @@ const WorkflowSpace = () => {
   };
   return (
     <ResizablePanel defaultSize={20} minSize={1}>
+      <RenameModal
+        afterClose={() => setRenameKey(null)}
+        open={renameOpen}
+        workflowKey={renameKey}
+        onClose={() => setRenameOpen(false)}
+      />
       <ContextMenu
         onOpenChange={(open) => {
           if (!open) {
