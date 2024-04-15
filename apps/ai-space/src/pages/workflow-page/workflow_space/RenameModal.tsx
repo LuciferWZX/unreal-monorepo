@@ -19,7 +19,7 @@ const RenameModal: FC<RenameModalProps> = (props) => {
       .otherwise((_workflowKey) => {
         return findWorkflowSpaceDataByKey(workflowSpaceData, _workflowKey);
       });
-  }, [workflowKey]);
+  }, [findWorkflowSpaceDataByKey, workflowKey, workflowSpaceData]);
 
   return (
     <Modal
@@ -34,7 +34,6 @@ const RenameModal: FC<RenameModalProps> = (props) => {
       {match(target)
         .with(undefined, () => null)
         .otherwise((_target) => {
-          console.log(1, workflowKey, target);
           return <Input defaultValue={_target.title} block={true} />;
         })}
     </Modal>

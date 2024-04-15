@@ -1,0 +1,3 @@
+.ai_builder_box{
+    @apply ai-h-full ai-w-full ai-box-border;
+}

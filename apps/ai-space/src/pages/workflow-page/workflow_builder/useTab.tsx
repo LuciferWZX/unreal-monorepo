@@ -4,6 +4,7 @@ import { TabOptions } from '@wzx-unreal/jb-design';
 import workflowIcon from '@/assets/workflow.svg';
 import { useShallow } from 'zustand/react/shallow';
 import { match, P } from 'ts-pattern';
+import { FlowBuilder } from '@/components';
 interface TabActionsType {
   setWorkflowKey: (key: string | undefined) => void;
 }
@@ -22,17 +23,7 @@ const useTab = (): [string | undefined, TabOptions[], TabActionsType] => {
           useWorkflowStore.getState().handleWorkflowBuilderMap('remove', value);
         },
         closeable: true,
-        content: (
-          <div>
-            {JSON.stringify(data)}
-            {JSON.stringify(data)}
-            {JSON.stringify(data)}
-            {JSON.stringify(data)}
-            {JSON.stringify(data)}
-            {JSON.stringify(data)}
-            {JSON.stringify(data)}
-          </div>
-        ),
+        content: <FlowBuilder />,
       };
     });
   }, [cacheMap]);

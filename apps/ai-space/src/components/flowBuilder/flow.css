@@ -1,0 +1,17 @@
+.react-flow__controls{
+    /**
+    controls背景颜色
+     */
+    @apply ai-bg-[--gray-13] dark:ai-bg-[--gray-2];
+
+}
+.react-flow__controls-button{
+    /**
+    controls button的border颜色
+     */
+    @apply ai-border-[--gray-12] dark:ai-border-[--gray-3];
+    /**
+   hover状态的controls button背景颜色
+    */
+    @apply hover:ai-bg-[--gray-11] hover:dark:ai-bg-[--gray-5];
+}

@@ -15,5 +15,6 @@ export { isDev, NOOP, isBrowser } from './constant';
 export { default as depsAreSame } from './depsAreSame';
 export * from './domTarget';
 export { depsEqual } from './depsEqual';
+export { default as isEqual } from 'lodash/isEqual';
 export { default as delay } from './delay';
 export { debounce } from './lodash-polyfill';
