@@ -1,16 +1,5 @@
 .ai_node_box{
-    /**
-    基本属性
-     */
-    @apply ai-box-border ai-rounded-[--app-radius] ai-p-[12px] ai-border-[1px] ai-min-w-[260px];
-    /**
-    边框颜色
-     */
-    @apply ai-border-[--gray-9] dark:ai-border-[--gray-3] ;
-    /**
-    背景颜色
-     */
-    @apply ai-bg-[--gray-14] dark:ai-bg-[--gray-2] ;
+
 }
 .ai_node_box_header{
     @apply ai-box-border ai-text-[16px] ai-flex ai-items-center;

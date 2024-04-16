@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   addEdge,
   applyEdgeChanges,
@@ -13,6 +13,7 @@ import { CustomFlowNodeType } from '../_constants';
 import getNodeTypes from '../nodes';
 import { BaseNodeDataType } from '@/components/flowBuilder/_constants/NodeDataType.ts';
 import { getId } from '@/utils';
+import useFlowStore from '@/components/flowBuilder/_stores/useFlowStore.ts';
 
 const useFlowState = () => {
   const initialNodes: Node<BaseNodeDataType>[] = [
@@ -21,7 +22,7 @@ const useFlowState = () => {
       type: CustomFlowNodeType.start,
       position: { x: 0, y: 0 },
       data: {
-        title: 'start',
+        title: '开始',
       },
     },
   ];
@@ -40,7 +41,6 @@ const useFlowState = () => {
     (connection: Connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
-  console.log(111222, nodes);
   return {
     nodes,
     edges,

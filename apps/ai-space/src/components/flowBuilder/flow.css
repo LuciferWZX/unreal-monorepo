@@ -1,6 +1,24 @@
-.react-flow__node .selected{
-    /*@apply ai-border ai-border-[--blue-4] dark:ai-border-[--blue-6];*/
-    @apply ai-bg-[orange-500] ai-p-[20px];
+.react-flow__node{
+    /**
+   基本属性
+    */
+    @apply ai-box-border ai-rounded-[--app-radius] ai-p-[12px] ai-border-[1px] ai-min-w-[260px];
+    /**
+    边框颜色
+     */
+    @apply ai-border-[--gray-9] dark:ai-border-[--gray-3] ;
+    /**
+    背景颜色
+     */
+    @apply ai-bg-[--gray-14] dark:ai-bg-[--gray-2] ;
+
+}
+.react-flow__node.selected{
+    /**
+    边框颜色
+     */
+    @apply  ai-border-[--blue-4] dark:ai-border-[--blue-6];
+
 }
 .react-flow__controls{
     /**
