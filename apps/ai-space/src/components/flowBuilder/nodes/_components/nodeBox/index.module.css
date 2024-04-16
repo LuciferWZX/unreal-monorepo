@@ -1,9 +1,8 @@
 .ai_node_box{
-
     /**
     基本属性
      */
-    @apply ai-box-border ai-rounded-[--app-radius] ai-p-[5px] ai-border-[1px];
+    @apply ai-box-border ai-rounded-[--app-radius] ai-p-[12px] ai-border-[1px] ai-min-w-[260px];
     /**
     边框颜色
      */
@@ -12,4 +11,10 @@
     背景颜色
      */
     @apply ai-bg-[--gray-14] dark:ai-bg-[--gray-2] ;
+}
+.ai_node_box_header{
+    @apply ai-box-border ai-text-[16px] ai-flex ai-items-center;
+}
+.ai_node_box_icon{
+    @apply ai-inline-block ai-box-border ai-w-[14px] ai-h-[14px] ai-mr-[5px];
 }

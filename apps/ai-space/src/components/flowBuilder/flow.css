@@ -1,3 +1,7 @@
+.react-flow__node .selected{
+    /*@apply ai-border ai-border-[--blue-4] dark:ai-border-[--blue-6];*/
+    @apply ai-bg-[orange-500] ai-p-[20px];
+}
 .react-flow__controls{
     /**
     controls背景颜色

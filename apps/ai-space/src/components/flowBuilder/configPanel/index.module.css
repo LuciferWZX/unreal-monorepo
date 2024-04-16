@@ -1,0 +1,5 @@
+.ai_node_config_panel{
+    @apply ai-w-[300px] ai-h-full ai-p-[12px] ai-box-border ai-m-0 ai-border-l-[1px] ;
+    @apply ai-bg-[--gray-13] dark:ai-bg-[--gray-2];
+    @apply ai-border-[--gray-9] dark:ai-border-[--gray-3];
+}

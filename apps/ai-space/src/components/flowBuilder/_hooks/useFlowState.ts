@@ -11,15 +11,17 @@ import {
 } from '@xyflow/react';
 import { CustomFlowNodeType } from '../_constants';
 import getNodeTypes from '../nodes';
+import { BaseNodeDataType } from '@/components/flowBuilder/_constants/NodeDataType.ts';
+import { getId } from '@/utils';
 
 const useFlowState = () => {
-  const initialNodes: Node[] = [
+  const initialNodes: Node<BaseNodeDataType>[] = [
     {
-      id: '1',
+      id: getId(15, 'start_'),
       type: CustomFlowNodeType.start,
       position: { x: 0, y: 0 },
       data: {
-        label: 'Start',
+        title: 'start',
       },
     },
   ];
@@ -38,7 +40,7 @@ const useFlowState = () => {
     (connection: Connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
-
+  console.log(111222, nodes);
   return {
     nodes,
     edges,

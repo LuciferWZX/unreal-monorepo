@@ -2,19 +2,20 @@ import { ChangeEvent, FC, useCallback } from 'react';
 import { Handle, NodeProps, Position, Node } from '@xyflow/react';
 import memoWithNoPosition from '../../_utils/memoWithNoPosition.ts';
 import { NodeBox } from '../_components';
-interface StartDataType extends Record<string, unknown> {
-  first: string;
+import { BaseNodeDataType } from '../../_constants/NodeDataType.ts';
+import { CustomFlowNodeType } from '../../_constants';
+import startIcon from '../../_icons/start.svg';
+import { cn } from '@wzx-unreal/jb-design';
+interface StartDataType extends BaseNodeDataType {
+  type: CustomFlowNodeType.start;
 }
 const StartNode: FC<NodeProps<Node<StartDataType>>> = memoWithNoPosition((props) => {
-  console.log(1, props);
-  const onChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
-    console.log(evt.target.value);
-  }, []);
+  const { title } = props.data;
+  console.log(111, props);
   return (
     <>
-      <NodeBox>
-        <label htmlFor="text">start Text:</label>
-        <input id="text" name="text" onChange={onChange} className="nodrag" />
+      <NodeBox icon={<img src={startIcon} alt={'start'} />} title={title}>
+        xx
       </NodeBox>
       <Handle type="source" position={Position.Bottom} id="a" />
     </>

@@ -4,6 +4,7 @@ import { Background, Controls, ReactFlow, ReactFlowProvider } from '@xyflow/reac
 import '@xyflow/react/dist/style.css';
 import './flow.css';
 import useFlowState from '@/components/flowBuilder/_hooks/useFlowState.ts';
+import ConfigPanel from '@/components/flowBuilder/configPanel';
 const FlowBuilder: FC = () => {
   const { nodes, edges, nodeTypes, onNodesChange, onEdgesChange, onConnect } = useFlowState();
 
@@ -21,6 +22,7 @@ const FlowBuilder: FC = () => {
         >
           <Background />
           <Controls />
+          <ConfigPanel />
         </ReactFlow>
       </ReactFlowProvider>
     </div>
