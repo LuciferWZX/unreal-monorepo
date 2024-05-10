@@ -3,3 +3,4 @@
     @apply ai-bg-[--gray-13] dark:ai-bg-[--gray-2];
     @apply ai-border-[--gray-9] dark:ai-border-[--gray-3];
 }
+.ai_node_config_panel_header{}
