@@ -1,5 +1,8 @@
 .wu_check_list{
     @apply wu-box-border wu-flex wu-items-center wu-px-0.5;
+    /*& + & {*/
+    /*    @apply wu-mt-0;*/
+    /*}*/
 }
 .wu_check_list_box{
     @apply wu-mr-1 wu-flex wu-items-center wu-justify-center;

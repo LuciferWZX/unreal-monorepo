@@ -30,6 +30,7 @@ const WuEditor: FC<WuEditorProps> = (props) => {
         <Slate
           editor={editor}
           onValueChange={(val) => {
+            console.log('val',val);
             handlePlaceholder(val);
           }}
           initialValue={initialValue}

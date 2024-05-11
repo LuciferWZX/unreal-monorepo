@@ -11,7 +11,7 @@ const useKeyboard = (editor: Editor) => {
       match(event)
         .with({ shiftKey: true }, (evt) => {
           //按住了control+shift
-          match(evt).with({ key: '&' }, () => {
+          match(evt).with({ key: '7' }, () => {
             //按住了control+shift+7
             console.info('切换CheckList');
             event.preventDefault();

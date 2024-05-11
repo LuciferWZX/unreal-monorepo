@@ -5,7 +5,7 @@ import { HistoryEditor } from 'slate-history';
 import { CustomElementType } from '@/types';
 
 export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
-export type BaseText = { type?: CustomElementType; children: FormattedText[]; text: string };
+export type BaseText = { type?: CustomElementType; children?: FormattedText[]; text: string };
 export type FormattedText = BaseText & { bold?: true };
 export type CustomText = FormattedText;
 export type BaseElement = {

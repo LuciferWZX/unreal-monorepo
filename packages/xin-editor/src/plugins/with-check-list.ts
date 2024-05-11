@@ -3,7 +3,7 @@ import { isCollapsed } from '@/core';
 import { CustomElementType } from '@/types';
 
 const withCheckList = (editor: Editor) => {
-  const { deleteBackward } = editor;
+  const { deleteBackward,insertBreak } = editor;
   editor.deleteBackward = (...args) => {
     const { selection } = editor;
     if (selection && isCollapsed(editor)) {
@@ -37,6 +37,35 @@ const withCheckList = (editor: Editor) => {
     // 执行默认的 deleteBackward 操作
     deleteBackward(...args);
   };
+  editor.insertBreak=()=>{
+    // 查找匹配的节点
+    const [match] = Editor.nodes(editor, {
+      match: (n) =>
+        !Editor.isEditor(n) &&
+        SlateElement.isElement(n) &&
+        n.type === CustomElementType.CheckList,
+    });
+
+    if (match){
+      const [,path] = match;
+      const text = Editor.string(editor,path)
+      if (!text){
+        //说明选项里面没有
+        const newProperties: Partial<SlateElement> = {
+          type: CustomElementType.Paragraph,
+        };
+        Transforms.setNodes(editor, newProperties, {
+          match: (n) =>
+            !Editor.isEditor(n) &&
+            SlateElement.isElement(n) &&
+            n.type === CustomElementType.CheckList,
+        });
+        // 返回，不执行默认的 insertBreak 操作
+        return;
+      }
+    }
+    insertBreak()
+  }
   return editor;
 };
 export default withCheckList;

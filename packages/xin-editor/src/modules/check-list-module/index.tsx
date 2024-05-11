@@ -12,6 +12,7 @@ const CheckListModule: FC<RenderElementProps> = (props) => {
   const mergedDisabled = readOnly || disabled;
   return (
     <div className={'wu_check_list'} {...attributes}>
+
       <span contentEditable={false} className={'wu_check_list_box'}>
         <Checkbox
           disabled={mergedDisabled}
