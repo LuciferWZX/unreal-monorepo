@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
-import { RenderElementProps } from 'slate-react/dist/components/editable';
+import { RenderElementProps, RenderPlaceholderProps } from 'slate-react/dist/components/editable';
 import { match } from 'ts-pattern';
 import { CustomElementType } from '@/types';
-import { BoldModule, CodeModule, LeafModule, ParagraphModule } from '@/modules';
+import { BoldModule, CheckListModule, CodeModule, LeafModule, ParagraphModule } from '@/modules';
 import { RenderLeafProps } from 'slate-react';
 
 const useRenderElement = () => {
@@ -16,6 +16,9 @@ const useRenderElement = () => {
       .with(CustomElementType.Code, () => {
         return <CodeModule {...restProps}>{children}</CodeModule>;
       })
+      .with(CustomElementType.CheckList, () => {
+        return <CheckListModule {...restProps}>{children}</CheckListModule>;
+      })
       .otherwise(() => {
         return <ParagraphModule {...restProps}>{children}</ParagraphModule>;
       });
@@ -24,6 +27,14 @@ const useRenderElement = () => {
     const { children, ...restProps } = props;
     return <LeafModule {...restProps}>{children}</LeafModule>;
   }, []);
-  return { renderElement, renderLeaf };
+  const renderPlaceholder = useCallback((props: RenderPlaceholderProps) => {
+    const { children, attributes } = props;
+    return (
+      <span {...attributes} style={{ fontStyle: 'italic', color: 'gray', position: 'absolute' }}>
+        {children}
+      </span>
+    );
+  }, []);
+  return { renderElement, renderLeaf, renderPlaceholder };
 };
 export default useRenderElement;

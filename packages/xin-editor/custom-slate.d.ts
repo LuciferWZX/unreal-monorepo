@@ -5,7 +5,7 @@ import { HistoryEditor } from 'slate-history';
 import { CustomElementType } from '@/types';
 
 export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
-export type BaseText = { text: string };
+export type BaseText = { type?: CustomElementType; children: FormattedText[]; text: string };
 export type FormattedText = BaseText & { bold?: true };
 export type CustomText = FormattedText;
 export type BaseElement = {
@@ -25,6 +25,12 @@ export type BoldElement = BaseElement & {
 export type CodeElement = BaseElement & {
   type: CustomElementType.Code;
 };
+//checkList
+export type CheckListElement = BaseElement & {
+  type: CustomElementType.CheckList;
+  disabled?: boolean;
+  checked: boolean;
+};
 
 //Heading
 export type HeadingElement = BaseElement & {
@@ -32,7 +38,12 @@ export type HeadingElement = BaseElement & {
   level: 1 | 2 | 3 | 4 | 5;
 };
 
-export type CustomElement = ParagraphElement | HeadingElement | BoldElement | CodeElement;
+export type CustomElement =
+  | ParagraphElement
+  | HeadingElement
+  | BoldElement
+  | CodeElement
+  | CheckListElement;
 
 declare module 'slate' {
   interface CustomTypes {

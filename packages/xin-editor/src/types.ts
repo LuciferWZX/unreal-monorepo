@@ -3,4 +3,5 @@ export enum CustomElementType {
   Heading = 'heading',
   Bold = 'bold',
   Code = 'code',
+  CheckList = 'check-list',
 }
