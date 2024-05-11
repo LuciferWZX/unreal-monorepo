@@ -1,0 +1,3 @@
+.wu_editable{
+    @apply wu-text-sm wu-leading-normal wu-p-[4px] wu-outline-none;
+}

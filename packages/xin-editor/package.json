@@ -1,0 +1,74 @@
+{
+  "name": "@wzx-unreal/xin-editor",
+  "version": "0.0.1",
+  "description": "This is a react component that can @select the input box to remind someone. You can customize any node and easily display any effect on the input box.",
+  "type": "module",
+  "main": "lib/xin-editor.umd.js",
+  "module": "lib/xin-editor.es.js",
+  "types": "lib/types/index.d.ts",
+  "keywords": [
+    "slate",
+    "comment",
+    "input",
+    "react",
+    "components"
+  ],
+  "author": "",
+  "license": "ISC",
+  "files": [
+    "lib"
+  ],
+  "private": false,
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json && vite build ",
+    "watch": "tsc --project tsconfig.build.json && vite build -w"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LuciferWZX/unreal-monorepo/tree/master/packages/react-comment-input"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "@slate-serializers/dom": "^2.1.6",
+    "@slate-serializers/html": "^2.1.6",
+    "@slate-serializers/utilities": "^2.1.6",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@wzx-unreal/react-hooks": "workspace:*",
+    "antd": "^5.13.3",
+    "classnames": "^2.5.1",
+    "dayjs": "^1.11.10",
+    "domhandler": "^5.0.3",
+    "domutils": "^3.1.0",
+    "slate": "^0.102.0",
+    "slate-history": "^0.100.0",
+    "slate-react": "^0.102.0",
+    "ts-pattern": "^5.1.1",
+    "vite": "^5.0.12",
+    "vite-plugin-dts": "^3.7.2",
+    "zustand": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.202",
+    "@types/slate": "^0.47.15",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "postcss": "^8.4.38",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.3.3"
+  }
+}
