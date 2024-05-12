@@ -10,3 +10,6 @@
 .wu_check_list_label{
     @apply wu-flex-1;
 }
+.wu_check_list_checked{
+    @apply wu-line-through wu-opacity-50;
+}

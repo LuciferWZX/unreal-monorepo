@@ -4,6 +4,7 @@ import { ReactEditor, RenderElementProps, useReadOnly, useSlateStatic } from 'sl
 import { Checkbox } from 'antd';
 import { CheckListElement } from '../../../custom-slate';
 import './index.css';
+import cn from 'classnames';
 const CheckListModule: FC<RenderElementProps> = (props) => {
   const { attributes, children, element } = props;
   const { disabled, checked } = element as CheckListElement;
@@ -28,7 +29,9 @@ const CheckListModule: FC<RenderElementProps> = (props) => {
         />
       </span>
       <span
-        className={'wu_check_list_label'}
+        className={cn('wu_check_list_label',{
+          'wu_check_list_checked':checked
+        })}
         suppressContentEditableWarning
         contentEditable={!readOnly}
       >

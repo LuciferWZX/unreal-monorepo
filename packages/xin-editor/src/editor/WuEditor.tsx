@@ -1,15 +1,14 @@
 import { FC } from 'react';
-import { StyleProvider } from '@ant-design/cssinjs';
 import { Descendant } from 'slate';
 import { useEditor, useRenderElement } from '@/hooks';
 import { Editable, Slate } from 'slate-react';
 import { getDefaultContent } from '@/core';
 import useKeyboard from '@/hooks/use-keyboard';
-import { theme, ConfigProvider } from 'antd';
 
 import '@/index.css';
 import './index.css';
-const { darkAlgorithm, compactAlgorithm } = theme;
+import AntdWrapper from '@/modules/antd-wrapper';
+import Toolbar from '@/editor/toolbar';
 export interface WuEditorProps<VT extends Descendant = Descendant> {
   placeholder?: string;
   initialValue?: VT[];
@@ -21,20 +20,19 @@ const WuEditor: FC<WuEditorProps> = (props) => {
   const { renderElement, renderLeaf, renderPlaceholder } = useRenderElement();
   const [onKeyDown] = useKeyboard(editor);
   return (
-    <StyleProvider hashPriority="high">
-      <ConfigProvider
-        theme={{
-          algorithm: theme === 'dark' ? [darkAlgorithm, compactAlgorithm] : [compactAlgorithm],
-        }}
-      >
+    <AntdWrapper theme={theme}>
         <Slate
           editor={editor}
           onValueChange={(val) => {
             console.log('val',val);
             handlePlaceholder(val);
           }}
+          // onSelectionChange={selection => {
+          //   console.log(123,selection);
+          // }}
           initialValue={initialValue}
         >
+          <Toolbar/>
           <Editable
             className={'wu_editable'}
             renderElement={renderElement}
@@ -45,8 +43,7 @@ const WuEditor: FC<WuEditorProps> = (props) => {
             onKeyDown={onKeyDown}
           />
         </Slate>
-      </ConfigProvider>
-    </StyleProvider>
+    </AntdWrapper>
   );
 };
 export default WuEditor;

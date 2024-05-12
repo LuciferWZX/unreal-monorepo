@@ -63,6 +63,11 @@ const withCheckList = (editor: Editor) => {
         // 返回，不执行默认的 insertBreak 操作
         return;
       }
+      //@todo 注意换行的时候是拿的上一条的attribute,以下是组定义的
+      // else{
+      //   Transforms.insertNodes(editor, { type:CustomElementType.CheckList,children:[{text:""}] });
+      //   return;
+      // }
     }
     insertBreak()
   }

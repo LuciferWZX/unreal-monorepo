@@ -36,6 +36,7 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^1.20.0",
     "@slate-serializers/dom": "^2.1.6",
     "@slate-serializers/html": "^2.1.6",
     "@slate-serializers/utilities": "^2.1.6",
@@ -46,6 +47,7 @@
     "dayjs": "^1.11.10",
     "domhandler": "^5.0.3",
     "domutils": "^3.1.0",
+    "lucide-react": "^0.378.0",
     "slate": "^0.102.0",
     "slate-history": "^0.100.0",
     "slate-react": "^0.102.0",

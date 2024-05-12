@@ -1,12 +1,13 @@
-import { Editor, Transforms, Element } from 'slate';
-import { match } from 'ts-pattern';
+import { Editor, Transforms, Element, Path } from 'slate';
+import { match as tsMatch } from 'ts-pattern';
 import { CustomElementType } from '@/types';
-import { CheckListElement, CustomElement } from '../../custom-slate';
+import { CheckListElement, CustomElement, ParagraphElement } from '../../custom-slate';
+import { getDefaultContent } from '@/core/helper';
 
 const EditorCommand = {
   isBoldMarkActive(editor: Editor) {
     const marks = Editor.marks(editor);
-    return match(marks)
+    return tsMatch(marks)
       .with({ bold: true }, () => {
         return true;
       })
@@ -16,7 +17,7 @@ const EditorCommand = {
   },
   toggleBoldMark(editor: Editor) {
     const isActive = EditorCommand.isBoldMarkActive(editor);
-    match(isActive)
+    tsMatch(isActive)
       .with(true, () => {
         Editor.removeMark(editor, 'bold');
       })
@@ -24,7 +25,12 @@ const EditorCommand = {
         Editor.addMark(editor, 'bold', true);
       });
   },
-
+  isParagraphNode(editor: Editor) {
+    const [match] = Editor.nodes(editor, {
+      match: (n) => (n as ParagraphElement).type === CustomElementType.Paragraph,
+    });
+    return !!match;
+  },
   isCheckListNode(editor: Editor) {
     const [match] = Editor.nodes(editor, {
       match: (n) => (n as CheckListElement).type === CustomElementType.CheckList,
@@ -33,11 +39,101 @@ const EditorCommand = {
   },
   toggleCheckListNode(editor: Editor) {
     const isCheckList = EditorCommand.isCheckListNode(editor);
-    Transforms.setNodes(
-      editor,
-      { type: isCheckList ? CustomElementType.Paragraph : CustomElementType.CheckList },
-      { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
-    );
+    let insertBefore = false
+    let insertAfter = false
+
+    tsMatch(isCheckList)
+      .with(true,()=>{
+        Transforms.setNodes(
+          editor,
+          { type: CustomElementType.Paragraph },
+          { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
+        );
+      })
+      .with(false,()=>{
+          const {selection}=editor
+          if (!selection){
+            throw Error("selection is undefined")
+          }
+          //获取位置的起点
+          const beforePoint = Editor.start(editor,selection)
+          //当前光标所在节点
+          const [,startPath] = Editor.node(editor,beforePoint)
+          //位置的终点
+          const endPoint = Editor.end(editor,selection)
+          //当前光标所在节点
+          const [,endPath] = Editor.node(editor,endPoint)
+          //@todo 检查上层是否存在其他行，不存在就加个Paragraph节点
+          const previousNode = Editor.previous(editor,{
+            at:startPath,
+            match:(n) => Element.isElement(n)})
+          if ((!previousNode || (previousNode&&previousNode[1][0]===0))){
+            if (startPath[0]===0){
+              insertBefore=true
+            }
+          }
+          //@todo 检查下层是否存在其他行，不存在就加个Paragraph节点
+          const nextNode = Editor.next(editor,{
+            at:endPath,
+            match:(n) => Element.isElement(n)})
+          if (!nextNode){
+            insertAfter=true
+          }
+          // const [match] = Editor.nodes(editor, {
+          //   match: (n) => (n as ParagraphElement).type === CustomElementType.Paragraph,
+          // });
+          // if (match){
+          //   const path = match[1]
+          //   const currentIndex = path[0]
+          //   //如果是 [0]代表前面肯定没有节点如果是[>=1]的话说明前面有节点的
+          //   if (currentIndex === 0){
+          //     insertBefore = true
+          //   }
+          //   //查看下一个位置
+          //   // const nextPath = [currentIndex+1]
+          //
+          //
+          //   console.log(111,dd);
+          // }
+
+        if (!insertAfter && !insertBefore){
+          Transforms.setNodes(
+            editor,
+            { type: CustomElementType.CheckList },
+            { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
+          );
+        }else{
+          Transforms.setNodes(
+            editor,
+            { type: CustomElementType.CheckList },
+            { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
+          );
+          if (insertBefore){
+            Transforms.insertNodes(
+              editor,
+              getDefaultContent(),
+              {
+                at: [startPath[0]],
+              }
+            )
+          }
+          if (insertAfter){
+            let offset = 1
+            if (insertBefore){
+              offset=2
+            }
+            Transforms.insertNodes(
+              editor,
+              getDefaultContent(),
+              {
+                at: [endPath[0]+offset],
+              }
+            )
+          }
+
+
+        }
+      })
   },
 };
 export default EditorCommand;
