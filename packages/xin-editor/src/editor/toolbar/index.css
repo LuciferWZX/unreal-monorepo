@@ -2,8 +2,8 @@
     padding: 4px;
 }
 .wu_toolbar_icon_btn{
-    @apply !wu-flex !wu-items-center !wu-justify-center;
+    @apply !wu-flex !wu-items-center !wu-justify-center ;
 }
 .wu_toolbar_icon_btn_icon{
-
+    @apply wu-h-[16px] wu-w-[16px];
 }

@@ -2,13 +2,18 @@
 import { BaseEditor } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
-import { CustomElementType } from '@/types';
+import { CustomElementType, TextAlign } from '@/types';
 declare module '*.svg';
 export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
 export type BaseText = { type?: CustomElementType; children?: FormattedText[]; text: string };
-export type FormattedText = BaseText & { bold?: true };
+export type FormattedText = BaseText & {
+  bold?: boolean;
+  italic?: boolean;
+  underline?: boolean;
+};
 export type CustomText = FormattedText;
 export type BaseElement = {
+  textAlign?: TextAlign;
   children: CustomText[];
 };
 
@@ -19,7 +24,7 @@ export type ParagraphElement = BaseElement & {
 //加粗
 export type BoldElement = BaseElement & {
   type: CustomElementType.Bold;
-  bold: boolean;
+  bold?: boolean;
 };
 //代码块
 export type CodeElement = BaseElement & {
@@ -30,6 +35,11 @@ export type CheckListElement = BaseElement & {
   type: CustomElementType.CheckList;
   disabled?: boolean;
   checked: boolean;
+};
+//有序列表
+export type OrderedListElement = BaseElement & {
+  type: CustomElementType.OrderedList;
+  index: number;
 };
 
 //Heading
@@ -43,7 +53,8 @@ export type CustomElement =
   | HeadingElement
   | BoldElement
   | CodeElement
-  | CheckListElement;
+  | CheckListElement
+  | OrderedListElement;
 
 declare module 'slate' {
   interface CustomTypes {

@@ -30,7 +30,10 @@ const useRenderElement = () => {
   const renderPlaceholder = useCallback((props: RenderPlaceholderProps) => {
     const { children, attributes } = props;
     return (
-      <span {...attributes} style={{ fontStyle: 'italic', color: 'gray', position: 'absolute' }}>
+      <span
+        {...attributes}
+        style={{ fontStyle: 'italic', color: 'gray', position: 'absolute', left: 3, zIndex: -1 }}
+      >
         {children}
       </span>
     );

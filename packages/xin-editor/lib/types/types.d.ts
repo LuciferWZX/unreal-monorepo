@@ -3,5 +3,11 @@ export declare enum CustomElementType {
     Heading = "heading",
     Bold = "bold",
     Code = "code",
-    CheckList = "check-list"
+    CheckList = "check-list",
+    OrderedList = "ordered-list"
+}
+export declare enum TextAlign {
+    Start = "start",
+    Center = "center",
+    End = "end"
 }

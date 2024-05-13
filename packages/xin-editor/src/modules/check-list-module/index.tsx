@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { CSSProperties, FC } from 'react';
 import { Element as SlateElement, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useReadOnly, useSlateStatic } from 'slate-react';
 import { Checkbox } from 'antd';
@@ -7,13 +7,16 @@ import './index.css';
 import cn from 'classnames';
 const CheckListModule: FC<RenderElementProps> = (props) => {
   const { attributes, children, element } = props;
-  const { disabled, checked } = element as CheckListElement;
+  const { disabled, checked, textAlign } = element as CheckListElement;
   const editor = useSlateStatic();
   const readOnly = useReadOnly();
   const mergedDisabled = readOnly || disabled;
+  const classes = cn('wu_check_list');
+  const _style: CSSProperties = {
+    justifyContent: `flex-${textAlign}`,
+  };
   return (
-    <div className={'wu_check_list'} {...attributes}>
-
+    <div className={classes} style={_style} {...attributes}>
       <span contentEditable={false} className={'wu_check_list_box'}>
         <Checkbox
           disabled={mergedDisabled}
@@ -29,8 +32,8 @@ const CheckListModule: FC<RenderElementProps> = (props) => {
         />
       </span>
       <span
-        className={cn('wu_check_list_label',{
-          'wu_check_list_checked':checked
+        className={cn('wu_check_list_label', {
+          wu_check_list_checked: checked,
         })}
         suppressContentEditableWarning
         contentEditable={!readOnly}

@@ -1,30 +1,30 @@
 import { FC, useMemo } from 'react';
 import { Button } from 'antd';
-import { Bold } from 'lucide-react';
+import { Italic } from 'lucide-react';
 import './index.css';
 import cn from 'classnames';
 import { ReactEditor, useSlateSelector, useSlateStatic } from 'slate-react';
 import EditorCommand from '@/core/command';
 
-const BoldButton: FC = () => {
-  const isBoldActive = useSlateSelector((editor) => EditorCommand.isBoldMarkActive(editor));
+const ItalicButton: FC = () => {
+  const isItalicActive = useSlateSelector((editor) => EditorCommand.isItalicMarkActive(editor));
   const editor = useSlateStatic();
   const type = useMemo(() => {
-    if (isBoldActive) {
+    if (isItalicActive) {
       return 'primary';
     }
     return 'text';
-  }, [isBoldActive]);
+  }, [isItalicActive]);
   return (
     <Button
       type={type}
       onClick={() => {
         ReactEditor.focus(editor);
-        EditorCommand.toggleBoldMark(editor);
+        EditorCommand.toggleItalicMark(editor);
       }}
       className={cn('wu_toolbar_icon_btn')}
-      icon={<Bold className={cn('wu_toolbar_icon_btn_icon')} />}
+      icon={<Italic className={cn('wu_toolbar_icon_btn_icon')} />}
     />
   );
 };
-export default BoldButton;
+export default ItalicButton;

@@ -21,28 +21,28 @@ const WuEditor: FC<WuEditorProps> = (props) => {
   const [onKeyDown] = useKeyboard(editor);
   return (
     <AntdWrapper theme={theme}>
-        <Slate
-          editor={editor}
-          onValueChange={(val) => {
-            console.log('val',val);
-            handlePlaceholder(val);
-          }}
-          // onSelectionChange={selection => {
-          //   console.log(123,selection);
-          // }}
-          initialValue={initialValue}
-        >
-          <Toolbar/>
-          <Editable
-            className={'wu_editable'}
-            renderElement={renderElement}
-            renderLeaf={renderLeaf}
-            renderPlaceholder={renderPlaceholder}
-            spellCheck={true}
-            placeholder={showPlaceholder ? placeholder : undefined}
-            onKeyDown={onKeyDown}
-          />
-        </Slate>
+      <Slate
+        editor={editor}
+        onValueChange={(val) => {
+          console.log('val', val);
+          handlePlaceholder(val);
+        }}
+        // onSelectionChange={selection => {
+        //   console.log(123,selection);
+        // }}
+        initialValue={initialValue}
+      >
+        <Toolbar />
+        <Editable
+          className={'wu_editable'}
+          renderElement={renderElement}
+          renderLeaf={renderLeaf}
+          renderPlaceholder={renderPlaceholder}
+          spellCheck={true}
+          placeholder={showPlaceholder ? placeholder : undefined}
+          onKeyDown={onKeyDown}
+        />
+      </Slate>
     </AntdWrapper>
   );
 };

@@ -1,9 +1,20 @@
 import { Editor } from 'slate';
+import { TextAlign } from '../types';
 declare const EditorCommand: {
+    selectAllInModule(editor: Editor): true | undefined;
     isBoldMarkActive(editor: Editor): boolean;
     toggleBoldMark(editor: Editor): void;
-    isParagraphNode(editor: Editor): boolean;
+    isItalicMarkActive(editor: Editor): boolean;
+    toggleItalicMark(editor: Editor): void;
+    isUnderlineMarkActive(editor: Editor): boolean;
+    toggleUnderlineMark(editor: Editor): void;
+    isTextAlignMarkActive(editor: Editor): boolean;
+    toggleTextAlignMark(editor: Editor, align?: TextAlign): void;
     isCheckListNode(editor: Editor): boolean;
     toggleCheckListNode(editor: Editor): void;
+    restoreNormal(editor: Editor): void;
+    isParagraphNode(editor: Editor): boolean;
+    isOrderedNode(editor: Editor): boolean;
+    toggleOrderedNode(editor: Editor): boolean;
 };
 export default EditorCommand;

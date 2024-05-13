@@ -1,30 +1,32 @@
 import { FC, useMemo } from 'react';
 import { Button } from 'antd';
-import { Bold } from 'lucide-react';
+import { Underline } from 'lucide-react';
 import './index.css';
 import cn from 'classnames';
 import { ReactEditor, useSlateSelector, useSlateStatic } from 'slate-react';
 import EditorCommand from '@/core/command';
 
-const BoldButton: FC = () => {
-  const isBoldActive = useSlateSelector((editor) => EditorCommand.isBoldMarkActive(editor));
+const UnderlineButton: FC = () => {
+  const isUnderlineActive = useSlateSelector((editor) =>
+    EditorCommand.isUnderlineMarkActive(editor)
+  );
   const editor = useSlateStatic();
   const type = useMemo(() => {
-    if (isBoldActive) {
+    if (isUnderlineActive) {
       return 'primary';
     }
     return 'text';
-  }, [isBoldActive]);
+  }, [isUnderlineActive]);
   return (
     <Button
       type={type}
       onClick={() => {
         ReactEditor.focus(editor);
-        EditorCommand.toggleBoldMark(editor);
+        EditorCommand.toggleUnderlineMark(editor);
       }}
       className={cn('wu_toolbar_icon_btn')}
-      icon={<Bold className={cn('wu_toolbar_icon_btn_icon')} />}
+      icon={<Underline className={cn('wu_toolbar_icon_btn_icon')} />}
     />
   );
 };
-export default BoldButton;
+export default UnderlineButton;

@@ -1,14 +1,25 @@
 .wu_check_list{
-    @apply wu-box-border wu-flex wu-items-center wu-px-0.5;
+    @apply wu-box-border wu-flex wu-items-start wu-px-0.5;
+    word-break: break-word;
     /*& + & {*/
     /*    @apply wu-mt-0;*/
     /*}*/
 }
+/*.wu_text_align_end{*/
+/*    @apply wu-justify-end;*/
+/*}*/
+/*.wu_text_align_center{*/
+/*    @apply wu-justify-center;*/
+/*}*/
+/*.wu_text_align_start{*/
+/*    @apply wu-justify-start;*/
+/*}*/
 .wu_check_list_box{
     @apply wu-mr-1 wu-flex wu-items-center wu-justify-center;
+
 }
 .wu_check_list_label{
-    @apply wu-flex-1;
+    @apply wu-min-w-[4px];
 }
 .wu_check_list_checked{
     @apply wu-line-through wu-opacity-50;
