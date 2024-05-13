@@ -8,7 +8,7 @@ declare const EditorCommand: {
     toggleItalicMark(editor: Editor): void;
     isUnderlineMarkActive(editor: Editor): boolean;
     toggleUnderlineMark(editor: Editor): void;
-    isTextAlignMarkActive(editor: Editor): boolean;
+    isTextAlignMarkActive(editor: Editor): boolean | TextAlign;
     toggleTextAlignMark(editor: Editor, align?: TextAlign): void;
     isCheckListNode(editor: Editor): boolean;
     toggleCheckListNode(editor: Editor): void;

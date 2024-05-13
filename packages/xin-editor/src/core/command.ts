@@ -93,16 +93,18 @@ const EditorCommand = {
   },
   //文本位置
   isTextAlignMarkActive(editor: Editor) {
-    const marks = Editor.marks(editor);
     const { selection } = editor;
     if (!selection) {
-      throw Error('selection is undefined');
+      return false;
     }
-    const [node] = Editor.node(editor, selection);
-    console.log(111, node);
-    return tsMatch(node)
-      .with({ textAlign: P.not(undefined) }, () => {
-        return true;
+    const [nodeEntry] = Editor.nodes<CustomElement>(editor, {
+      at: selection,
+      match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement),
+    });
+
+    return tsMatch(nodeEntry[0])
+      .with({ textAlign: P.not(undefined) }, (node) => {
+        return node.textAlign;
       })
       .otherwise(() => {
         return false;

@@ -27,9 +27,9 @@ const WuEditor: FC<WuEditorProps> = (props) => {
           console.log('val', val);
           handlePlaceholder(val);
         }}
-        // onSelectionChange={selection => {
-        //   console.log(123,selection);
-        // }}
+        onSelectionChange={(selection) => {
+          console.log('selection:', selection);
+        }}
         initialValue={initialValue}
       >
         <Toolbar />
