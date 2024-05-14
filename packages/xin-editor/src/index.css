@@ -6,5 +6,7 @@
     /*[data-slate-editor] > * + * {*/
     /*    margin-top: 0.25em;*/
     /*}*/
-
+    .dark{
+        color-scheme: dark;/* 这个属性设置后，滚动条也能表现为暗色模式*/
+    }
 }

@@ -2,7 +2,7 @@
     @apply ai-h-full ai-w-full ai-flex ai-flex-col;
 }
 .base_layout .base_layout_content{
-    @apply ai-flex-1 ai-flex;
+    @apply ai-flex-1 ai-flex ai-overflow-auto;
 }
 .base_layout .base_layout_content .base_layout_content_with_sider{
     @apply ai-flex-1 ai-overflow-auto;

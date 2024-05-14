@@ -3,4 +3,5 @@ export enum HotKey {
   Italic = 'i', //斜体
   Underline = 'u', //下划线
   Restore = 'r', //还原
+  Tab = 'Tab', //缩进
 }

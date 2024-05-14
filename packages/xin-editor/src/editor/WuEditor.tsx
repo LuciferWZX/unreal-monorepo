@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { Descendant } from 'slate';
+import { FC, forwardRef, useImperativeHandle } from 'react';
+import { Descendant, Editor } from 'slate';
 import { useEditor, useRenderElement } from '@/hooks';
 import { Editable, Slate } from 'slate-react';
 import { getDefaultContent } from '@/core';
@@ -9,14 +9,27 @@ import '@/index.css';
 import './index.css';
 import AntdWrapper from '@/modules/antd-wrapper';
 import Toolbar from '@/editor/toolbar';
+import cn from 'classnames';
 export interface WuEditorProps<VT extends Descendant = Descendant> {
   placeholder?: string;
   initialValue?: VT[];
   theme?: 'light' | 'dark';
+  classes?: {
+    toolbar?: string;
+    editor?: string;
+  };
 }
-const WuEditor: FC<WuEditorProps> = (props) => {
-  const { theme, placeholder, initialValue = getDefaultContent() } = props;
+export interface WuEditorRef {
+  editor: Editor;
+}
+const WuEditor = forwardRef<WuEditorRef, WuEditorProps>((props, ref) => {
+  const { theme, placeholder, classes, initialValue = getDefaultContent() } = props;
   const [editor, { showPlaceholder, handlePlaceholder }] = useEditor();
+  useImperativeHandle(ref, () => {
+    return {
+      editor: editor,
+    };
+  });
   const { renderElement, renderLeaf, renderPlaceholder } = useRenderElement();
   const [onKeyDown] = useKeyboard(editor);
   return (
@@ -32,9 +45,9 @@ const WuEditor: FC<WuEditorProps> = (props) => {
         }}
         initialValue={initialValue}
       >
-        <Toolbar />
+        <Toolbar className={cn(classes?.toolbar)} />
         <Editable
-          className={'wu_editable'}
+          className={cn('wu_editable', classes?.editor)}
           renderElement={renderElement}
           renderLeaf={renderLeaf}
           renderPlaceholder={renderPlaceholder}
@@ -45,5 +58,5 @@ const WuEditor: FC<WuEditorProps> = (props) => {
       </Slate>
     </AntdWrapper>
   );
-};
+});
 export default WuEditor;

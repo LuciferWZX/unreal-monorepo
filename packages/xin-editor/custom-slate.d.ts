@@ -2,7 +2,7 @@
 import { BaseEditor } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
-import { CustomElementType, TextAlign } from '@/types';
+import { CustomElementType, Heading, TextAlign, TextHeading, TextSize } from '@/types';
 declare module '*.svg';
 export type CustomEditor = BaseEditor & ReactEditor & HistoryEditor;
 export type BaseText = { type?: CustomElementType; children?: FormattedText[]; text: string };
@@ -14,6 +14,7 @@ export type FormattedText = BaseText & {
 export type CustomText = FormattedText;
 export type BaseElement = {
   textAlign?: TextAlign;
+  heading?: TextHeading;
   children: CustomText[];
 };
 

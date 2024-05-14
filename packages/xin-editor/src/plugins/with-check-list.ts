@@ -1,6 +1,7 @@
 import { Editor, Element as SlateElement, Point, Transforms } from 'slate';
-import { isCollapsed } from '@/core';
+import { getNodesWithInitialProps, isCollapsed } from '@/core';
 import { CustomElementType } from '@/types';
+import EditorCommand from '@/core/command';
 
 const withCheckList = (editor: Editor) => {
   const { deleteBackward, insertBreak } = editor;
@@ -49,9 +50,10 @@ const withCheckList = (editor: Editor) => {
       const text = Editor.string(editor, path);
       if (!text) {
         //说明选项里面没有
-        const newProperties: Partial<SlateElement> = {
+        const newProperties: Partial<SlateElement> = getNodesWithInitialProps({
           type: CustomElementType.Paragraph,
-        };
+        });
+        EditorCommand.restoreNormal(editor);
         Transforms.setNodes(editor, newProperties, {
           match: (n) =>
             !Editor.isEditor(n) &&
@@ -61,11 +63,6 @@ const withCheckList = (editor: Editor) => {
         // 返回，不执行默认的 insertBreak 操作
         return;
       }
-      //@todo 注意换行的时候是拿的上一条的attribute,以下是组定义的
-      // else{
-      //   Transforms.insertNodes(editor, { type:CustomElementType.CheckList,children:[{text:""}] });
-      //   return;
-      // }
     }
     insertBreak();
   };

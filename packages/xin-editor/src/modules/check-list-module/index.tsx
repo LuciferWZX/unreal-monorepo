@@ -1,13 +1,12 @@
 import { CSSProperties, FC } from 'react';
-import { Editor, Element, Path, Element as SlateElement, Transforms } from 'slate';
+import { Element as SlateElement, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useReadOnly, useSlateStatic } from 'slate-react';
 import { Checkbox } from 'antd';
-import { CheckListElement, CustomElement } from '../../../custom-slate';
+import { CheckListElement } from '../../../custom-slate';
 import './index.css';
 import cn from 'classnames';
 import { TextAlign } from '@/types';
-import EditorCommand from '@/core/command';
-import { isCollapsed } from '@/core';
+import { fixedCursorWhenClickNode } from '@/core';
 const CheckListModule: FC<RenderElementProps> = (props) => {
   const { attributes, children, element } = props;
   const { disabled, checked, textAlign } = element as CheckListElement;
@@ -16,7 +15,11 @@ const CheckListModule: FC<RenderElementProps> = (props) => {
   const mergedDisabled = readOnly || disabled;
   const classes = cn('wu_check_list');
   const _style: CSSProperties = {
-    justifyContent: textAlign === TextAlign.Center ? 'center' : `flex-${textAlign}`,
+    justifyContent: textAlign
+      ? textAlign === TextAlign.Center
+        ? 'center'
+        : `flex-${textAlign}`
+      : undefined,
   };
   return (
     <div
@@ -24,8 +27,7 @@ const CheckListModule: FC<RenderElementProps> = (props) => {
       style={_style}
       {...attributes}
       onClick={() => {
-        ReactEditor.blur(editor);
-        ReactEditor.focus(editor);
+        fixedCursorWhenClickNode(editor, element);
       }}
     >
       <span contentEditable={false} className={'wu_check_list_box'}>

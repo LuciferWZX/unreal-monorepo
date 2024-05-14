@@ -2,7 +2,7 @@ import { withReact } from 'slate-react';
 import { createEditor, Descendant, Editor } from 'slate';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { withHistory } from 'slate-history';
-import { withCheckList } from '@/plugins';
+import { withCheckList, withInsertBreak } from '@/plugins';
 import { CustomElementType } from '@/types';
 import withOrderedList from '@/plugins/with-ordered-list';
 const useEditor = (): [
@@ -11,17 +11,19 @@ const useEditor = (): [
 ] => {
   const [showPlaceholder, setShowPlaceholder] = useState<boolean>(true);
   const editor = useMemo(
-    () => withOrderedList(withCheckList(withReact(withHistory(createEditor())))),
+    () => withInsertBreak(withCheckList(withReact(withHistory(createEditor())))),
     []
   );
   const handlePlaceholder = (val: Descendant[]) => {
-    // try {
-    //   if (val.length === 1 &&val[0].type===P val[0].children[0].text === '') {
-    //   }
-    // } catch (e) {
-    //   console.error('[结构出错:]', e);
-    // }
-    // console.log(111, val);
+    if (
+      val.length === 1 &&
+      val[0].type === CustomElementType.Paragraph &&
+      val[0]?.children?.[0].text === ''
+    ) {
+      setShowPlaceholder(true);
+    } else {
+      setShowPlaceholder(false);
+    }
   };
   return [editor, { showPlaceholder, handlePlaceholder }];
 };

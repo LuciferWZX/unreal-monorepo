@@ -1,3 +1,4 @@
 .wu_editable{
     @apply wu-text-sm wu-leading-normal wu-p-[4px] wu-outline-none;
+    @apply wu-caret-[rgba(82,139,255)] selection:wu-bg-[#2E55A3];
 }

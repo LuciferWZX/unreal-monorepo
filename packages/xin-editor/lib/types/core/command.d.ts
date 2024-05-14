@@ -1,5 +1,5 @@
 import { Editor } from 'slate';
-import { TextAlign } from '../types';
+import { TextAlign, TextHeading } from '../types';
 declare const EditorCommand: {
     selectAllInModule(editor: Editor): true | undefined;
     isBoldMarkActive(editor: Editor): boolean;
@@ -10,8 +10,11 @@ declare const EditorCommand: {
     toggleUnderlineMark(editor: Editor): void;
     isTextAlignMarkActive(editor: Editor): boolean | TextAlign;
     toggleTextAlignMark(editor: Editor, align?: TextAlign): void;
+    isTextHeadingMarkActive(editor: Editor): boolean | TextHeading;
+    toggleTextHeadingMark(editor: Editor, heading?: TextHeading): void;
     isCheckListNode(editor: Editor): boolean;
     toggleCheckListNode(editor: Editor): void;
+    indent(editor: Editor): void;
     restoreNormal(editor: Editor): void;
     isParagraphNode(editor: Editor): boolean;
     isOrderedNode(editor: Editor): boolean;

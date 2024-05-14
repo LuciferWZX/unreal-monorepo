@@ -1,9 +1,16 @@
-import { FC } from 'react';
-import { Descendant } from 'slate';
+/// <reference types="react" />
+import { Descendant, Editor } from 'slate';
 export interface WuEditorProps<VT extends Descendant = Descendant> {
     placeholder?: string;
     initialValue?: VT[];
     theme?: 'light' | 'dark';
+    classes?: {
+        toolbar?: string;
+        editor?: string;
+    };
 }
-declare const WuEditor: FC<WuEditorProps>;
+export interface WuEditorRef {
+    editor: Editor;
+}
+declare const WuEditor: import("react").ForwardRefExoticComponent<WuEditorProps<Descendant> & import("react").RefAttributes<WuEditorRef>>;
 export default WuEditor;

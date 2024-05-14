@@ -1,6 +1,6 @@
 import { Editor, Transforms, Element, Path } from 'slate';
 import { match as tsMatch, P } from 'ts-pattern';
-import { CustomElementType, TextAlign } from '@/types';
+import { CustomElementType, TextAlign, TextHeading } from '@/types';
 import {
   CheckListElement,
   CustomElement,
@@ -130,6 +130,45 @@ const EditorCommand = {
         );
       });
   },
+  //文本的heading
+  isTextHeadingMarkActive(editor: Editor) {
+    const { selection } = editor;
+    if (!selection) {
+      return false;
+    }
+    const [nodeEntry] = Editor.nodes<CustomElement>(editor, {
+      at: selection,
+      match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as ParagraphElement),
+    });
+
+    return tsMatch(nodeEntry[0])
+      .with({ heading: P.not(undefined) }, (node) => {
+        return node.heading;
+      })
+      .otherwise(() => {
+        return false;
+      });
+  },
+  toggleTextHeadingMark(editor: Editor, heading?: TextHeading) {
+    tsMatch(heading)
+      .with(undefined, () => {
+        const isActive = EditorCommand.isTextHeadingMarkActive(editor);
+        if (isActive) {
+          Transforms.setNodes(
+            editor,
+            { heading: undefined },
+            { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as ParagraphElement) }
+          );
+        }
+      })
+      .otherwise((_align) => {
+        Transforms.setNodes(
+          editor,
+          { heading: heading },
+          { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as ParagraphElement) }
+        );
+      });
+  },
   //任务
   isCheckListNode(editor: Editor) {
     const [match] = Editor.nodes(editor, {
@@ -228,6 +267,10 @@ const EditorCommand = {
       });
   },
 
+  indent(editor: Editor) {
+    Transforms.insertText(editor, ' '.repeat(8));
+  },
+
   restoreNormal(editor: Editor) {
     const marks = ['bold', 'italic', 'underline'];
     for (let i = 0; i < marks.length; i++) {
@@ -254,4 +297,5 @@ const EditorCommand = {
     return !!match;
   },
 };
+
 export default EditorCommand;

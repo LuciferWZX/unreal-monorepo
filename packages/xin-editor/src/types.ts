@@ -1,3 +1,5 @@
+import { BaseElement, FormattedText } from '../custom-slate';
+
 export enum CustomElementType {
   Paragraph = 'paragraph',
   Heading = 'heading',
@@ -11,3 +13,11 @@ export enum TextAlign {
   Center = 'center',
   End = 'end',
 }
+export enum TextHeading {
+  H1 = 1,
+  H2 = 2,
+  H3 = 3,
+  H4 = 4,
+  H5 = 5,
+}
+export type NodePropertiesType = keyof Omit<BaseElement, 'children'>;
