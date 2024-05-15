@@ -6,11 +6,11 @@ import {
   Transforms,
   Node,
   Element as SlateElement,
+  Location as SlateLocation,
 } from 'slate';
 import { CustomElementType, NodePropertiesType } from '@/types';
 import { ReactEditor } from 'slate-react';
-import { match as tsMatch, P } from 'ts-pattern';
-import { BaseElement, CheckListElement, CustomElement, FormattedText } from '../../custom-slate';
+import { CustomElement, OrderedListElement } from '../../custom-slate';
 
 /**
  * 生成默认的content
@@ -66,6 +66,36 @@ export function getNodesWithInitialProps(newProperties: Partial<SlateElement>) {
     ...props,
   };
 }
+
+/**
+ * 更新下一个有序列表的节点
+ * @param editor
+ * @param curIndex
+ * @param at
+ */
+export const updateNextOrderedIndex = (editor: Editor, curIndex: number, at: SlateLocation) => {
+  //当前的节点
+  const nodeEntry = Editor.node(editor, at);
+  //下个节点
+  const nextNodeEntry = Editor.next<OrderedListElement>(editor, {
+    at: nodeEntry[1],
+    match: (n) => SlateElement.isElement(n) && n.type === CustomElementType.OrderedList,
+  });
+  if (nextNodeEntry) {
+    const nextIndex = curIndex + 1;
+    Transforms.setNodes(
+      editor,
+      {
+        index: nextIndex,
+      },
+      {
+        at: nextNodeEntry[1],
+      }
+    );
+
+    updateNextOrderedIndex(editor, nextIndex, nextNodeEntry[1]);
+  }
+};
 /**
  * 表示范围是折叠状态，即范围内没有实际的文本内容。这通常意味着光标处于特定位置，而不是选择了一段文本
  * @param editor

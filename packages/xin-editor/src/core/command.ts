@@ -1,4 +1,4 @@
-import { Editor, Transforms, Element, Path } from 'slate';
+import { Editor, Transforms, Element, Path, Element as SlateElement } from 'slate';
 import { match as tsMatch, P } from 'ts-pattern';
 import { CustomElementType, TextAlign, TextHeading } from '@/types';
 import {
@@ -140,7 +140,6 @@ const EditorCommand = {
       at: selection,
       match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as ParagraphElement),
     });
-
     return tsMatch(nodeEntry[0])
       .with({ heading: P.not(undefined) }, (node) => {
         return node.heading;
@@ -247,6 +246,109 @@ const EditorCommand = {
           Transforms.setNodes(
             editor,
             { type: CustomElementType.CheckList },
+            { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
+          );
+          if (insertBefore) {
+            Transforms.insertNodes(editor, getDefaultContent(), {
+              at: [startPath[0]],
+            });
+          }
+          if (insertAfter) {
+            let offset = 1;
+            if (insertBefore) {
+              offset = 2;
+            }
+            Transforms.insertNodes(editor, getDefaultContent(), {
+              at: [endPath[0] + offset],
+            });
+          }
+        }
+      });
+  },
+  //有序列表
+  isOrderedListNode(editor: Editor) {
+    const [match] = Editor.nodes(editor, {
+      match: (n) => (n as OrderedListElement).type === CustomElementType.OrderedList,
+    });
+    return !!match;
+  },
+  toggleOrderedListNode(editor: Editor) {
+    const isOrderListNode = EditorCommand.isOrderedListNode(editor);
+    let insertBefore = false;
+    let insertAfter = false;
+
+    tsMatch(isOrderListNode)
+      .with(true, () => {
+        Transforms.setNodes(
+          editor,
+          { type: CustomElementType.Paragraph },
+          { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
+        );
+      })
+      .with(false, () => {
+        const { selection } = editor;
+        if (!selection) {
+          throw Error('selection is undefined');
+        }
+        //获取位置的起点
+        const beforePoint = Editor.start(editor, selection);
+        //当前光标所在节点
+        const [, startPath] = Editor.node(editor, beforePoint);
+        //位置的终点
+        const endPoint = Editor.end(editor, selection);
+        //当前光标所在节点
+        const [, endPath] = Editor.node(editor, endPoint);
+        //@todo 检查上层是否存在其他行，不存在就加个Paragraph节点
+        const previousNode = Editor.previous(editor, {
+          at: startPath,
+          match: (n) => Element.isElement(n),
+        });
+
+        if (!previousNode || (previousNode && previousNode[1][0] === 0)) {
+          if (startPath[0] === 0) {
+            insertBefore = true;
+          }
+        }
+        //@todo 检查下层是否存在其他行，不存在就加个Paragraph节点
+        const nextNode = Editor.next(editor, {
+          at: endPath,
+          match: (n) => Element.isElement(n),
+        });
+        if (!nextNode) {
+          insertAfter = true;
+        }
+        console.log(1, insertAfter);
+        console.log(2, insertBefore);
+        console.log(3, !insertAfter && !insertBefore);
+        if (!insertAfter && !insertBefore) {
+          const preNodeEntry = Editor.previous<OrderedListElement>(editor, {
+            match: (n) => SlateElement.isElement(n) && n.type === CustomElementType.OrderedList,
+          });
+          console.log('preNodeEntry:', preNodeEntry);
+          let defaultIndex = 1;
+          if (preNodeEntry) {
+            defaultIndex = preNodeEntry[0].index + 1;
+          }
+          Transforms.setNodes(
+            editor,
+            { type: CustomElementType.OrderedList, index: defaultIndex },
+            { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
+          );
+        } else {
+          let defaultIndex = 1;
+          console.log('previousNode:', previousNode);
+          if (
+            insertBefore &&
+            previousNode &&
+            (previousNode[0] as CustomElement).type === CustomElementType.OrderedList
+          ) {
+            const beforeIndex = (previousNode[0] as OrderedListElement).index;
+            defaultIndex = beforeIndex + 1;
+            console.info('前面也是order-list：', beforeIndex);
+          }
+          Transforms.setNodes(
+            editor,
+            { type: CustomElementType.OrderedList, index: defaultIndex },
             { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
           );
           if (insertBefore) {

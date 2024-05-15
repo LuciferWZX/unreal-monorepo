@@ -9,6 +9,7 @@ export type BaseText = { type?: CustomElementType; children?: FormattedText[]; t
 export type FormattedText = BaseText & {
   bold?: boolean;
   italic?: boolean;
+  highlight?: boolean;
   underline?: boolean;
 };
 export type CustomText = FormattedText;

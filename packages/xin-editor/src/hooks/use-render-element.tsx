@@ -2,7 +2,14 @@ import { useCallback } from 'react';
 import { RenderElementProps, RenderPlaceholderProps } from 'slate-react/dist/components/editable';
 import { match } from 'ts-pattern';
 import { CustomElementType } from '@/types';
-import { BoldModule, CheckListModule, CodeModule, LeafModule, ParagraphModule } from '@/modules';
+import {
+  BoldModule,
+  CheckListModule,
+  CodeModule,
+  LeafModule,
+  OrderedListModule,
+  ParagraphModule,
+} from '@/modules';
 import { RenderLeafProps } from 'slate-react';
 
 const useRenderElement = () => {
@@ -18,6 +25,9 @@ const useRenderElement = () => {
       })
       .with(CustomElementType.CheckList, () => {
         return <CheckListModule {...restProps}>{children}</CheckListModule>;
+      })
+      .with(CustomElementType.OrderedList, () => {
+        return <OrderedListModule {...restProps}>{children}</OrderedListModule>;
       })
       .otherwise(() => {
         return <ParagraphModule {...restProps}>{children}</ParagraphModule>;
