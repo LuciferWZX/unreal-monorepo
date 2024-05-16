@@ -11,11 +11,13 @@ export type FormattedText = BaseText & {
   italic?: boolean;
   highlight?: boolean;
   underline?: boolean;
+  anchorId?: string;
 };
 export type CustomText = FormattedText;
 export type BaseElement = {
   textAlign?: TextAlign;
   heading?: TextHeading;
+  anchorId?: string;
   children: CustomText[];
 };
 

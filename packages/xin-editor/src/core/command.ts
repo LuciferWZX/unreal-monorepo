@@ -1,4 +1,4 @@
-import { Editor, Transforms, Element, Node, Element as SlateElement, NodeEntry } from 'slate';
+import { Editor, Transforms, Node, Element as SlateElement, NodeEntry } from 'slate';
 import { match as tsMatch, P } from 'ts-pattern';
 import { CustomElementType, TextAlign, TextHeading } from '@/types';
 import {
@@ -18,7 +18,7 @@ const EditorCommand = {
     const [startPoint, endPoint] = Editor.edges(editor, selection);
     if (startPoint.path[0] === endPoint.path[0]) {
       const [match] = Editor.nodes(editor, {
-        match: (n) => Element.isElement(n),
+        match: (n) => SlateElement.isElement(n),
       });
       Transforms.select(editor, {
         anchor: Editor.start(editor, match[1]),
@@ -27,7 +27,12 @@ const EditorCommand = {
       return true;
     }
   },
-
+  isLinkMarkActive(editor: Editor) {
+    const [link] = Editor.nodes(editor, {
+      match: (n) => SlateElement.isElement(n) && n.type === CustomElementType.Link,
+    });
+    return !!link;
+  },
   //加粗
   isBoldMarkActive(editor: Editor) {
     const marks = Editor.marks(editor);
@@ -99,7 +104,7 @@ const EditorCommand = {
     }
     const [nodeEntry] = Editor.nodes<CustomElement>(editor, {
       at: selection,
-      match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement),
+      match: (n) => SlateElement.isElement(n) && Editor.isBlock(editor, n as CustomElement),
     });
 
     return tsMatch(nodeEntry[0])
@@ -118,7 +123,9 @@ const EditorCommand = {
           Transforms.setNodes(
             editor,
             { textAlign: undefined },
-            { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
+            {
+              match: (n) => SlateElement.isElement(n) && Editor.isBlock(editor, n as CustomElement),
+            }
           );
         }
       })
@@ -126,7 +133,7 @@ const EditorCommand = {
         Transforms.setNodes(
           editor,
           { textAlign: _align },
-          { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
+          { match: (n) => SlateElement.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
         );
       });
   },
@@ -138,7 +145,7 @@ const EditorCommand = {
     }
     const [nodeEntry] = Editor.nodes<CustomElement>(editor, {
       at: selection,
-      match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as ParagraphElement),
+      match: (n) => SlateElement.isElement(n) && Editor.isBlock(editor, n as ParagraphElement),
     });
     return tsMatch(nodeEntry[0])
       .with({ heading: P.not(undefined) }, (node) => {
@@ -156,7 +163,10 @@ const EditorCommand = {
           Transforms.setNodes(
             editor,
             { heading: undefined },
-            { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as ParagraphElement) }
+            {
+              match: (n) =>
+                SlateElement.isElement(n) && Editor.isBlock(editor, n as ParagraphElement),
+            }
           );
         }
       })
@@ -164,7 +174,10 @@ const EditorCommand = {
         Transforms.setNodes(
           editor,
           { heading: heading },
-          { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as ParagraphElement) }
+          {
+            match: (n) =>
+              SlateElement.isElement(n) && Editor.isBlock(editor, n as ParagraphElement),
+          }
         );
       });
   },
@@ -185,7 +198,7 @@ const EditorCommand = {
         Transforms.setNodes(
           editor,
           { type: CustomElementType.Paragraph },
-          { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
+          { match: (n) => SlateElement.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
         );
       })
       .with(false, () => {
@@ -204,7 +217,7 @@ const EditorCommand = {
         //@todo 检查上层是否存在其他行，不存在就加个Paragraph节点
         const previousNode = Editor.previous(editor, {
           at: startPath,
-          match: (n) => Element.isElement(n),
+          match: (n) => SlateElement.isElement(n),
         });
         if (!previousNode || (previousNode && previousNode[1][0] === 0)) {
           if (startPath[0] === 0) {
@@ -214,7 +227,7 @@ const EditorCommand = {
         //@todo 检查下层是否存在其他行，不存在就加个Paragraph节点
         const nextNode = Editor.next(editor, {
           at: endPath,
-          match: (n) => Element.isElement(n),
+          match: (n) => SlateElement.isElement(n),
         });
         if (!nextNode) {
           insertAfter = true;
@@ -240,13 +253,17 @@ const EditorCommand = {
           Transforms.setNodes(
             editor,
             { type: CustomElementType.CheckList },
-            { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
+            {
+              match: (n) => SlateElement.isElement(n) && Editor.isBlock(editor, n as CustomElement),
+            }
           );
         } else {
           Transforms.setNodes(
             editor,
             { type: CustomElementType.CheckList },
-            { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
+            {
+              match: (n) => SlateElement.isElement(n) && Editor.isBlock(editor, n as CustomElement),
+            }
           );
           if (insertBefore) {
             Transforms.insertNodes(editor, getDefaultContent(), {
@@ -279,7 +296,7 @@ const EditorCommand = {
         Transforms.setNodes(
           editor,
           { type: CustomElementType.Paragraph },
-          { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
+          { match: (n) => SlateElement.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
         );
       })
       .with(false, () => {
@@ -292,7 +309,7 @@ const EditorCommand = {
         //当前节点
         const nodeEntries = Editor.nodes(editor, {
           at: selection,
-          match: (n) => Element.isElement(n),
+          match: (n) => SlateElement.isElement(n),
         });
         const selectedNodes: Array<NodeEntry<Node>> = [];
         for (const nodeEntry of nodeEntries) {
@@ -329,7 +346,7 @@ const EditorCommand = {
             { type: CustomElementType.OrderedList, index: defaultIndex + i },
             {
               at: node[1],
-              match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement),
+              match: (n) => SlateElement.isElement(n) && Editor.isBlock(editor, n as CustomElement),
             }
           );
         }

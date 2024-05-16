@@ -4,26 +4,34 @@ import { useMemo, useState } from 'react';
 import { withHistory } from 'slate-history';
 import {
   withCheckList,
+  withInline,
   withInsertBreak,
   withLink,
   withNormalizeNode,
   withOrderedList,
 } from '@/plugins';
 import { getDefaultContent } from '@/core';
+import { consumePlugins } from '@/core/consumePlugins';
+
 const useEditor = (): [
   Editor,
   { showPlaceholder: boolean; handlePlaceholder: (val: Descendant[]) => void },
 ] => {
   const [showPlaceholder, setShowPlaceholder] = useState<boolean>(true);
-  const editor = useMemo(
-    () =>
-      withInsertBreak(
-        withNormalizeNode(
-          withLink(withOrderedList(withCheckList(withReact(withHistory(createEditor())))))
-        )
-      ),
-    []
-  );
+
+  const slateEditor = useMemo(() => {
+    const plugins = [
+      withInline,
+      withInsertBreak,
+      withLink,
+      withOrderedList,
+      withCheckList,
+      withReact,
+      withHistory,
+    ].reverse();
+    return consumePlugins(createEditor(), plugins);
+  }, []);
+  const editor = useMemo(() => slateEditor, []);
   const handlePlaceholder = (val: Descendant[]) => {
     if (val.length === 1 && JSON.stringify(val) === JSON.stringify(getDefaultContent())) {
       setShowPlaceholder(true);

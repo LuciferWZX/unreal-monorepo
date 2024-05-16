@@ -2,6 +2,7 @@ import { Button, Form, Input, Space, Tooltip } from 'antd';
 import { FC, ReactNode, useMemo } from 'react';
 import { useSlateStatic } from 'slate-react';
 import EditorCommand from '@/core/command';
+import { useBoolean } from '@wzx-unreal/react-hooks';
 
 interface LinkFormTooltipProps {
   children?: ReactNode;
@@ -13,6 +14,7 @@ interface LinkFormType {
 }
 const LinkFormTooltip: FC<LinkFormTooltipProps> = (props) => {
   const { children, defaultValue } = props;
+  const [open, { set: setOpen }] = useBoolean(false);
   const editor = useSlateStatic();
   const [form] = Form.useForm<LinkFormType>();
   const onFinish = (values: LinkFormType) => {
@@ -59,7 +61,14 @@ const LinkFormTooltip: FC<LinkFormTooltipProps> = (props) => {
     );
   }, []);
   return (
-    <Tooltip title={defaultValue ? title : withInitialValue} trigger={['click']} arrow={false}>
+    <Tooltip
+      open={open}
+      onOpenChange={(_o) => setOpen(_o)}
+      destroyTooltipOnHide={true}
+      title={defaultValue ? title : withInitialValue}
+      trigger={['click']}
+      arrow={false}
+    >
       {children}
     </Tooltip>
   );

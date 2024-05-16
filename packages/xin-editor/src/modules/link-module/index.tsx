@@ -16,17 +16,10 @@ const LinkModule: FC<RenderElementProps> = (props) => {
       title={href}
       style={{
         color: colorPrimaryText,
-        fontStyle: 'normal',
-        wordBreak: 'break-all',
-        wordWrap: 'break-word',
-        whiteSpace: 'pre-wrap',
-        borderBottom: ' 1px solid #d1e9ff',
-        textDecoration: 'none',
         margin: '0 2px',
       }}
       href={href}
     >
-      {}
       <span {...attributes}>
         {children}
         <span

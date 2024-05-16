@@ -2,6 +2,7 @@ import { Editor } from 'slate';
 import { TextAlign, TextHeading } from '../types';
 declare const EditorCommand: {
     selectAllInModule(editor: Editor): true | undefined;
+    isLinkMarkActive(editor: Editor): boolean;
     isBoldMarkActive(editor: Editor): boolean;
     toggleBoldMark(editor: Editor): void;
     isItalicMarkActive(editor: Editor): boolean;

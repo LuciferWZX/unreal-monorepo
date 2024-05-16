@@ -48,6 +48,7 @@
     "domhandler": "^5.0.3",
     "domutils": "^3.1.0",
     "lucide-react": "^0.378.0",
+    "nanoid": "^5.0.5",
     "slate": "^0.102.0",
     "slate-history": "^0.100.0",
     "slate-react": "^0.102.0",

@@ -8,14 +8,13 @@ import EditorCommand from '@/core/command';
 import LinkFormTooltip from '@/editor/toolbar-form/link-form-tooltip';
 
 const LinkButton: FC = () => {
-  const isBoldActive = useSlateSelector((editor) => EditorCommand.isBoldMarkActive(editor));
-  const editor = useSlateStatic();
+  const isLinkActive = useSlateSelector((editor) => EditorCommand.isLinkMarkActive(editor));
   const type = useMemo(() => {
-    if (isBoldActive) {
+    if (isLinkActive) {
       return 'primary';
     }
     return 'text';
-  }, [isBoldActive]);
+  }, [isLinkActive]);
   return (
     <LinkFormTooltip>
       <Button
