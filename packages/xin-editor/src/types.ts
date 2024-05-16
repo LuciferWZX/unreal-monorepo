@@ -1,8 +1,9 @@
-import { BaseElement, FormattedText } from '../custom-slate';
+import { BaseElement } from '../custom-slate';
 
 export enum CustomElementType {
   Paragraph = 'paragraph',
   Heading = 'heading',
+  Link = 'link',
   Bold = 'bold',
   Code = 'code',
   CheckList = 'check-list',

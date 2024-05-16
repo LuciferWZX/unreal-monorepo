@@ -1,8 +1,14 @@
 import { withReact } from 'slate-react';
 import { createEditor, Descendant, Editor } from 'slate';
-import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { withHistory } from 'slate-history';
-import { withCheckList, withInsertBreak, withOrderedList } from '@/plugins';
+import {
+  withCheckList,
+  withInsertBreak,
+  withLink,
+  withNormalizeNode,
+  withOrderedList,
+} from '@/plugins';
 import { getDefaultContent } from '@/core';
 const useEditor = (): [
   Editor,
@@ -10,7 +16,12 @@ const useEditor = (): [
 ] => {
   const [showPlaceholder, setShowPlaceholder] = useState<boolean>(true);
   const editor = useMemo(
-    () => withInsertBreak(withOrderedList(withCheckList(withReact(withHistory(createEditor()))))),
+    () =>
+      withInsertBreak(
+        withNormalizeNode(
+          withLink(withOrderedList(withCheckList(withReact(withHistory(createEditor())))))
+        )
+      ),
     []
   );
   const handlePlaceholder = (val: Descendant[]) => {

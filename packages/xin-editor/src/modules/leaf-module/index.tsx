@@ -4,7 +4,7 @@ import cn from 'classnames';
 import './index.css';
 const LeafModule: FC<RenderLeafProps> = (props) => {
   const { attributes, leaf, children } = props;
-  const classes = cn({
+  const classes = cn('wu-leaf-node', {
     'wu-font-bold': leaf.bold,
     'wu-underline': leaf.underline,
     'wu-italic': leaf.italic,

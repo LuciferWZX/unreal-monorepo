@@ -7,10 +7,11 @@ import {
   Node,
   Element as SlateElement,
   Location as SlateLocation,
+  BaseSelection,
 } from 'slate';
 import { CustomElementType, NodePropertiesType } from '@/types';
 import { ReactEditor } from 'slate-react';
-import { CustomElement, OrderedListElement } from '../../custom-slate';
+import { CustomElement, LinkElement, OrderedListElement } from '../../custom-slate';
 
 /**
  * 生成默认的content
@@ -96,6 +97,9 @@ export const updateNextOrderedIndex = (editor: Editor, curIndex: number, at: Sla
     updateNextOrderedIndex(editor, nextIndex, nextNodeEntry[1]);
   }
 };
+export const insertZeroWidthSpace = (editor: Editor) => {
+  // Editor.insertText(editor, {});
+};
 /**
  * 表示范围是折叠状态，即范围内没有实际的文本内容。这通常意味着光标处于特定位置，而不是选择了一段文本
  * @param editor
@@ -103,4 +107,17 @@ export const updateNextOrderedIndex = (editor: Editor, curIndex: number, at: Sla
 export function isCollapsed(editor: Editor) {
   const { selection } = editor;
   return !!(selection && Range.isCollapsed(selection));
+}
+export function wrapLink(editor: Editor, href: string, selection?: SlateLocation) {
+  const link: LinkElement = {
+    type: CustomElementType.Link,
+    href: href,
+    children: [{ text: href }],
+  };
+  if (isCollapsed(editor)) {
+    Transforms.insertNodes(editor, link);
+  } else {
+    Transforms.wrapNodes(editor, link, { split: true, at: selection });
+    Transforms.collapse(editor, { edge: 'end' });
+  }
 }

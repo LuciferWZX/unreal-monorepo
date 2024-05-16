@@ -3,7 +3,6 @@ import { RenderElementProps, RenderPlaceholderProps } from 'slate-react/dist/com
 import { match } from 'ts-pattern';
 import { CustomElementType } from '@/types';
 import {
-  BoldModule,
   CheckListModule,
   CodeModule,
   LeafModule,
@@ -11,15 +10,13 @@ import {
   ParagraphModule,
 } from '@/modules';
 import { RenderLeafProps } from 'slate-react';
+import LinkModule from '@/modules/link-module';
 
 const useRenderElement = () => {
   const renderElement = useCallback((props: RenderElementProps) => {
     const { children, ...restProps } = props;
     const _elementType = props.element.type;
     return match(_elementType)
-      .with(CustomElementType.Bold, () => {
-        return <BoldModule {...restProps}>{children}</BoldModule>;
-      })
       .with(CustomElementType.Code, () => {
         return <CodeModule {...restProps}>{children}</CodeModule>;
       })
@@ -28,6 +25,9 @@ const useRenderElement = () => {
       })
       .with(CustomElementType.OrderedList, () => {
         return <OrderedListModule {...restProps}>{children}</OrderedListModule>;
+      })
+      .with(CustomElementType.Link, () => {
+        return <LinkModule {...restProps}>{children}</LinkModule>;
       })
       .otherwise(() => {
         return <ParagraphModule {...restProps}>{children}</ParagraphModule>;
@@ -42,7 +42,15 @@ const useRenderElement = () => {
     return (
       <span
         {...attributes}
-        style={{ fontStyle: 'italic', color: 'gray', position: 'absolute', left: 3, zIndex: -1 }}
+        style={{
+          color: 'gray',
+          position: 'absolute',
+          left: 3,
+          userSelect: 'none',
+          fontStyle: 'normal',
+          fontWeight: 'normal',
+          textDecoration: 'none',
+        }}
       >
         {children}
       </span>

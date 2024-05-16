@@ -2,18 +2,17 @@ import { useCallback } from 'react';
 import { BaseRange, NodeEntry, Text } from 'slate';
 import useEditorStore from '@/stores/useEditorStore';
 import { useShallow } from 'zustand/react/shallow';
-
 const useDecorate = () => {
-  const keywords = useEditorStore(useShallow((state) => state.keywords));
+  const keyword = useEditorStore(useShallow((state) => state.keyword));
   const decorate = useCallback(
     (entry: NodeEntry): BaseRange[] => {
-      const search = keywords?.[0] || '';
+      const search = keyword;
       const [node, path] = entry;
       const ranges: Array<BaseRange & { highlight: boolean }> = [];
       if (search && Text.isText(node)) {
+        console.time('[关键字查询]');
         const { text } = node;
         const parts = text.split(search);
-        console.log('parts:', parts);
         let offset = 0;
         parts.forEach((part, i) => {
           if (i !== 0) {
@@ -28,12 +27,11 @@ const useDecorate = () => {
           }
           offset = offset + part.length + search.length;
         });
-        console.log(111, ranges);
-        return ranges;
+        console.timeEnd('[关键字查询]');
       }
-      return [];
+      return ranges;
     },
-    [keywords]
+    [keyword]
   );
   return {
     decorate,

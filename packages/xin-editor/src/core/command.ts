@@ -1,4 +1,4 @@
-import { Editor, Transforms, Element, Path, Element as SlateElement } from 'slate';
+import { Editor, Transforms, Element, Node, Element as SlateElement, NodeEntry } from 'slate';
 import { match as tsMatch, P } from 'ts-pattern';
 import { CustomElementType, TextAlign, TextHeading } from '@/types';
 import {
@@ -7,7 +7,7 @@ import {
   OrderedListElement,
   ParagraphElement,
 } from '../../custom-slate';
-import { getDefaultContent } from '@/core/helper';
+import { getDefaultContent, isCollapsed, updateNextOrderedIndex, wrapLink } from '@/core/helper';
 
 const EditorCommand = {
   selectAllInModule(editor: Editor) {
@@ -274,9 +274,6 @@ const EditorCommand = {
   },
   toggleOrderedListNode(editor: Editor) {
     const isOrderListNode = EditorCommand.isOrderedListNode(editor);
-    let insertBefore = false;
-    let insertAfter = false;
-
     tsMatch(isOrderListNode)
       .with(true, () => {
         Transforms.setNodes(
@@ -290,85 +287,69 @@ const EditorCommand = {
         if (!selection) {
           throw Error('selection is undefined');
         }
-        //获取位置的起点
-        const beforePoint = Editor.start(editor, selection);
-        //当前光标所在节点
-        const [, startPath] = Editor.node(editor, beforePoint);
-        //位置的终点
-        const endPoint = Editor.end(editor, selection);
-        //当前光标所在节点
-        const [, endPath] = Editor.node(editor, endPoint);
-        //@todo 检查上层是否存在其他行，不存在就加个Paragraph节点
-        const previousNode = Editor.previous(editor, {
-          at: startPath,
+        let needInsertBefore = false;
+        let needInsertAfter = false;
+        //当前节点
+        const nodeEntries = Editor.nodes(editor, {
+          at: selection,
           match: (n) => Element.isElement(n),
         });
-
-        if (!previousNode || (previousNode && previousNode[1][0] === 0)) {
-          if (startPath[0] === 0) {
-            insertBefore = true;
-          }
+        const selectedNodes: Array<NodeEntry<Node>> = [];
+        for (const nodeEntry of nodeEntries) {
+          // 在这里处理每个节点
+          selectedNodes.push(nodeEntry);
         }
-        //@todo 检查下层是否存在其他行，不存在就加个Paragraph节点
-        const nextNode = Editor.next(editor, {
-          at: endPath,
-          match: (n) => Element.isElement(n),
+        const firstNodeEntry = selectedNodes[0];
+        const lastNodeEntry = selectedNodes[selectedNodes.length - 1];
+        //上个节点
+        const preNodeEntry = Editor.previous<CustomElement>(editor, {
+          at: firstNodeEntry[1],
+          match: (n) => SlateElement.isElement(n),
         });
-        if (!nextNode) {
-          insertAfter = true;
-        }
-        console.log(1, insertAfter);
-        console.log(2, insertBefore);
-        console.log(3, !insertAfter && !insertBefore);
-        if (!insertAfter && !insertBefore) {
-          const preNodeEntry = Editor.previous<OrderedListElement>(editor, {
-            match: (n) => SlateElement.isElement(n) && n.type === CustomElementType.OrderedList,
-          });
-          console.log('preNodeEntry:', preNodeEntry);
-          let defaultIndex = 1;
-          if (preNodeEntry) {
+        //下个节点
+        const nextNodeEntry = Editor.next<CustomElement>(editor, {
+          at: lastNodeEntry[1],
+          match: (n) => SlateElement.isElement(n),
+        });
+        let defaultIndex = 1;
+        if (!preNodeEntry) {
+          needInsertBefore = true;
+        } else {
+          if (preNodeEntry[0].type === CustomElementType.OrderedList) {
             defaultIndex = preNodeEntry[0].index + 1;
           }
+        }
+        if (!nextNodeEntry) {
+          needInsertAfter = true;
+        }
+        for (let i = 0; i < selectedNodes.length; i++) {
+          const node = selectedNodes[i];
           Transforms.setNodes(
             editor,
-            { type: CustomElementType.OrderedList, index: defaultIndex },
-            { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
-          );
-        } else {
-          let defaultIndex = 1;
-          console.log('previousNode:', previousNode);
-          if (
-            insertBefore &&
-            previousNode &&
-            (previousNode[0] as CustomElement).type === CustomElementType.OrderedList
-          ) {
-            const beforeIndex = (previousNode[0] as OrderedListElement).index;
-            defaultIndex = beforeIndex + 1;
-            console.info('前面也是order-list：', beforeIndex);
-          }
-          Transforms.setNodes(
-            editor,
-            { type: CustomElementType.OrderedList, index: defaultIndex },
-            { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement) }
-          );
-          if (insertBefore) {
-            Transforms.insertNodes(editor, getDefaultContent(), {
-              at: [startPath[0]],
-            });
-          }
-          if (insertAfter) {
-            let offset = 1;
-            if (insertBefore) {
-              offset = 2;
+            { type: CustomElementType.OrderedList, index: defaultIndex + i },
+            {
+              at: node[1],
+              match: (n) => Element.isElement(n) && Editor.isBlock(editor, n as CustomElement),
             }
-            Transforms.insertNodes(editor, getDefaultContent(), {
-              at: [endPath[0] + offset],
-            });
-          }
+          );
+        }
+        defaultIndex = defaultIndex + selectedNodes.length - 1;
+        if (needInsertBefore) {
+          Transforms.insertNodes(editor, getDefaultContent(), {
+            at: firstNodeEntry[1],
+          });
+        }
+        if (needInsertAfter) {
+          Transforms.insertNodes(editor, getDefaultContent(), {
+            at: [lastNodeEntry[1][0] + (needInsertBefore ? 2 : 1)],
+          });
+        } else {
+          updateNextOrderedIndex(editor, defaultIndex, lastNodeEntry[1]);
         }
       });
   },
 
+  //缩进
   indent(editor: Editor) {
     Transforms.insertText(editor, ' '.repeat(8));
   },
@@ -397,6 +378,21 @@ const EditorCommand = {
       match: (n) => (n as OrderedListElement).type === CustomElementType.OrderedList,
     });
     return !!match;
+  },
+  toggleLinkNode(editor: Editor, linkProps: { link: string; title?: string }) {
+    const { selection } = editor;
+    if (!selection) {
+      throw Error('selection is undefined');
+    }
+    wrapLink(editor, linkProps.link);
+    // if (isCollapsed(editor)) {
+    //   //当前是一个点直接插入
+    //   Transforms.insertNodes(editor, {
+    //     type: CustomElementType.Link,
+    //     href: 'xxxx',
+    //     children: [{ text: 'aaa' }],
+    //   });
+    // }
   },
 };
 

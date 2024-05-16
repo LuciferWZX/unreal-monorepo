@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
 interface EditorStoreType {
-  keywords: string[];
+  keyword: string;
 }
 interface EditorStoreActionsType {}
 const initialValue: EditorStoreType = {
-  keywords: [],
+  keyword: '',
 };
 const useEditorStore = create<EditorStoreType & EditorStoreActionsType>((set) => ({
   ...initialValue,

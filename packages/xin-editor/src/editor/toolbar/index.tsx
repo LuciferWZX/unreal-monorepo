@@ -12,6 +12,7 @@ import CheckListButton from './check-list-button';
 import TextHeadingButton from './text-heading-button';
 import OrderedListButton from '@/editor/toolbar/ordered-list-button';
 import HighlightInput from '@/editor/toolbar/highlight-input';
+import LinkButton from '@/editor/toolbar/link-button';
 interface ToolbarProps {
   className?: string;
 }
@@ -22,6 +23,7 @@ const Toolbar: FC<ToolbarProps> = (props) => {
       <HighlightInput />
       <TextHeadingButton />
       <CheckListButton />
+      <LinkButton />
       <BoldButton />
       <ItalicButton />
       <UnderlineButton />

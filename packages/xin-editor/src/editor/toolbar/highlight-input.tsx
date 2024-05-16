@@ -7,7 +7,7 @@ const HighlightInput: FC = () => {
     <Input
       onChange={(e) => {
         const value = e.target.value;
-        useEditorStore.setState({ keywords: value ? [value] : [] });
+        useEditorStore.setState({ keyword: value ?? '' });
       }}
       allowClear={true}
       placeholder={'请输入'}

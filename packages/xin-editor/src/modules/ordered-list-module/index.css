@@ -1,12 +1,13 @@
 .wu_ordered_list{
-    @apply wu-box-border wu-flex wu-items-center wu-px-0.5;
+    @apply wu-box-border wu-flex wu-items-start wu-px-0.5 wu-mx-0.5;
+    word-break: break-word;
     /*& + & {*/
     /*    @apply wu-mt-0;*/
     /*}*/
 }
 .wu_ordered_index{
-    @apply wu-mr-1 wu-flex wu-items-center wu-justify-center;
+    @apply wu-mr-1 wu-flex wu-items-center wu-justify-center wu-flex-shrink-0;
 }
 .wu_ordered_label{
-    @apply wu-flex-1;
+    @apply wu-min-w-[4px];
 }

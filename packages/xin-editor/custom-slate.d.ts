@@ -23,10 +23,12 @@ export type BaseElement = {
 export type ParagraphElement = BaseElement & {
   type: CustomElementType.Paragraph;
 };
-//加粗
-export type BoldElement = BaseElement & {
-  type: CustomElementType.Bold;
-  bold?: boolean;
+//超链接
+export type LinkElement = BaseElement & {
+  type: CustomElementType.Link;
+  href: string;
+  view?: 'title' | 'link' | 'card';
+  disabled?: boolean;
 };
 //代码块
 export type CodeElement = BaseElement & {
@@ -53,10 +55,10 @@ export type HeadingElement = BaseElement & {
 export type CustomElement =
   | ParagraphElement
   | HeadingElement
-  | BoldElement
   | CodeElement
   | CheckListElement
-  | OrderedListElement;
+  | OrderedListElement
+  | LinkElement;
 
 declare module 'slate' {
   interface CustomTypes {
