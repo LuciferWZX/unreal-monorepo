@@ -27,7 +27,11 @@ const useRenderElement = () => {
         return <OrderedListModule {...restProps}>{children}</OrderedListModule>;
       })
       .with(CustomElementType.Link, () => {
-        return <LinkModule {...restProps}>{children}</LinkModule>;
+        return (
+          <LinkModule {...restProps} attributes={restProps.attributes}>
+            {children}
+          </LinkModule>
+        );
       })
       .otherwise(() => {
         return <ParagraphModule {...restProps}>{children}</ParagraphModule>;

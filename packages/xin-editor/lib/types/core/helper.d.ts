@@ -1,6 +1,6 @@
-import { Descendant, Editor, Element as SlateElement, Location as SlateLocation } from 'slate';
+import { Descendant, Editor, Node as SlateNode, Element as SlateElement, Location as SlateLocation } from 'slate';
 import { CustomElementType } from '../types';
-import { CustomElement } from '../../custom-slate';
+import { CustomElement, LinkElement } from '../../custom-slate';
 /**
  * 生成默认的content
  */
@@ -16,41 +16,47 @@ export declare function fixedCursorWhenClickNode(editor: Editor, element: Custom
  * @param newProperties
  */
 export declare function getNodesWithInitialProps(newProperties: Partial<SlateElement>): {
-    heading: any;
     textAlign: any;
+    heading: any;
+    anchorId?: string | undefined;
     children?: import("../../custom-slate").FormattedText[] | undefined;
     type?: CustomElementType.Paragraph | undefined;
 } | {
-    heading: any;
     textAlign: any;
+    heading: any;
+    anchorId?: string | undefined;
     children?: import("../../custom-slate").FormattedText[] | undefined;
     type?: CustomElementType.Heading | undefined;
     level?: 1 | 2 | 3 | 4 | 5 | undefined;
 } | {
-    heading: any;
     textAlign: any;
+    heading: any;
+    anchorId?: string | undefined;
     children?: import("../../custom-slate").FormattedText[] | undefined;
     type?: CustomElementType.Code | undefined;
 } | {
-    heading: any;
     textAlign: any;
+    heading: any;
+    anchorId?: string | undefined;
     children?: import("../../custom-slate").FormattedText[] | undefined;
     type?: CustomElementType.CheckList | undefined;
     disabled?: boolean | undefined;
     checked?: boolean | undefined;
 } | {
-    heading: any;
     textAlign: any;
+    heading: any;
+    anchorId?: string | undefined;
     children?: import("../../custom-slate").FormattedText[] | undefined;
     type?: CustomElementType.OrderedList | undefined;
     index?: number | undefined;
 } | {
-    heading: any;
     textAlign: any;
+    heading: any;
+    anchorId?: string | undefined;
     children?: import("../../custom-slate").FormattedText[] | undefined;
     type?: CustomElementType.Link | undefined;
     href?: string | undefined;
-    view?: "link" | "title" | "card" | undefined;
+    view?: "href" | "title" | "card" | undefined;
     disabled?: boolean | undefined;
 };
 /**
@@ -66,4 +72,17 @@ export declare const insertZeroWidthSpace: (editor: Editor) => void;
  * @param editor
  */
 export declare function isCollapsed(editor: Editor): boolean;
-export declare function wrapLink(editor: Editor, href: string, selection?: SlateLocation): void;
+export declare function wrapLink(editor: Editor, href: string, title: string | undefined, selection: SlateLocation | null): void;
+/**
+ * 移除Link
+ * @param editor
+ * @param node
+ */
+export declare function delLinks(editor: Editor, node: SlateNode): void;
+/**
+ * 设置连接的值
+ * @param editor
+ * @param node
+ * @param view
+ */
+export declare function setLinks(editor: Editor, node: LinkElement, view: 'href' | 'title' | 'card' | undefined): void;

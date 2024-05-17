@@ -1,27 +1,64 @@
 import { Button, Form, Input, Space, Tooltip } from 'antd';
-import { FC, ReactNode, useMemo } from 'react';
+import { FC, ReactNode, useCallback, useMemo } from 'react';
 import { useSlateStatic } from 'slate-react';
 import EditorCommand from '@/core/command';
 import { useBoolean } from '@wzx-unreal/react-hooks';
+import { Editor } from 'slate';
 
 interface LinkFormTooltipProps {
   children?: ReactNode;
-  defaultValue?: LinkFormType;
+  defaultValue?: Partial<LinkFormType>;
+  disabled?: boolean;
+  destroyTooltipOnHide?: boolean;
 }
-interface LinkFormType {
+export interface LinkFormType {
   title: string;
   link: string;
 }
 const LinkFormTooltip: FC<LinkFormTooltipProps> = (props) => {
-  const { children, defaultValue } = props;
+  const { children, defaultValue, disabled, destroyTooltipOnHide } = props;
   const [open, { set: setOpen }] = useBoolean(false);
+  const mergedOpen = useMemo(() => {
+    return disabled === true ? false : open;
+  }, [open, disabled]);
   const editor = useSlateStatic();
+  return (
+    <Tooltip
+      open={mergedOpen}
+      onOpenChange={(_o) => setOpen(_o)}
+      title={
+        <LinkForm
+          editor={editor}
+          type={defaultValue?.title ? undefined : 'withTitle'}
+          afterFinish={() => setOpen(false)}
+        />
+      }
+      destroyTooltipOnHide={destroyTooltipOnHide}
+      trigger={['click']}
+      arrow={false}
+    >
+      {children}
+    </Tooltip>
+  );
+};
+interface LinkFormProps {
+  editor: Editor;
+  afterFinish?: () => void;
+  type?: 'withTitle';
+  defaultValue?: Partial<LinkFormType>;
+}
+export const LinkForm: FC<LinkFormProps> = (props) => {
+  const { editor, afterFinish, defaultValue, type } = props;
   const [form] = Form.useForm<LinkFormType>();
-  const onFinish = (values: LinkFormType) => {
-    console.log(values);
-    EditorCommand.toggleLinkNode(editor, { link: values.link });
-  };
-  const withInitialValue = useMemo(() => {
+  const onFinish = useCallback(
+    (values: LinkFormType) => {
+      const title = values.title ?? defaultValue?.title;
+      EditorCommand.toggleLinkNode(editor, { link: values.link, title: title });
+      afterFinish?.();
+    },
+    [afterFinish, defaultValue, editor]
+  );
+  const withTitle = useMemo(() => {
     return (
       <Form onFinish={onFinish} form={form} labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
         <Form.Item label={'文本'} name={'title'}>
@@ -50,27 +87,32 @@ const LinkFormTooltip: FC<LinkFormTooltipProps> = (props) => {
         </Form.Item>
       </Form>
     );
-  }, [form]);
-  const title = useMemo(() => {
+  }, [form, onFinish]);
+  const justLink = useMemo(() => {
     return (
-      <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+      <Form onFinish={onFinish} form={form} layout={'inline'}>
         <Form.Item>
-          <Input placeholder={'粘贴或者输入链接'} />
+          <Form.Item name={'link'} noStyle={true}>
+            <Input placeholder={'粘贴或者输入链接'} />
+          </Form.Item>
+        </Form.Item>
+        <Form.Item dependencies={['link']} noStyle={true}>
+          {({ getFieldValue }) => {
+            const link: string | undefined = getFieldValue('link');
+            let disabled = true;
+            if (link) {
+              disabled = false;
+            }
+            return (
+              <Button disabled={disabled} htmlType={'submit'} type={'primary'}>
+                确认
+              </Button>
+            );
+          }}
         </Form.Item>
       </Form>
     );
-  }, []);
-  return (
-    <Tooltip
-      open={open}
-      onOpenChange={(_o) => setOpen(_o)}
-      destroyTooltipOnHide={true}
-      title={defaultValue ? title : withInitialValue}
-      trigger={['click']}
-      arrow={false}
-    >
-      {children}
-    </Tooltip>
-  );
+  }, [form, onFinish]);
+  return type === 'withTitle' ? withTitle : justLink;
 };
 export default LinkFormTooltip;

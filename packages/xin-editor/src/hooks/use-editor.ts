@@ -21,6 +21,7 @@ const useEditor = (): [
 
   const slateEditor = useMemo(() => {
     const plugins = [
+      withNormalizeNode,
       withInline,
       withInsertBreak,
       withLink,

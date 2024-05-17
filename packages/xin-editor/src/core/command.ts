@@ -401,7 +401,7 @@ const EditorCommand = {
     if (!selection) {
       throw Error('selection is undefined');
     }
-    wrapLink(editor, linkProps.link);
+    wrapLink(editor, linkProps.link, linkProps.title, selection);
     // if (isCollapsed(editor)) {
     //   //当前是一个点直接插入
     //   Transforms.insertNodes(editor, {

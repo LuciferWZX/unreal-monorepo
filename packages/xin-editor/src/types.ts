@@ -21,4 +21,4 @@ export enum TextHeading {
   H4 = 4,
   H5 = 5,
 }
-export type NodePropertiesType = keyof Omit<BaseElement, 'children'>;
+export type NodePropertiesType = keyof Omit<BaseElement, 'children' | 'anchorId'>;

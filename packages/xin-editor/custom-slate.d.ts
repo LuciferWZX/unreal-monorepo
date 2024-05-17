@@ -29,7 +29,7 @@ export type ParagraphElement = BaseElement & {
 export type LinkElement = BaseElement & {
   type: CustomElementType.Link;
   href: string;
-  view?: 'title' | 'link' | 'card';
+  view?: 'title' | 'href' | 'card';
   disabled?: boolean;
 };
 //代码块

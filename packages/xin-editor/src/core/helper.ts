@@ -4,14 +4,15 @@ import {
   Element,
   Range,
   Transforms,
-  Node,
+  Node as SlateNode,
   Element as SlateElement,
   Location as SlateLocation,
   BaseSelection,
 } from 'slate';
 import { CustomElementType, NodePropertiesType } from '@/types';
 import { ReactEditor } from 'slate-react';
-import { CustomElement, LinkElement, OrderedListElement } from '../../custom-slate';
+import { CustomElement, CustomText, LinkElement, OrderedListElement } from '../../custom-slate';
+import { DOMNode } from 'slate-react/dist/utils/dom';
 
 /**
  * 生成默认的content
@@ -108,16 +109,75 @@ export function isCollapsed(editor: Editor) {
   const { selection } = editor;
   return !!(selection && Range.isCollapsed(selection));
 }
-export function wrapLink(editor: Editor, href: string, selection?: SlateLocation) {
+export function wrapLink(
+  editor: Editor,
+  href: string,
+  title: string | undefined,
+  selection: SlateLocation | null
+) {
   const link: LinkElement = {
     type: CustomElementType.Link,
     href: href,
-    children: [{ text: href }],
+    children: [{ text: title ? title : href }],
   };
   if (isCollapsed(editor)) {
     Transforms.insertNodes(editor, link);
   } else {
-    Transforms.wrapNodes(editor, link, { split: true, at: selection });
+    // Transforms.setNodes(editor, link, { split: true, at: selection });
+    Transforms.wrapNodes(editor, link, { split: true, at: selection || undefined });
     Transforms.collapse(editor, { edge: 'end' });
   }
+}
+
+/**
+ * 移除Link
+ * @param editor
+ * @param node
+ */
+export function delLinks(editor: Editor, node: SlateNode) {
+  const path = ReactEditor.findPath(editor, node);
+  Transforms.unwrapNodes(editor, {
+    at: path,
+    match: (n) => SlateElement.isElement(n) && n.type === CustomElementType.Link,
+  });
+}
+
+/**
+ * 设置连接的值
+ * @param editor
+ * @param node
+ * @param view
+ */
+export function setLinks(
+  editor: Editor,
+  node: LinkElement,
+  view: 'href' | 'title' | 'card' | undefined
+) {
+  const path = ReactEditor.findPath(editor, node);
+  const newNode: Partial<LinkElement> = {
+    view: view,
+    ...node,
+  };
+  Transforms.setNodes(editor, newNode, {
+    at: path,
+    match: (n) => SlateElement.isElement(n) && n.type === CustomElementType.Link,
+  });
+  if (view === 'href') {
+    const text = node.href;
+    //先插入文本
+    editor.apply({ type: 'insert_text', path: path.concat([0]), offset: 0, text: text });
+    const endPoint = Editor.end(editor, path);
+    //再删除文本之后的
+    Transforms.delete(editor, {
+      at: {
+        focus: { path: path.concat([0]), offset: text.length },
+        anchor: endPoint,
+      },
+    });
+  }
+
+  // Transforms.unwrapNodes(editor, {
+  //   at: path,
+  //   match: (n) => SlateElement.isElement(n) && n.type === CustomElementType.Link,
+  // });
 }
