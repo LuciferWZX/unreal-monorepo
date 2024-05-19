@@ -22,7 +22,7 @@ declare const EditorCommand: {
     isParagraphNode(editor: Editor): boolean;
     isOrderedNode(editor: Editor): boolean;
     toggleOrderedNode(editor: Editor): boolean;
-    toggleLinkNode(editor: Editor, linkProps: {
+    toggleLinkNode(editor: Editor, linkProps?: {
         link: string;
         title?: string;
     }): void;

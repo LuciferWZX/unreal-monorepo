@@ -174,10 +174,13 @@ export function setLinks(
         anchor: endPoint,
       },
     });
+    // Transforms.wrapNodes(editor, newNode as LinkElement, {
+    //   split: true,
+    //   at: {
+    //     focus: { path: path.concat([0]), offset: text.length },
+    //     anchor: endPoint,
+    //   },
+    // });
+    // Transforms.collapse(editor, { edge: 'end' });
   }
-
-  // Transforms.unwrapNodes(editor, {
-  //   at: path,
-  //   match: (n) => SlateElement.isElement(n) && n.type === CustomElementType.Link,
-  // });
 }

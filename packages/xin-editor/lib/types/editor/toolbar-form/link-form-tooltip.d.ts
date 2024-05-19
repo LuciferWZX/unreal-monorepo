@@ -1,3 +1,4 @@
+import { FormInstance } from 'antd';
 import { FC, ReactNode } from 'react';
 import { Editor } from 'slate';
 interface LinkFormTooltipProps {
@@ -5,6 +6,8 @@ interface LinkFormTooltipProps {
     defaultValue?: Partial<LinkFormType>;
     disabled?: boolean;
     destroyTooltipOnHide?: boolean;
+    open?: boolean;
+    setOpen?: (open: boolean) => void;
 }
 export interface LinkFormType {
     title: string;
@@ -16,6 +19,7 @@ interface LinkFormProps {
     afterFinish?: () => void;
     type?: 'withTitle';
     defaultValue?: Partial<LinkFormType>;
+    form: FormInstance<LinkFormType>;
 }
 export declare const LinkForm: FC<LinkFormProps>;
 export default LinkFormTooltip;

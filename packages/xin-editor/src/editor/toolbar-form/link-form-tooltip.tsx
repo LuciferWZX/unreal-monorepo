@@ -1,6 +1,6 @@
-import { Button, Form, Input, Space, Tooltip } from 'antd';
+import { Button, Form, FormInstance, Input, Space, Tooltip } from 'antd';
 import { FC, ReactNode, useCallback, useMemo } from 'react';
-import { useSlateStatic } from 'slate-react';
+import { ReactEditor, useSlateStatic } from 'slate-react';
 import EditorCommand from '@/core/command';
 import { useBoolean } from '@wzx-unreal/react-hooks';
 import { Editor } from 'slate';
@@ -10,14 +10,16 @@ interface LinkFormTooltipProps {
   defaultValue?: Partial<LinkFormType>;
   disabled?: boolean;
   destroyTooltipOnHide?: boolean;
+  open?: boolean;
+  setOpen?: (open: boolean) => void;
 }
 export interface LinkFormType {
   title: string;
   link: string;
 }
 const LinkFormTooltip: FC<LinkFormTooltipProps> = (props) => {
-  const { children, defaultValue, disabled, destroyTooltipOnHide } = props;
-  const [open, { set: setOpen }] = useBoolean(false);
+  const { children, defaultValue, disabled, setOpen, open, destroyTooltipOnHide } = props;
+  const [form] = Form.useForm<LinkFormType>();
   const mergedOpen = useMemo(() => {
     return disabled === true ? false : open;
   }, [open, disabled]);
@@ -25,12 +27,25 @@ const LinkFormTooltip: FC<LinkFormTooltipProps> = (props) => {
   return (
     <Tooltip
       open={mergedOpen}
-      onOpenChange={(_o) => setOpen(_o)}
+      onOpenChange={(_o) => {
+        if (!_o) {
+          setOpen?.(_o);
+        }
+      }}
+      afterOpenChange={(_o) => {
+        if (!_o) {
+          form.resetFields();
+        }
+      }}
       title={
         <LinkForm
+          form={form}
           editor={editor}
           type={defaultValue?.title ? undefined : 'withTitle'}
-          afterFinish={() => setOpen(false)}
+          afterFinish={() => {
+            setOpen?.(false);
+            ReactEditor.focus(editor);
+          }}
         />
       }
       destroyTooltipOnHide={destroyTooltipOnHide}
@@ -46,10 +61,11 @@ interface LinkFormProps {
   afterFinish?: () => void;
   type?: 'withTitle';
   defaultValue?: Partial<LinkFormType>;
+  form: FormInstance<LinkFormType>;
 }
 export const LinkForm: FC<LinkFormProps> = (props) => {
-  const { editor, afterFinish, defaultValue, type } = props;
-  const [form] = Form.useForm<LinkFormType>();
+  const { editor, afterFinish, defaultValue, form, type } = props;
+
   const onFinish = useCallback(
     (values: LinkFormType) => {
       const title = values.title ?? defaultValue?.title;

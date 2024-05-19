@@ -16,42 +16,42 @@ export declare function fixedCursorWhenClickNode(editor: Editor, element: Custom
  * @param newProperties
  */
 export declare function getNodesWithInitialProps(newProperties: Partial<SlateElement>): {
-    textAlign: any;
     heading: any;
+    textAlign: any;
     anchorId?: string | undefined;
     children?: import("../../custom-slate").FormattedText[] | undefined;
     type?: CustomElementType.Paragraph | undefined;
 } | {
-    textAlign: any;
     heading: any;
+    textAlign: any;
     anchorId?: string | undefined;
     children?: import("../../custom-slate").FormattedText[] | undefined;
     type?: CustomElementType.Heading | undefined;
     level?: 1 | 2 | 3 | 4 | 5 | undefined;
 } | {
-    textAlign: any;
     heading: any;
+    textAlign: any;
     anchorId?: string | undefined;
     children?: import("../../custom-slate").FormattedText[] | undefined;
     type?: CustomElementType.Code | undefined;
 } | {
-    textAlign: any;
     heading: any;
+    textAlign: any;
     anchorId?: string | undefined;
     children?: import("../../custom-slate").FormattedText[] | undefined;
     type?: CustomElementType.CheckList | undefined;
     disabled?: boolean | undefined;
     checked?: boolean | undefined;
 } | {
-    textAlign: any;
     heading: any;
+    textAlign: any;
     anchorId?: string | undefined;
     children?: import("../../custom-slate").FormattedText[] | undefined;
     type?: CustomElementType.OrderedList | undefined;
     index?: number | undefined;
 } | {
-    textAlign: any;
     heading: any;
+    textAlign: any;
     anchorId?: string | undefined;
     children?: import("../../custom-slate").FormattedText[] | undefined;
     type?: CustomElementType.Link | undefined;

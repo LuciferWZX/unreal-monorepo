@@ -1,11 +1,11 @@
 import { FC, useRef } from 'react';
-import { RenderElementProps, useSlateStatic } from 'slate-react';
+import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react';
 import { LinkElement } from '../../../custom-slate';
 import { Button, Divider, Dropdown, MenuProps, Space, theme, Tooltip } from 'antd';
 import cn from 'classnames';
 import { ChevronDown, PencilLine, Unlink } from 'lucide-react';
 import { delLinks, setLinks } from '@/core';
-import { Editor, Node as SlateNode } from 'slate';
+import { Editor, Node as SlateNode, Transforms } from 'slate';
 import { useBoolean } from '@wzx-unreal/react-hooks';
 const LinkModule: FC<RenderElementProps> = (props) => {
   const { attributes, element: _element, children } = props;
@@ -122,6 +122,10 @@ const LinkTooltipContent = (props: ContentProps) => {
           selectedKeys: [view ?? ''],
           onClick: ({ key }) => {
             setLinks(editor, node as LinkElement, key as any);
+            Transforms.collapse(editor, { edge: 'end' });
+            Editor.normalize(editor);
+            // ReactEditor.blur(editor);
+            ReactEditor.focus(editor);
             close();
           },
         }}

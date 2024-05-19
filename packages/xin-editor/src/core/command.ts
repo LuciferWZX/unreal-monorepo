@@ -8,6 +8,7 @@ import {
   ParagraphElement,
 } from '../../custom-slate';
 import { getDefaultContent, isCollapsed, updateNextOrderedIndex, wrapLink } from '@/core/helper';
+import { getSelectedNodesByType } from '@/core/node-helper';
 
 const EditorCommand = {
   selectAllInModule(editor: Editor) {
@@ -396,10 +397,18 @@ const EditorCommand = {
     });
     return !!match;
   },
-  toggleLinkNode(editor: Editor, linkProps: { link: string; title?: string }) {
+  toggleLinkNode(editor: Editor, linkProps?: { link: string; title?: string }) {
     const { selection } = editor;
     if (!selection) {
       throw Error('selection is undefined');
+    }
+    if (!linkProps) {
+      //如果没有的话就是取消选中
+      Transforms.unwrapNodes(editor, {
+        at: selection,
+        match: (n) => SlateElement.isElement(n) && n.type === CustomElementType.Link,
+      });
+      return;
     }
     wrapLink(editor, linkProps.link, linkProps.title, selection);
     // if (isCollapsed(editor)) {
