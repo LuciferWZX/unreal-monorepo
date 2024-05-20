@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { CSSProperties, FC } from 'react';
 import { RenderLeafProps } from 'slate-react';
 import cn from 'classnames';
 import './index.css';
@@ -10,8 +10,11 @@ const LeafModule: FC<RenderLeafProps> = (props) => {
     'wu-italic': leaf.italic,
     'wu-keyword-highlight': leaf.highlight,
   });
+  const styles: CSSProperties = {
+    color: leaf.color,
+  };
   return (
-    <span className={classes} {...attributes}>
+    <span style={styles} className={classes} {...attributes}>
       {children}
     </span>
   );

@@ -13,6 +13,7 @@ import TextHeadingButton from './text-heading-button';
 import OrderedListButton from '@/editor/toolbar/ordered-list-button';
 import HighlightInput from '@/editor/toolbar/highlight-input';
 import LinkButton from '@/editor/toolbar/link-button';
+import FontColorButton from '@/editor/toolbar/font-color-button';
 interface ToolbarProps {
   className?: string;
 }
@@ -27,6 +28,7 @@ const Toolbar: FC<ToolbarProps> = (props) => {
       <BoldButton />
       <ItalicButton />
       <UnderlineButton />
+      <FontColorButton />
       <EraserButton />
       <TextAlignButton />
       <OrderedListButton />

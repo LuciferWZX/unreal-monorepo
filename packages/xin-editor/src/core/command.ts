@@ -1,6 +1,6 @@
 import { Editor, Transforms, Node, Element as SlateElement, NodeEntry } from 'slate';
 import { match as tsMatch, P } from 'ts-pattern';
-import { CustomElementType, TextAlign, TextHeading } from '@/types';
+import { Color, CustomElementType, TextAlign, TextHeading } from '@/types';
 import {
   CheckListElement,
   CustomElement,
@@ -95,6 +95,26 @@ const EditorCommand = {
       })
       .otherwise(() => {
         Editor.addMark(editor, 'underline', true);
+      });
+  },
+  //是否标记了颜色
+  isColorMarkActive(editor: Editor) {
+    const marks = Editor.marks(editor);
+    return tsMatch(marks)
+      .with({ color: P.not(undefined) }, () => {
+        return true;
+      })
+      .otherwise(() => {
+        return false;
+      });
+  },
+  toggleColorMark(editor: Editor, color?: Color) {
+    tsMatch(color)
+      .with(undefined, () => {
+        Editor.removeMark(editor, 'color');
+      })
+      .otherwise(() => {
+        Editor.addMark(editor, 'color', color);
       });
   },
   //文本位置

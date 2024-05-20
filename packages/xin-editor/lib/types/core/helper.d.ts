@@ -58,6 +58,24 @@ export declare function getNodesWithInitialProps(newProperties: Partial<SlateEle
     href?: string | undefined;
     view?: "href" | "title" | "card" | undefined;
     disabled?: boolean | undefined;
+} | {
+    heading: any;
+    textAlign: any;
+    anchorId?: string | undefined;
+    children?: import("../../custom-slate").FormattedText[] | undefined;
+    type?: CustomElementType.Table | undefined;
+} | {
+    heading: any;
+    textAlign: any;
+    anchorId?: string | undefined;
+    children?: import("../../custom-slate").FormattedText[] | undefined;
+    type?: CustomElementType.TableRow | undefined;
+} | {
+    heading: any;
+    textAlign: any;
+    anchorId?: string | undefined;
+    children?: import("../../custom-slate").FormattedText[] | undefined;
+    type?: CustomElementType.TableCell | undefined;
 };
 /**
  * 更新下一个有序列表的节点

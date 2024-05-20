@@ -12,14 +12,14 @@
         默认配置
          */
         @apply ai-h-svh ai-w-svw ai-leading-[--default-line-height] ai-font-[--default-weight];
-        /**
-        整体背景
-         */
-        @apply ai-bg-[--gray-14] dark:ai-bg-[--gray-1];
-        /**
-        默认字体颜色
-         */
-        @apply ai-text-[--gray-1] dark:ai-text-[--gray-14] ;
+        /*!***/
+        /*整体背景*/
+        /* *!*/
+        /*@apply ai-bg-[--gray-14] dark:ai-bg-[--gray-1];*/
+        /*!***/
+        /*默认字体颜色*/
+        /* *!*/
+        /*@apply ai-text-[--gray-1] dark:ai-text-[--gray-14] ;*/
     }
     #root {
         @apply ai-h-full ai-w-full ;

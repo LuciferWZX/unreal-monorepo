@@ -11,6 +11,7 @@ export type FormattedText = BaseText & {
   italic?: boolean;
   highlight?: boolean;
   underline?: boolean;
+  color?: string;
   anchorId?: string;
 };
 export type CustomText = FormattedText;
@@ -24,6 +25,15 @@ export type BaseElement = {
 //段落
 export type ParagraphElement = BaseElement & {
   type: CustomElementType.Paragraph;
+};
+export type TableElement = BaseElement & {
+  type: CustomElementType.Table;
+};
+export type TableRowElement = BaseElement & {
+  type: CustomElementType.TableRow;
+};
+export type TableCellElement = BaseElement & {
+  type: CustomElementType.TableCell;
 };
 //超链接
 export type LinkElement = BaseElement & {
@@ -60,7 +70,10 @@ export type CustomElement =
   | CodeElement
   | CheckListElement
   | OrderedListElement
-  | LinkElement;
+  | LinkElement
+  | TableElement
+  | TableRowElement
+  | TableCellElement;
 
 declare module 'slate' {
   interface CustomTypes {

@@ -6,7 +6,25 @@
     /*[data-slate-editor] > * + * {*/
     /*    margin-top: 0.25em;*/
     /*}*/
+    :root{
+        --text-color:#000000E0;
+        --bg-color:#F5F5F5FF;
+        --border-color:#D9D9D9FF;
+    }
     .dark{
+        --text-color: #FFFFFFD9;
+        --bg-color:#000000FF;
+        --border-color:#424242FF;
         color-scheme: dark;/* 这个属性设置后，滚动条也能表现为暗色模式*/
+    }
+    body {
+        /**
+        整体背景
+         */
+        @apply wu-bg-[--bg-color] dark:wu-bg-[--bg-color];
+        /**
+        默认字体颜色
+         */
+        @apply wu-text-[--text-color] dark:wu-text-[--text-color] ;
     }
 }

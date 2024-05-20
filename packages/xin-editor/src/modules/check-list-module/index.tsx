@@ -22,14 +22,7 @@ const CheckListModule: FC<RenderElementProps> = (props) => {
       : undefined,
   };
   return (
-    <div
-      className={classes}
-      style={_style}
-      {...attributes}
-      onClick={() => {
-        fixedCursorWhenClickNode(editor, element);
-      }}
-    >
+    <div className={classes} style={_style} {...attributes}>
       <span contentEditable={false} className={'wu_check_list_box'}>
         <Checkbox
           disabled={mergedDisabled}

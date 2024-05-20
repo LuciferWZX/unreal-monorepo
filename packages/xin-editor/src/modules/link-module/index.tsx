@@ -59,6 +59,7 @@ const LinkModule: FC<RenderElementProps> = (props) => {
       onClick={(e) => {
         e.preventDefault();
       }}
+      className={cn('wu-underline wu-decoration-solid wu-underline-offset-2 decoration-sky-500')}
       style={{
         color: colorPrimaryText,
         margin: '0 1px',

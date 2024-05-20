@@ -1,6 +1,10 @@
 import { BaseElement } from '../custom-slate';
+import { ColorPickerProps, GetProp } from 'antd';
 
 export enum CustomElementType {
+  Table = 'table',
+  TableRow = 'table-row',
+  TableCell = 'table-cell',
   Paragraph = 'paragraph',
   Heading = 'heading',
   Link = 'link',
@@ -22,3 +26,4 @@ export enum TextHeading {
   H5 = 5,
 }
 export type NodePropertiesType = keyof Omit<BaseElement, 'children' | 'anchorId'>;
+export type Color = GetProp<ColorPickerProps, 'value'>;

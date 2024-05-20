@@ -1,13 +1,14 @@
-import { Editor, Element as SlateElement, Point, Transforms } from 'slate';
+import { Editor, Element as SlateElement, Point, Range as SlateRange, Transforms } from 'slate';
 import { getNodesWithInitialProps, isCollapsed } from '@/core';
 import { CustomElementType } from '@/types';
 import EditorCommand from '@/core/command';
+import { ReactEditor } from 'slate-react';
 
 const withCheckList = (editor: Editor) => {
   const { deleteBackward, insertBreak } = editor;
   editor.deleteBackward = (...args) => {
     const { selection } = editor;
-    if (selection && isCollapsed(editor)) {
+    if (selection && ReactEditor.hasRange(editor, selection) && SlateRange.isCollapsed(selection)) {
       // 查找匹配的节点
       const [match] = Editor.nodes(editor, {
         match: (n) =>

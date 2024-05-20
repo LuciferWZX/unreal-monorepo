@@ -1,17 +1,6 @@
 import { FC, useMemo } from 'react';
 import { Button, Dropdown, MenuProps } from 'antd';
-import {
-  AlignJustify,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  Heading1,
-  Heading2,
-  Heading3,
-  Heading4,
-  Heading5,
-  Heading,
-} from 'lucide-react';
+import { Heading1, Heading2, Heading3, Heading4, Heading5, Heading } from 'lucide-react';
 import './index.css';
 import cn from 'classnames';
 import { ReactEditor, useSlateSelector, useSlateStatic } from 'slate-react';

@@ -12,6 +12,7 @@ import {
 } from '@/plugins';
 import { getDefaultContent } from '@/core';
 import { consumePlugins } from '@/core/consumePlugins';
+import withTable from '../plugins/with-table';
 
 const useEditor = (): [
   Editor,
@@ -21,6 +22,7 @@ const useEditor = (): [
 
   const slateEditor = useMemo(() => {
     const plugins = [
+      withTable,
       withNormalizeNode,
       withInline,
       withInsertBreak,

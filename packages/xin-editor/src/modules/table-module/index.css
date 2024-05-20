@@ -1,0 +1,7 @@
+.wu_table{
+    border-collapse: collapse;
+    @apply wu-border-collapse ;
+}
+.wu_table_border {
+    @apply wu-border wu-border-[--border-color];
+}

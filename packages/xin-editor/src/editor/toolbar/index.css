@@ -7,3 +7,6 @@
 .wu_toolbar_icon_btn_icon{
     @apply wu-h-[16px] wu-w-[16px];
 }
+.wu_font_color_display{
+    @apply   wu-h-[15px] wu-w-[15px] wu-rounded-[4px] ;
+}

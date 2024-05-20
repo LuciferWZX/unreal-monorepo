@@ -1,5 +1,5 @@
 import { Editor } from 'slate';
-import { TextAlign, TextHeading } from '../types';
+import { Color, TextAlign, TextHeading } from '../types';
 declare const EditorCommand: {
     selectAllInModule(editor: Editor): true | undefined;
     isLinkMarkActive(editor: Editor): boolean;
@@ -9,6 +9,8 @@ declare const EditorCommand: {
     toggleItalicMark(editor: Editor): void;
     isUnderlineMarkActive(editor: Editor): boolean;
     toggleUnderlineMark(editor: Editor): void;
+    isColorMarkActive(editor: Editor): boolean;
+    toggleColorMark(editor: Editor, color?: Color): void;
     isTextAlignMarkActive(editor: Editor): boolean | TextAlign;
     toggleTextAlignMark(editor: Editor, align?: TextAlign): void;
     isTextHeadingMarkActive(editor: Editor): boolean | TextHeading;

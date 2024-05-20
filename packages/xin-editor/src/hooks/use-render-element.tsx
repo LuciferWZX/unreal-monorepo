@@ -8,6 +8,9 @@ import {
   LeafModule,
   OrderedListModule,
   ParagraphModule,
+  Table,
+  TableCell,
+  TableRow,
 } from '@/modules';
 import { RenderLeafProps } from 'slate-react';
 import LinkModule from '@/modules/link-module';
@@ -31,6 +34,27 @@ const useRenderElement = () => {
           <LinkModule {...restProps} attributes={restProps.attributes}>
             {children}
           </LinkModule>
+        );
+      })
+      .with(CustomElementType.Table, () => {
+        return (
+          <Table {...restProps} attributes={restProps.attributes}>
+            {children}
+          </Table>
+        );
+      })
+      .with(CustomElementType.TableRow, () => {
+        return (
+          <TableRow {...restProps} attributes={restProps.attributes}>
+            {children}
+          </TableRow>
+        );
+      })
+      .with(CustomElementType.TableCell, () => {
+        return (
+          <TableCell {...restProps} attributes={restProps.attributes}>
+            {children}
+          </TableCell>
         );
       })
       .otherwise(() => {
