@@ -74,7 +74,7 @@ export declare function getNodesWithInitialProps(newProperties: Partial<SlateEle
     heading: any;
     textAlign: any;
     anchorId?: string | undefined;
-    children?: import("../../custom-slate").FormattedText[] | undefined;
+    children?: (import("../../custom-slate").FormattedText[] & CustomElement[]) | undefined;
     type?: CustomElementType.TableCell | undefined;
 };
 /**

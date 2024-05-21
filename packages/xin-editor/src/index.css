@@ -10,6 +10,7 @@
         --text-color:#000000E0;
         --bg-color:#F5F5F5FF;
         --border-color:#D9D9D9FF;
+        --selection-bg-color:#bae7ff;
     }
     .dark{
         --text-color: #FFFFFFD9;

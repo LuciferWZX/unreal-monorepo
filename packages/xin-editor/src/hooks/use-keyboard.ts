@@ -5,10 +5,12 @@ import EditorCommand from '@/core/command';
 import { HotKey } from '@/core';
 import { TextAlign } from '@/types';
 import { HistoryEditor } from 'slate-history';
+import onKeyDownTable from '@/modules/table-module/onKeyDownTable';
 
 const useKeyboard = (editor: Editor) => {
   const isDoubleClickRef = useRef(false);
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    onKeyDownTable(event, editor);
     const controlKey = event.ctrlKey || event.metaKey;
     match(controlKey)
       .with(true, () => {

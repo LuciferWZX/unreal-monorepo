@@ -34,6 +34,7 @@ export type TableRowElement = BaseElement & {
 };
 export type TableCellElement = BaseElement & {
   type: CustomElementType.TableCell;
+  children: CustomElement[];
 };
 //超链接
 export type LinkElement = BaseElement & {

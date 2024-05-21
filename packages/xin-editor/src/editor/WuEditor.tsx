@@ -55,12 +55,12 @@ const WuEditor = forwardRef<WuEditorRef, WuEditorProps>((props, ref) => {
           //   const copiedText = clipboardData.getData('text/plain');
           //   console.log('Copied text:', copiedText);
           // }}
-          // onPaste={(e) => {
-          //   const clipboardData = e.clipboardData;
-          //   console.log(e);
-          //   const pastedText = clipboardData.getData('text/plain');
-          //   console.log('Pasted text:', pastedText);
-          // }}
+          onPaste={(e) => {
+            const clipboardData = e.clipboardData;
+            console.log(e);
+            const pastedText = clipboardData.getData('text/plain');
+            console.log('Pasted text:', pastedText);
+          }}
           decorate={decorate}
           className={cn('wu_editable', classes?.editor)}
           renderElement={renderElement}

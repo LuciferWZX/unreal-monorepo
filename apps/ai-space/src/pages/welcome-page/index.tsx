@@ -28,40 +28,19 @@ const WelcomePage: FC = () => {
                 children: [
                   {
                     type: 'table-cell',
-                    children: [{ text: '' }],
+                    children: [{ type: 'paragraph', children: [{ text: '' }] }],
                   },
                   {
                     type: 'table-cell',
-                    children: [{ text: 'Human', bold: true }],
+                    children: [{ type: 'paragraph', children: [{ text: 'Human', bold: true }] }],
                   },
                   {
                     type: 'table-cell',
-                    children: [{ text: 'Dog', bold: true }],
+                    children: [{ type: 'paragraph', children: [{ text: 'Dog', bold: true }] }],
                   },
                   {
                     type: 'table-cell',
-                    children: [{ text: 'Cat', bold: true }],
-                  },
-                ],
-              },
-              {
-                type: 'table-row',
-                children: [
-                  {
-                    type: 'table-cell',
-                    children: [{ text: '# of Feet', bold: true }],
-                  },
-                  {
-                    type: 'table-cell',
-                    children: [{ text: '2' }],
-                  },
-                  {
-                    type: 'table-cell',
-                    children: [{ text: '4' }],
-                  },
-                  {
-                    type: 'table-cell',
-                    children: [{ text: '4' }],
+                    children: [{ type: 'paragraph', children: [{ text: 'Human', bold: true }] }],
                   },
                 ],
               },
@@ -70,19 +49,40 @@ const WelcomePage: FC = () => {
                 children: [
                   {
                     type: 'table-cell',
-                    children: [{ text: '# of Lives', bold: true }],
+                    children: [{ type: 'paragraph', children: [{ text: '' }] }],
                   },
                   {
                     type: 'table-cell',
-                    children: [{ text: '1' }],
+                    children: [{ type: 'paragraph', children: [{ text: 'Human', bold: true }] }],
                   },
                   {
                     type: 'table-cell',
-                    children: [{ text: '1' }],
+                    children: [{ type: 'paragraph', children: [{ text: 'Dog', bold: true }] }],
                   },
                   {
                     type: 'table-cell',
-                    children: [{ text: '9' }],
+                    children: [{ type: 'paragraph', children: [{ text: 'Human', bold: true }] }],
+                  },
+                ],
+              },
+              {
+                type: 'table-row',
+                children: [
+                  {
+                    type: 'table-cell',
+                    children: [{ type: 'paragraph', children: [{ text: '' }] }],
+                  },
+                  {
+                    type: 'table-cell',
+                    children: [{ type: 'paragraph', children: [{ text: 'Human', bold: true }] }],
+                  },
+                  {
+                    type: 'table-cell',
+                    children: [{ type: 'paragraph', children: [{ text: 'Dog', bold: true }] }],
+                  },
+                  {
+                    type: 'table-cell',
+                    children: [{ type: 'paragraph', children: [{ text: 'Human', bold: true }] }],
                   },
                 ],
               },

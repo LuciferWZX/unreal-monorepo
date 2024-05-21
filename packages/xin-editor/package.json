@@ -47,6 +47,7 @@
     "dayjs": "^1.11.10",
     "domhandler": "^5.0.3",
     "domutils": "^3.1.0",
+    "is-hotkey": "^0.2.0",
     "lucide-react": "^0.378.0",
     "nanoid": "^5.0.5",
     "slate": "^0.102.0",

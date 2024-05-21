@@ -3,5 +3,8 @@
     @apply wu-border-collapse ;
 }
 .wu_table_border {
-    @apply wu-border wu-border-[--border-color];
+    @apply wu-border wu-border-[--border-color] wu-break-all wu-align-top;
+}
+.wu_table_cell_cross{
+    @apply  wu-bg-[--selection-bg-color] selection:!wu-bg-[transparent];
 }
